@@ -42,7 +42,7 @@ jobs:
         run: uv run pytest -m "not gpu" --cov
 
       - name: Upload coverage reports
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@v5
         if: matrix.python-version == '3.12'
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
