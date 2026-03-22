@@ -1,0 +1,50 @@
+name: Publish to PyPI
+
+on:
+  push:
+    tags: ["v*.*.*"]
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment: pypi
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Install build tools
+        run: pip install build
+
+      - name: Verify version matches tag
+        run: |
+          TAG=${GITHUB_REF#refs/tags/v}
+          PKG=$(python -c "import tomllib; print(tomllib.load(open('pyproject.toml','rb'))['project']['version'])")
+          if [ "$TAG" != "$PKG" ]; then
+            echo "::error::Tag v$TAG does not match pyproject.toml version $PKG"
+            exit 1
+          fi
+
+      - name: Build package
+        run: python -m build
+
+      - name: Smoke test
+        run: |
+          pip install torch --index-url https://download.pytorch.org/whl/cpu
+          pip install dist/*.whl
+          python -c "from qwen3_tts_triton import __version__; print(f'qwen3-tts-triton {__version__}')"
+
+      - name: Publish to TestPyPI
+        if: contains(github.ref, 'rc')
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          repository-url: https://test.pypi.org/legacy/
+
+      - name: Publish to PyPI
+        if: "!contains(github.ref, 'rc')"
+        uses: pypa/gh-action-pypi-publish@release/v1

@@ -1,0 +1,148 @@
+[project]
+name = "qwen3-tts-triton"
+version = "0.1.0"
+description = "Up to 5x faster Qwen3-TTS inference through Triton kernel fusion"
+readme = "README.md"
+license = "Apache-2.0"
+requires-python = ">=3.12"
+authors = [
+    { name = "Sewon Kim" },
+]
+keywords = ["triton", "tts", "gpu", "qwen3", "kernel-fusion", "inference"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Multimedia :: Sound/Audio :: Speech",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Environment :: GPU :: NVIDIA CUDA :: 12",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: POSIX :: Linux",
+]
+
+dependencies = [
+    "triton>=2.3.1",
+    "transformers>=4.57.0",
+    "accelerate",
+    "soundfile",
+    "numpy",
+    "qwen-tts",
+    "faster-qwen3-tts",
+    "streamlit",
+    "plotly",
+    "pynvml",
+]
+
+[project.optional-dependencies]
+dev = [
+    "ruff>=0.7.4",
+    "pytest>=8.3.3",
+    "pytest-cov>=6.0.0",
+    "pre-commit>=4.0.1",
+    "ty>=0.0.1a23",
+]
+eval = [
+    "jiwer>=3.0.0",
+    "openai-whisper>=20231117",
+    "resemblyzer>=0.1.3",
+    "librosa>=0.10.0",
+    "soundfile>=0.12.0",
+    "scipy>=1.11.0",
+]
+all = [
+    "qwen3-tts-triton[dev,eval]",
+]
+
+[project.urls]
+Homepage = "https://github.com/newgrit1004/qwen3-tts-triton"
+Repository = "https://github.com/newgrit1004/qwen3-tts-triton"
+Issues = "https://github.com/newgrit1004/qwen3-tts-triton/issues"
+Documentation = "https://github.com/newgrit1004/qwen3-tts-triton/tree/main/docs"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/qwen3_tts_triton"]
+
+[tool.hatch.build.targets.sdist]
+exclude = ["outputs/", "assets/", "benchmark/results/", "reference/"]
+
+[[tool.uv.index]]
+name = "pytorch-cu128"
+url = "https://download.pytorch.org/whl/cu128"
+explicit = true
+
+[tool.uv.sources]
+torch = { index = "pytorch-cu128" }
+torchaudio = { index = "pytorch-cu128" }
+
+[tool.ruff]
+line-length = 88
+target-version = "py312"
+fix = true
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # pyflakes
+    "I",   # isort
+]
+ignore = []
+
+[tool.ruff.lint.per-file-ignores]
+"ui/app.py" = ["E402"]  # sys.path setup before imports (Streamlit entry point)
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "auto"
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+addopts = [
+    "--cov=qwen3_tts_triton",
+    "--cov-report=term-missing",
+    "-v",
+    "--ignore=tests/test_model_parity.py",
+]
+markers = [
+    "gpu: requires CUDA GPU",
+    "slow: slow tests (model loading)",
+]
+log_cli = true
+log_cli_level = "INFO"
+log_cli_format = "%(asctime)s [%(levelname)8s] %(message)s"
+log_cli_date_format = "%Y-%m-%d %H:%M:%S"
+
+[tool.ty.rules]
+# Triton @jit kernels use tl.constexpr and dynamic nn.Module patterns
+# that ty cannot analyze correctly — suppress false positives.
+invalid-argument-type = "ignore"
+call-non-callable = "ignore"
+unknown-argument = "ignore"
+not-subscriptable = "ignore"
+unresolved-import = "ignore"
+unused-type-ignore-comment = "ignore"
+
+[tool.coverage.run]
+source = ["qwen3_tts_triton"]
+omit = ["*/tests/*", "*/__pycache__/*", "*/venv/*", "*/.venv/*"]
+
+[tool.coverage.report]
+precision = 2
+show_missing = true
+skip_covered = false
+
+[dependency-groups]
+dev = [
+    "build>=1.4.0",
+    "complexipy>=5.2.0",
+]

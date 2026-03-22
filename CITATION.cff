@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+type: software
+title: "Qwen3-TTS-Triton"
+abstract: "Triton kernel fusion for Qwen3-TTS inference acceleration"
+authors:
+  - family-names: Kim
+    given-names: Sewon
+repository-code: "https://github.com/newgrit1004/qwen3-tts-triton"
+url: "https://pypi.org/project/qwen3-tts-triton/"
+license: Apache-2.0
+keywords:
+  - text-to-speech
+  - triton
+  - gpu-optimization
+  - kernel-fusion
+  - qwen3-tts

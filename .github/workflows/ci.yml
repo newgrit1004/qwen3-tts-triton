@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint-and-test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.12", "3.13"]
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+
+      - name: Set up Python ${{ matrix.python-version }}
+        run: uv python install ${{ matrix.python-version }}
+
+      - name: Install dependencies
+        run: uv sync --all-extras --dev
+
+      - name: Run ruff linting
+        run: uv run ruff check .
+
+      - name: Run ruff formatting check
+        run: uv run ruff format --check .
+
+      - name: Run ty type checking
+        run: uv run ty check
+
+      # GPU kernel tests require NVIDIA GPU — run locally with `make test`
+      - name: Run tests (CPU-only, skip GPU kernels)
+        run: uv run pytest -m "not gpu" --cov
+
+      - name: Upload coverage reports
+        uses: codecov/codecov-action@v5
+        if: matrix.python-version == '3.12'
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          fail_ci_if_error: false

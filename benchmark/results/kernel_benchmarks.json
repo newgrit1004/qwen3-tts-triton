@@ -1,0 +1,43 @@
+[
+  {
+    "compile_time_s": 0.615,
+    "hidden_size": 2048,
+    "kernel": "RMSNorm",
+    "pytorch_mem_mb": 266.01,
+    "pytorch_us": 39.36,
+    "speedup": 5.88,
+    "triton_mem_mb": 260.0,
+    "triton_us": 6.7
+  },
+  {
+    "compile_time_s": 0.002,
+    "intermediate_size": 6144,
+    "kernel": "SwiGLU",
+    "pytorch_mem_mb": 280.0,
+    "pytorch_us": 19.6,
+    "speedup": 1.31,
+    "triton_mem_mb": 274.0,
+    "triton_us": 14.99
+  },
+  {
+    "compile_time_s": 0.003,
+    "head_dim": 128,
+    "kernel": "M-RoPE",
+    "n_heads": 16,
+    "pytorch_mem_mb": 264.25,
+    "pytorch_us": 348.81,
+    "speedup": 9.0,
+    "triton_mem_mb": 264.75,
+    "triton_us": 38.75
+  },
+  {
+    "compile_time_s": 0.002,
+    "hidden_size": 2048,
+    "kernel": "FusedNorm+Residual",
+    "pytorch_mem_mb": 270.01,
+    "pytorch_us": 41.24,
+    "speedup": 4.97,
+    "triton_mem_mb": 264.0,
+    "triton_us": 8.3
+  }
+]

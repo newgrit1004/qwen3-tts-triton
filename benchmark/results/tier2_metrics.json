@@ -1,0 +1,117 @@
+{
+  "pairs": {
+    "base_vs_triton": {
+      "greedy": {
+        "note": "Greedy generation not available for this model"
+      },
+      "layers": {
+        "0": {
+          "cosine_sim": 0.999995,
+          "max_abs_diff": 0.015625,
+          "mean_abs_diff": 0.000394,
+          "pearson_r": 0.99999,
+          "relative_l2": 0.004331,
+          "rmse": 0.00063,
+          "snr_db": 47.27
+        },
+        "14": {
+          "cosine_sim": 0.999852,
+          "max_abs_diff": 1.0,
+          "mean_abs_diff": 0.074491,
+          "pearson_r": 0.999847,
+          "relative_l2": 0.01754,
+          "rmse": 0.099091,
+          "snr_db": 35.12
+        },
+        "21": {
+          "cosine_sim": 0.999177,
+          "max_abs_diff": 3.601562,
+          "mean_abs_diff": 0.186347,
+          "pearson_r": 0.999173,
+          "relative_l2": 0.040688,
+          "rmse": 0.284037,
+          "snr_db": 27.81
+        },
+        "27": {
+          "cosine_sim": 0.9979,
+          "max_abs_diff": 7.4375,
+          "mean_abs_diff": 0.5181,
+          "pearson_r": 0.997895,
+          "relative_l2": 0.064876,
+          "rmse": 0.786368,
+          "snr_db": 23.76
+        },
+        "7": {
+          "cosine_sim": 0.999977,
+          "max_abs_diff": 0.375,
+          "mean_abs_diff": 0.027846,
+          "pearson_r": 0.999972,
+          "relative_l2": 0.007545,
+          "rmse": 0.04075,
+          "snr_db": 42.45
+        }
+      },
+      "logits": {
+        "output_cosine_sim": 0.997156,
+        "output_max_abs_diff": 2.382812
+      },
+      "status": "PASS"
+    },
+    "faster_vs_hybrid": {
+      "greedy": {},
+      "layers": {
+        "0": {
+          "cosine_sim": 0.999995,
+          "max_abs_diff": 0.015625,
+          "mean_abs_diff": 0.000394,
+          "pearson_r": 0.99999,
+          "relative_l2": 0.004331,
+          "rmse": 0.00063,
+          "snr_db": 47.27
+        },
+        "14": {
+          "cosine_sim": 0.999852,
+          "max_abs_diff": 1.0,
+          "mean_abs_diff": 0.074491,
+          "pearson_r": 0.999847,
+          "relative_l2": 0.01754,
+          "rmse": 0.099091,
+          "snr_db": 35.12
+        },
+        "21": {
+          "cosine_sim": 0.999177,
+          "max_abs_diff": 3.601562,
+          "mean_abs_diff": 0.186347,
+          "pearson_r": 0.999173,
+          "relative_l2": 0.040688,
+          "rmse": 0.284037,
+          "snr_db": 27.81
+        },
+        "27": {
+          "cosine_sim": 0.9979,
+          "max_abs_diff": 7.4375,
+          "mean_abs_diff": 0.5181,
+          "pearson_r": 0.997895,
+          "relative_l2": 0.064876,
+          "rmse": 0.786368,
+          "snr_db": 23.76
+        },
+        "7": {
+          "cosine_sim": 0.999977,
+          "max_abs_diff": 0.375,
+          "mean_abs_diff": 0.027846,
+          "pearson_r": 0.999972,
+          "relative_l2": 0.007545,
+          "rmse": 0.04075,
+          "snr_db": 42.45
+        }
+      },
+      "logits": {
+        "output_cosine_sim": 0.997156,
+        "output_max_abs_diff": 2.382812
+      },
+      "status": "PASS"
+    }
+  },
+  "status": "PASS"
+}

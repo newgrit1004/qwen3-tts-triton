@@ -1,0 +1,23 @@
+version: 2
+updates:
+  # GitHub Actions dependency updates
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    labels:
+      - "dependencies"
+      - "github-actions"
+
+  # pip dependency updates (pyproject.toml)
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    labels:
+      - "dependencies"
+      - "python"
+    ignore:
+      # Ignore alpha/beta versions (Ty is managed manually)
+      - dependency-name: "ty"
+        update-types: ["version-update:semver-major", "version-update:semver-minor"]
