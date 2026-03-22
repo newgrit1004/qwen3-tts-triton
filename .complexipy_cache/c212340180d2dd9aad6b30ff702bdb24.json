@@ -1,0 +1,164 @@
+{
+  "functions": [
+    {
+      "complexity": 0,
+      "file_name": "generate_bench_tables.py",
+      "function_name": "_bold",
+      "path": "generate_bench_tables.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "generate_bench_tables.py",
+      "function_name": "_normalize_runner",
+      "path": "generate_bench_tables.py"
+    },
+    {
+      "complexity": 2,
+      "file_name": "generate_bench_tables.py",
+      "function_name": "_aggregate_e2e",
+      "path": "generate_bench_tables.py"
+    },
+    {
+      "complexity": 2,
+      "file_name": "generate_bench_tables.py",
+      "function_name": "_load_json",
+      "path": "generate_bench_tables.py"
+    },
+    {
+      "complexity": 6,
+      "file_name": "generate_bench_tables.py",
+      "function_name": "_bold_best",
+      "path": "generate_bench_tables.py"
+    },
+    {
+      "complexity": 6,
+      "file_name": "generate_bench_tables.py",
+      "function_name": "_format_kernel_row",
+      "path": "generate_bench_tables.py"
+    },
+    {
+      "complexity": 7,
+      "file_name": "generate_bench_tables.py",
+      "function_name": "_render_quality_table",
+      "path": "generate_bench_tables.py"
+    },
+    {
+      "complexity": 8,
+      "file_name": "generate_bench_tables.py",
+      "function_name": "_render_summary",
+      "path": "generate_bench_tables.py"
+    },
+    {
+      "complexity": 9,
+      "file_name": "generate_bench_tables.py",
+      "function_name": "_render_kernel_table",
+      "path": "generate_bench_tables.py"
+    },
+    {
+      "complexity": 11,
+      "file_name": "generate_bench_tables.py",
+      "function_name": "_patch_readme",
+      "path": "generate_bench_tables.py"
+    },
+    {
+      "complexity": 13,
+      "file_name": "generate_bench_tables.py",
+      "function_name": "main",
+      "path": "generate_bench_tables.py"
+    },
+    {
+      "complexity": 14,
+      "file_name": "generate_bench_tables.py",
+      "function_name": "_render_e2e_table",
+      "path": "generate_bench_tables.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "tab_verification.py",
+      "function_name": "_scorecard_card",
+      "path": "tab_verification.py"
+    },
+    {
+      "complexity": 1,
+      "file_name": "tab_verification.py",
+      "function_name": "_load_tier3_config",
+      "path": "tab_verification.py"
+    },
+    {
+      "complexity": 2,
+      "file_name": "tab_verification.py",
+      "function_name": "_html_badge",
+      "path": "tab_verification.py"
+    },
+    {
+      "complexity": 2,
+      "file_name": "tab_verification.py",
+      "function_name": "_load_verification_report",
+      "path": "tab_verification.py"
+    },
+    {
+      "complexity": 2,
+      "file_name": "tab_verification.py",
+      "function_name": "_status_css_class",
+      "path": "tab_verification.py"
+    },
+    {
+      "complexity": 3,
+      "file_name": "tab_verification.py",
+      "function_name": "_group_tests",
+      "path": "tab_verification.py"
+    },
+    {
+      "complexity": 4,
+      "file_name": "tab_verification.py",
+      "function_name": "_render_test_group",
+      "path": "tab_verification.py"
+    },
+    {
+      "complexity": 5,
+      "file_name": "tab_verification.py",
+      "function_name": "_render_pair_card",
+      "path": "tab_verification.py"
+    },
+    {
+      "complexity": 5,
+      "file_name": "tab_verification.py",
+      "function_name": "_render_tier3",
+      "path": "tab_verification.py"
+    },
+    {
+      "complexity": 6,
+      "file_name": "tab_verification.py",
+      "function_name": "_render_tier1",
+      "path": "tab_verification.py"
+    },
+    {
+      "complexity": 8,
+      "file_name": "tab_verification.py",
+      "function_name": "render_verification_tab",
+      "path": "tab_verification.py"
+    },
+    {
+      "complexity": 9,
+      "file_name": "tab_verification.py",
+      "function_name": "_render_metric_with_bar",
+      "path": "tab_verification.py"
+    },
+    {
+      "complexity": 9,
+      "file_name": "tab_verification.py",
+      "function_name": "_render_scorecard",
+      "path": "tab_verification.py"
+    },
+    {
+      "complexity": 11,
+      "file_name": "tab_verification.py",
+      "function_name": "_render_tier2",
+      "path": "tab_verification.py"
+    }
+  ],
+  "targets": [
+    "/home/sewonkim/projects/qwen3-tts-triton/scripts/generate_bench_tables.py",
+    "/home/sewonkim/projects/qwen3-tts-triton/ui/tab_verification.py"
+  ]
+}

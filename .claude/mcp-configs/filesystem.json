@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "description": "Filesystem MCP server configuration",
+  "documentation": {
+    "capabilities": [
+      "Read file contents",
+      "Write and create files",
+      "List directory contents",
+      "Create and delete directories",
+      "Move and rename files",
+      "Search files by pattern"
+    ],
+    "description": "Enhanced filesystem operations with directory restrictions",
+    "examples": {
+      "multiple_directories": {
+        "args": [
+          "-y",
+          "@modelcontextprotocol/server-filesystem",
+          "/home/user/projects",
+          "/home/user/documents"
+        ]
+      },
+      "single_directory": {
+        "args": [
+          "-y",
+          "@modelcontextprotocol/server-filesystem",
+          "/home/user/projects"
+        ]
+      }
+    },
+    "required_env_vars": [
+      "ALLOWED_DIRECTORY"
+    ],
+    "security_notes": [
+      "Only allows access to specified directory and subdirectories",
+      "Cannot access files outside the allowed directory",
+      "Useful for sandboxing file operations",
+      "Multiple directories can be specified by adding more args"
+    ],
+    "setup": {
+      "1": "Set ALLOWED_DIRECTORY to the path you want to allow access to",
+      "2": "Copy this configuration to ~/.claude.json",
+      "3": "Restart Claude Code"
+    }
+  },
+  "mcpServers": {
+    "filesystem": {
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "${ALLOWED_DIRECTORY}"
+      ],
+      "command": "npx"
+    }
+  }
+}

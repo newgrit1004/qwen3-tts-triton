@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "description": "Database MCP server configurations",
+  "documentation": {
+    "capabilities": [
+      "Execute SQL queries (SELECT, INSERT, UPDATE, DELETE)",
+      "Inspect database schema",
+      "List tables and columns",
+      "View table relationships",
+      "Export query results"
+    ],
+    "database_url_format": {
+      "postgres": "postgresql://user:password@host:port/database",
+      "sqlite": "/path/to/database.db"
+    },
+    "description": "Database integration for SQL queries and schema inspection",
+    "required_env_vars": {
+      "postgres": [
+        "DATABASE_URL"
+      ],
+      "sqlite": [
+        "SQLITE_DB_PATH"
+      ]
+    },
+    "security_notes": [
+      "Use read-only credentials for production databases",
+      "Never expose database URLs in code",
+      "Use environment variables for all credentials",
+      "Consider using a separate analytics/read replica"
+    ],
+    "setup": {
+      "1": "Set DATABASE_URL environment variable",
+      "2": "Ensure database is accessible from Claude Code host",
+      "3": "Copy desired configuration to ~/.claude.json",
+      "4": "Restart Claude Code"
+    }
+  },
+  "mcpServers": {
+    "postgres": {
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-postgres"
+      ],
+      "command": "npx",
+      "env": {
+        "DATABASE_URL": "${DATABASE_URL}"
+      }
+    },
+    "sqlite": {
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-sqlite",
+        "${SQLITE_DB_PATH}"
+      ],
+      "command": "npx"
+    }
+  }
+}

@@ -1,0 +1,840 @@
+{
+  "tier1": {
+    "duration_s": 2.89,
+    "failed": 0,
+    "passed": 125,
+    "returncode": 0,
+    "skipped": 0,
+    "status": "PASS",
+    "tests": [
+      {
+        "fullname": "tests/kernels/test_fused_norm.py::test_fused_add_rms_norm[shape0-dtype0]",
+        "name": "test_fused_add_rms_norm[shape0-dtype0]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_fused_norm.py::test_fused_add_rms_norm[shape0-dtype1]",
+        "name": "test_fused_add_rms_norm[shape0-dtype1]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_fused_norm.py::test_fused_add_rms_norm[shape1-dtype0]",
+        "name": "test_fused_add_rms_norm[shape1-dtype0]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_fused_norm.py::test_fused_add_rms_norm[shape1-dtype1]",
+        "name": "test_fused_add_rms_norm[shape1-dtype1]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_fused_norm.py::test_fused_add_rms_norm[shape2-dtype0]",
+        "name": "test_fused_add_rms_norm[shape2-dtype0]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_fused_norm.py::test_fused_add_rms_norm[shape2-dtype1]",
+        "name": "test_fused_add_rms_norm[shape2-dtype1]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_fused_norm.py::test_module_wrapper",
+        "name": "test_module_wrapper",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_fused_norm.py::test_module_wrapper_bfloat16",
+        "name": "test_module_wrapper_bfloat16",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_fused_norm.py::test_fused_add_rms_norm_2d_input[dtype0]",
+        "name": "test_fused_add_rms_norm_2d_input[dtype0]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_fused_norm.py::test_fused_add_rms_norm_2d_input[dtype1]",
+        "name": "test_fused_add_rms_norm_2d_input[dtype1]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_fused_norm.py::test_fused_add_rms_norm_non_contiguous",
+        "name": "test_fused_add_rms_norm_non_contiguous",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_fused_norm.py::test_fused_add_rms_norm_determinism",
+        "name": "test_fused_add_rms_norm_determinism",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_fused_norm.py::test_fused_add_rms_norm_numerical_stability[dtype0]",
+        "name": "test_fused_add_rms_norm_numerical_stability[dtype0]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_fused_norm.py::test_fused_add_rms_norm_numerical_stability[dtype1]",
+        "name": "test_fused_add_rms_norm_numerical_stability[dtype1]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_rms_norm.py::test_triton_rms_norm_function[dtype0-shape0]",
+        "name": "test_triton_rms_norm_function[dtype0-shape0]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_rms_norm.py::test_triton_rms_norm_function[dtype0-shape1]",
+        "name": "test_triton_rms_norm_function[dtype0-shape1]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_rms_norm.py::test_triton_rms_norm_function[dtype0-shape2]",
+        "name": "test_triton_rms_norm_function[dtype0-shape2]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_rms_norm.py::test_triton_rms_norm_function[dtype0-shape3]",
+        "name": "test_triton_rms_norm_function[dtype0-shape3]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_rms_norm.py::test_triton_rms_norm_function[dtype1-shape0]",
+        "name": "test_triton_rms_norm_function[dtype1-shape0]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_rms_norm.py::test_triton_rms_norm_function[dtype1-shape1]",
+        "name": "test_triton_rms_norm_function[dtype1-shape1]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_rms_norm.py::test_triton_rms_norm_function[dtype1-shape2]",
+        "name": "test_triton_rms_norm_function[dtype1-shape2]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_rms_norm.py::test_triton_rms_norm_function[dtype1-shape3]",
+        "name": "test_triton_rms_norm_function[dtype1-shape3]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_rms_norm.py::test_triton_rms_norm_module[dtype0-shape0]",
+        "name": "test_triton_rms_norm_module[dtype0-shape0]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_rms_norm.py::test_triton_rms_norm_module[dtype0-shape1]",
+        "name": "test_triton_rms_norm_module[dtype0-shape1]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_rms_norm.py::test_triton_rms_norm_module[dtype0-shape2]",
+        "name": "test_triton_rms_norm_module[dtype0-shape2]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_rms_norm.py::test_triton_rms_norm_module[dtype0-shape3]",
+        "name": "test_triton_rms_norm_module[dtype0-shape3]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_rms_norm.py::test_triton_rms_norm_module[dtype1-shape0]",
+        "name": "test_triton_rms_norm_module[dtype1-shape0]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_rms_norm.py::test_triton_rms_norm_module[dtype1-shape1]",
+        "name": "test_triton_rms_norm_module[dtype1-shape1]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_rms_norm.py::test_triton_rms_norm_module[dtype1-shape2]",
+        "name": "test_triton_rms_norm_module[dtype1-shape2]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_rms_norm.py::test_triton_rms_norm_module[dtype1-shape3]",
+        "name": "test_triton_rms_norm_module[dtype1-shape3]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_rms_norm.py::test_triton_rms_norm_2d_input[dtype0]",
+        "name": "test_triton_rms_norm_2d_input[dtype0]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_rms_norm.py::test_triton_rms_norm_2d_input[dtype1]",
+        "name": "test_triton_rms_norm_2d_input[dtype1]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_rms_norm.py::test_triton_rms_norm_non_contiguous[dtype0]",
+        "name": "test_triton_rms_norm_non_contiguous[dtype0]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_rms_norm.py::test_triton_rms_norm_non_contiguous[dtype1]",
+        "name": "test_triton_rms_norm_non_contiguous[dtype1]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_rms_norm.py::test_triton_rms_norm_float32",
+        "name": "test_triton_rms_norm_float32",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_rms_norm.py::test_triton_rms_norm_single_token",
+        "name": "test_triton_rms_norm_single_token",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_rms_norm.py::test_triton_rms_norm_determinism",
+        "name": "test_triton_rms_norm_determinism",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_rms_norm.py::test_triton_rms_norm_numerical_stability[dtype0]",
+        "name": "test_triton_rms_norm_numerical_stability[dtype0]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_rms_norm.py::test_triton_rms_norm_numerical_stability[dtype1]",
+        "name": "test_triton_rms_norm_numerical_stability[dtype1]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_rope.py::test_mrope_triton_vs_torch[dtype0-128-1]",
+        "name": "test_mrope_triton_vs_torch[dtype0-128-1]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_rope.py::test_mrope_triton_vs_torch[dtype0-128-2]",
+        "name": "test_mrope_triton_vs_torch[dtype0-128-2]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_rope.py::test_mrope_triton_vs_torch[dtype0-512-1]",
+        "name": "test_mrope_triton_vs_torch[dtype0-512-1]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_rope.py::test_mrope_triton_vs_torch[dtype0-512-2]",
+        "name": "test_mrope_triton_vs_torch[dtype0-512-2]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_rope.py::test_mrope_triton_vs_torch[dtype1-128-1]",
+        "name": "test_mrope_triton_vs_torch[dtype1-128-1]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_rope.py::test_mrope_triton_vs_torch[dtype1-128-2]",
+        "name": "test_mrope_triton_vs_torch[dtype1-128-2]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_rope.py::test_mrope_triton_vs_torch[dtype1-512-1]",
+        "name": "test_mrope_triton_vs_torch[dtype1-512-1]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_rope.py::test_mrope_triton_vs_torch[dtype1-512-2]",
+        "name": "test_mrope_triton_vs_torch[dtype1-512-2]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_rope.py::test_mrope_inplace_mutation",
+        "name": "test_mrope_inplace_mutation",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_rope.py::test_mrope_alternative_sections[mrope_section0]",
+        "name": "test_mrope_alternative_sections[mrope_section0]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_rope.py::test_mrope_alternative_sections[mrope_section1]",
+        "name": "test_mrope_alternative_sections[mrope_section1]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_rope.py::test_mrope_alternative_sections[mrope_section2]",
+        "name": "test_mrope_alternative_sections[mrope_section2]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_rope.py::test_mrope_single_head",
+        "name": "test_mrope_single_head",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_rope.py::test_mrope_seq_len_one",
+        "name": "test_mrope_seq_len_one",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_rope.py::test_mrope_determinism",
+        "name": "test_mrope_determinism",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_rope.py::test_mrope_non_power_of_2_seq[63]",
+        "name": "test_mrope_non_power_of_2_seq[63]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_rope.py::test_mrope_non_power_of_2_seq[127]",
+        "name": "test_mrope_non_power_of_2_seq[127]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_rope.py::test_mrope_non_power_of_2_seq[255]",
+        "name": "test_mrope_non_power_of_2_seq[255]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_swiglu.py::test_triton_swiglu_forward[shape0-dtype0]",
+        "name": "test_triton_swiglu_forward[shape0-dtype0]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_swiglu.py::test_triton_swiglu_forward[shape0-dtype1]",
+        "name": "test_triton_swiglu_forward[shape0-dtype1]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_swiglu.py::test_triton_swiglu_forward[shape1-dtype0]",
+        "name": "test_triton_swiglu_forward[shape1-dtype0]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_swiglu.py::test_triton_swiglu_forward[shape1-dtype1]",
+        "name": "test_triton_swiglu_forward[shape1-dtype1]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_swiglu.py::test_triton_swiglu_forward[shape2-dtype0]",
+        "name": "test_triton_swiglu_forward[shape2-dtype0]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_swiglu.py::test_triton_swiglu_forward[shape2-dtype1]",
+        "name": "test_triton_swiglu_forward[shape2-dtype1]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_swiglu.py::test_triton_swiglu_module[shape0-dtype0]",
+        "name": "test_triton_swiglu_module[shape0-dtype0]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_swiglu.py::test_triton_swiglu_module[shape0-dtype1]",
+        "name": "test_triton_swiglu_module[shape0-dtype1]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_swiglu.py::test_triton_swiglu_module[shape1-dtype0]",
+        "name": "test_triton_swiglu_module[shape1-dtype0]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_swiglu.py::test_triton_swiglu_module[shape1-dtype1]",
+        "name": "test_triton_swiglu_module[shape1-dtype1]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_swiglu.py::test_triton_swiglu_module[shape2-dtype0]",
+        "name": "test_triton_swiglu_module[shape2-dtype0]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_swiglu.py::test_triton_swiglu_module[shape2-dtype1]",
+        "name": "test_triton_swiglu_module[shape2-dtype1]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_swiglu.py::test_swiglu_shape_mismatch_raises",
+        "name": "test_swiglu_shape_mismatch_raises",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_swiglu.py::test_swiglu_cpu_tensor_raises",
+        "name": "test_swiglu_cpu_tensor_raises",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_swiglu.py::test_swiglu_2d_input[dtype0]",
+        "name": "test_swiglu_2d_input[dtype0]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_swiglu.py::test_swiglu_2d_input[dtype1]",
+        "name": "test_swiglu_2d_input[dtype1]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_swiglu.py::test_swiglu_non_contiguous[dtype0]",
+        "name": "test_swiglu_non_contiguous[dtype0]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_swiglu.py::test_swiglu_non_contiguous[dtype1]",
+        "name": "test_swiglu_non_contiguous[dtype1]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_swiglu.py::test_swiglu_determinism",
+        "name": "test_swiglu_determinism",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_swiglu.py::test_swiglu_numerical_stability[dtype0]",
+        "name": "test_swiglu_numerical_stability[dtype0]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_swiglu.py::test_swiglu_numerical_stability[dtype1]",
+        "name": "test_swiglu_numerical_stability[dtype1]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_utils.py::test_calculate_settings[1-1-4]",
+        "name": "test_calculate_settings[1-1-4]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_utils.py::test_calculate_settings[64-64-4]",
+        "name": "test_calculate_settings[64-64-4]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_utils.py::test_calculate_settings[128-128-4]",
+        "name": "test_calculate_settings[128-128-4]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_utils.py::test_calculate_settings[2000-2048-8]",
+        "name": "test_calculate_settings[2000-2048-8]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_utils.py::test_calculate_settings[2048-2048-8]",
+        "name": "test_calculate_settings[2048-2048-8]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_utils.py::test_calculate_settings[4096-4096-8]",
+        "name": "test_calculate_settings[4096-4096-8]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_utils.py::test_calculate_settings[8192-8192-16]",
+        "name": "test_calculate_settings[8192-8192-16]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_utils.py::test_calculate_settings[16384-16384-16]",
+        "name": "test_calculate_settings[16384-16384-16]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_utils.py::test_calculate_settings[32768-32768-32]",
+        "name": "test_calculate_settings[32768-32768-32]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_utils.py::test_calculate_settings[65536-65536-32]",
+        "name": "test_calculate_settings[65536-65536-32]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_utils.py::test_calculate_settings_exceeds_max_raises",
+        "name": "test_calculate_settings_exceeds_max_raises",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_utils.py::test_calculate_settings_block_is_power_of_two",
+        "name": "test_calculate_settings_block_is_power_of_two",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/test_cli.py::TestCustomSubcommand::test_required_args",
+        "name": "test_required_args",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/test_cli.py::TestCustomSubcommand::test_default_values",
+        "name": "test_default_values",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/test_cli.py::TestCustomSubcommand::test_list_speakers_flag",
+        "name": "test_list_speakers_flag",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/test_cli.py::TestCustomSubcommand::test_sampling_overrides",
+        "name": "test_sampling_overrides",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/test_cli.py::TestCustomSubcommand::test_streaming_with_chunk_size",
+        "name": "test_streaming_with_chunk_size",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/test_cli.py::TestCloneSubcommand::test_required_args",
+        "name": "test_required_args",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/test_cli.py::TestCloneSubcommand::test_xvec_only_default",
+        "name": "test_xvec_only_default",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/test_cli.py::TestCloneSubcommand::test_no_xvec_only",
+        "name": "test_no_xvec_only",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/test_cli.py::TestDesignSubcommand::test_required_args",
+        "name": "test_required_args",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/test_cli.py::TestServeSubcommand::test_required_args",
+        "name": "test_required_args",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/test_cli.py::TestServeSubcommand::test_output_dir_default",
+        "name": "test_output_dir_default",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/test_cli.py::TestServeSubcommand::test_clone_serve_args",
+        "name": "test_clone_serve_args",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/test_cli.py::TestServeSubcommand::test_design_serve_args",
+        "name": "test_design_serve_args",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/test_cli.py::TestNoSubcommand::test_no_command_exits",
+        "name": "test_no_command_exits",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/test_cli.py::TestWavWriter::test_header_structure",
+        "name": "test_header_structure",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/test_cli.py::TestWavWriter::test_finalize_updates_sizes",
+        "name": "test_finalize_updates_sizes",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/test_cli.py::TestWavWriter::test_float_to_pcm16",
+        "name": "test_float_to_pcm16",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/test_cli.py::TestWavWriter::test_clipping",
+        "name": "test_clipping",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/test_cli.py::TestBaseRunnerInterface::test_streaming_not_implemented",
+        "name": "test_streaming_not_implemented",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/test_cli.py::TestBaseRunnerInterface::test_voice_clone_calls_model",
+        "name": "test_voice_clone_calls_model",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/test_cli.py::TestBaseRunnerInterface::test_voice_design_not_implemented",
+        "name": "test_voice_design_not_implemented",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/test_cli.py::TestBaseRunnerInterface::test_clone_streaming_not_implemented",
+        "name": "test_clone_streaming_not_implemented",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/test_cli.py::TestBaseRunnerInterface::test_design_streaming_not_implemented",
+        "name": "test_design_streaming_not_implemented",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/test_cli.py::TestBaseRunnerInterface::test_check_loaded_raises",
+        "name": "test_check_loaded_raises",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/test_cli.py::TestBaseRunnerListSpeakers::test_returns_sorted_keys",
+        "name": "test_returns_sorted_keys",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/test_cli.py::TestBaseRunnerListSpeakers::test_returns_empty_on_missing_attr",
+        "name": "test_returns_empty_on_missing_attr",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/test_cli.py::TestDtypeResolution::test_bf16",
+        "name": "test_bf16",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/test_cli.py::TestDtypeResolution::test_fp16",
+        "name": "test_fp16",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/test_cli.py::TestDtypeResolution::test_fp32",
+        "name": "test_fp32",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/test_cli.py::TestDtypeResolution::test_torch_dtype_passthrough",
+        "name": "test_torch_dtype_passthrough",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/test_cli.py::TestDtypeResolution::test_invalid_raises",
+        "name": "test_invalid_raises",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/test_cli.py::TestToNumpy::test_list_of_tensors",
+        "name": "test_list_of_tensors",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/test_cli.py::TestToNumpy::test_numpy_passthrough",
+        "name": "test_numpy_passthrough",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/test_cli.py::TestListSpeakersCLI::test_list_speakers_prints",
+        "name": "test_list_speakers_prints",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/test_cli.py::TestListSpeakersCLI::test_list_speakers_empty",
+        "name": "test_list_speakers_empty",
+        "status": "PASSED"
+      }
+    ],
+    "total": 125
+  },
+  "tier2": {
+    "duration_s": 19.3,
+    "failed": 0,
+    "pairs": {
+      "base_vs_triton": {
+        "greedy": {
+          "note": "Greedy generation not available for this model"
+        },
+        "layers": {
+          "0": {
+            "cosine_sim": 0.999995,
+            "max_abs_diff": 0.015625,
+            "mean_abs_diff": 0.000394,
+            "pearson_r": 0.99999,
+            "relative_l2": 0.004331,
+            "rmse": 0.00063,
+            "snr_db": 47.27
+          },
+          "14": {
+            "cosine_sim": 0.999852,
+            "max_abs_diff": 1.0,
+            "mean_abs_diff": 0.074491,
+            "pearson_r": 0.999847,
+            "relative_l2": 0.01754,
+            "rmse": 0.099091,
+            "snr_db": 35.12
+          },
+          "21": {
+            "cosine_sim": 0.999177,
+            "max_abs_diff": 3.601562,
+            "mean_abs_diff": 0.186347,
+            "pearson_r": 0.999173,
+            "relative_l2": 0.040688,
+            "rmse": 0.284037,
+            "snr_db": 27.81
+          },
+          "27": {
+            "cosine_sim": 0.9979,
+            "max_abs_diff": 7.4375,
+            "mean_abs_diff": 0.5181,
+            "pearson_r": 0.997895,
+            "relative_l2": 0.064876,
+            "rmse": 0.786368,
+            "snr_db": 23.76
+          },
+          "7": {
+            "cosine_sim": 0.999977,
+            "max_abs_diff": 0.375,
+            "mean_abs_diff": 0.027846,
+            "pearson_r": 0.999972,
+            "relative_l2": 0.007545,
+            "rmse": 0.04075,
+            "snr_db": 42.45
+          }
+        },
+        "logits": {
+          "output_cosine_sim": 0.997156,
+          "output_max_abs_diff": 2.382812
+        },
+        "status": "PASS"
+      },
+      "faster_vs_hybrid": {
+        "greedy": {},
+        "layers": {
+          "0": {
+            "cosine_sim": 0.999995,
+            "max_abs_diff": 0.015625,
+            "mean_abs_diff": 0.000394,
+            "pearson_r": 0.99999,
+            "relative_l2": 0.004331,
+            "rmse": 0.00063,
+            "snr_db": 47.27
+          },
+          "14": {
+            "cosine_sim": 0.999852,
+            "max_abs_diff": 1.0,
+            "mean_abs_diff": 0.074491,
+            "pearson_r": 0.999847,
+            "relative_l2": 0.01754,
+            "rmse": 0.099091,
+            "snr_db": 35.12
+          },
+          "21": {
+            "cosine_sim": 0.999177,
+            "max_abs_diff": 3.601562,
+            "mean_abs_diff": 0.186347,
+            "pearson_r": 0.999173,
+            "relative_l2": 0.040688,
+            "rmse": 0.284037,
+            "snr_db": 27.81
+          },
+          "27": {
+            "cosine_sim": 0.9979,
+            "max_abs_diff": 7.4375,
+            "mean_abs_diff": 0.5181,
+            "pearson_r": 0.997895,
+            "relative_l2": 0.064876,
+            "rmse": 0.786368,
+            "snr_db": 23.76
+          },
+          "7": {
+            "cosine_sim": 0.999977,
+            "max_abs_diff": 0.375,
+            "mean_abs_diff": 0.027846,
+            "pearson_r": 0.999972,
+            "relative_l2": 0.007545,
+            "rmse": 0.04075,
+            "snr_db": 42.45
+          }
+        },
+        "logits": {
+          "output_cosine_sim": 0.997156,
+          "output_max_abs_diff": 2.382812
+        },
+        "status": "PASS"
+      }
+    },
+    "passed": 0,
+    "status": "PASS",
+    "tests": [
+      {
+        "fullname": "tests/test_model_parity.py::test_logits_top_k_overlap",
+        "name": "test_logits_top_k_overlap",
+        "status": "SKIPPED"
+      },
+      {
+        "fullname": "tests/test_model_parity.py::test_logits_kl_divergence",
+        "name": "test_logits_kl_divergence",
+        "status": "SKIPPED"
+      },
+      {
+        "fullname": "tests/test_model_parity.py::test_greedy_token_divergence",
+        "name": "test_greedy_token_divergence",
+        "status": "SKIPPED"
+      }
+    ],
+    "total": 3
+  },
+  "tier3": {
+    "comparisons": [
+      {
+        "cer_delta": 0.02,
+        "failures": [],
+        "opt": "triton",
+        "ref": "base",
+        "speaker_sim_mean": 0.7645,
+        "status": "PASS",
+        "utmos_delta": 0.1623
+      },
+      {
+        "cer_delta": 0.0571,
+        "failures": [
+          "CER delta 0.0571 > 0.05"
+        ],
+        "opt": "faster",
+        "ref": "base",
+        "speaker_sim_mean": 0.7506,
+        "status": "FAIL",
+        "utmos_delta": 0.1636
+      },
+      {
+        "cer_delta": 0.0445,
+        "failures": [],
+        "opt": "hybrid",
+        "ref": "base",
+        "speaker_sim_mean": 0.7684,
+        "status": "PASS",
+        "utmos_delta": 0.1774
+      }
+    ],
+    "mode": "fast",
+    "num_sentences": 10,
+    "runners": {
+      "base": {
+        "cer_mean": 0.1585,
+        "cer_std": 0.1381,
+        "utmos_mean": 3.1235,
+        "utmos_std": 0.5376
+      },
+      "faster": {
+        "cer_mean": 0.2157,
+        "cer_std": 0.255,
+        "utmos_mean": 3.2872,
+        "utmos_std": 0.5968
+      },
+      "hybrid": {
+        "cer_mean": 0.203,
+        "cer_std": 0.1442,
+        "utmos_mean": 3.3009,
+        "utmos_std": 0.8515
+      },
+      "triton": {
+        "cer_mean": 0.1785,
+        "cer_std": 0.1426,
+        "utmos_mean": 3.2858,
+        "utmos_std": 0.4636
+      }
+    },
+    "source": "tier3_fast_multi.json",
+    "status": "FAIL"
+  },
+  "timestamp": "2026-03-22T12:07:25.873272+00:00"
+}

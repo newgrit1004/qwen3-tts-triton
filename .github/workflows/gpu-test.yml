@@ -1,0 +1,39 @@
+name: GPU Tests (Manual)
+
+# Self-hosted runner placeholder for RTX 5090 (sm_120, cu128).
+# Currently no CI provider offers Blackwell GPUs.
+# To activate: install a GitHub Actions runner on an sm_120 machine
+# with labels [self-hosted, gpu, blackwell], then trigger manually.
+
+on:
+  workflow_dispatch:
+    inputs:
+      test_tier:
+        description: "Test tier to run"
+        type: choice
+        options:
+          - "tier1"
+          - "tier2"
+          - "tier1+2"
+        default: "tier1+2"
+
+jobs:
+  gpu-test:
+    runs-on: [self-hosted, gpu, blackwell]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v4
+
+      - name: Install dependencies
+        run: uv sync --all-extras --dev
+
+      - name: Run GPU tests
+        run: |
+          case "${{ inputs.test_tier }}" in
+            tier1)   uv run pytest -m gpu -v ;;
+            tier2)   uv run pytest tests/test_model_parity.py -v ;;
+            tier1+2) make verify ;;
+          esac

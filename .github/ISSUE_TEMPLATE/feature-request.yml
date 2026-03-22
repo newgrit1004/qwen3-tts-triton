@@ -1,0 +1,88 @@
+name: Feature Request
+description: Suggest a new feature or enhancement (including new GPU architecture support)
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for suggesting a feature! We especially welcome requests for:
+        - **New GPU architecture support** (Ampere, Hopper, Ada Lovelace, etc.)
+        - New Triton kernel optimizations
+        - New inference modes or CLI features
+
+  - type: dropdown
+    id: feature-type
+    attributes:
+      label: Feature Type
+      options:
+        - "GPU Architecture Support (Ampere, Hopper, Ada Lovelace, etc.)"
+        - "New Triton Kernel"
+        - "Kernel Optimization (performance improvement)"
+        - "New Runner / Inference Mode"
+        - "CLI Enhancement"
+        - "API / SDK Enhancement"
+        - "Documentation"
+        - "Docker / Deployment"
+        - "Testing / CI"
+        - "Other"
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: A clear description of the feature you'd like.
+      placeholder: "I would like to run qwen3-tts-triton on my RTX 4090 (Ada Lovelace, sm_89)."
+    validations:
+      required: true
+
+  - type: textarea
+    id: motivation
+    attributes:
+      label: Motivation
+      description: Why is this feature important? What problem does it solve?
+      placeholder: |
+        Many researchers use Ampere/Hopper GPUs (A100, H100).
+        Supporting these architectures would significantly expand the user base.
+    validations:
+      required: true
+
+  - type: textarea
+    id: gpu-info
+    attributes:
+      label: GPU Information (if applicable)
+      description: |
+        If requesting GPU architecture support, please provide:
+        - GPU model and SM architecture
+        - CUDA version
+        - PyTorch version
+        - Any error messages when attempting to run on this GPU
+      placeholder: |
+        - GPU: NVIDIA A100 80GB (Ampere, sm_80)
+        - CUDA: 12.4
+        - PyTorch: 2.6.0+cu124
+        - Error: Triton kernel compilation failed with "unsupported SM version"
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed Solution (optional)
+      description: If you have ideas on how to implement this, share them here.
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives Considered (optional)
+      description: Any alternative approaches you've considered.
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before Submitting
+      options:
+        - label: I have searched existing issues and feature requests to ensure this is not a duplicate.
+          required: true
+        - label: I have read the [README](https://github.com/newgrit1004/qwen3-tts-triton#readme) for current features and limitations.
+          required: true

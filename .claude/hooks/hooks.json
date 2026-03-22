@@ -1,0 +1,132 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "description": "Claude Code hooks for Python projects with UV, Ruff, and Ty",
+  "hooks": {
+    "PostToolUse": [
+      {
+        "action": "run",
+        "command": "uv run ruff format {file} && uv run ruff check {file} --fix",
+        "description": "Auto-format Python files after write",
+        "matcher": {
+          "file_pattern": "\\.py$",
+          "tool": "Write"
+        }
+      },
+      {
+        "action": "run",
+        "command": "uv run ruff format {file} && uv run ruff check {file} --fix",
+        "description": "Auto-format Python files after edit",
+        "matcher": {
+          "file_pattern": "\\.py$",
+          "tool": "Edit"
+        }
+      },
+      {
+        "action": "run",
+        "command": "uv run complexipy {file} --max-complexity-allowed 15",
+        "description": "Check cognitive complexity after write",
+        "matcher": {
+          "file_pattern": "\\.py$",
+          "tool": "Write"
+        }
+      },
+      {
+        "action": "run",
+        "command": "uv run complexipy {file} --max-complexity-allowed 15",
+        "description": "Check cognitive complexity after edit",
+        "matcher": {
+          "file_pattern": "\\.py$",
+          "tool": "Edit"
+        }
+      },
+      {
+        "action": "run",
+        "command": "uv run skylos src/ -c 80 2>&1 | head -30",
+        "description": "Check dead code after write",
+        "matcher": {
+          "file_pattern": "src/.*\\.py$",
+          "tool": "Write"
+        }
+      },
+      {
+        "action": "run",
+        "command": "uv run skylos src/ -c 80 2>&1 | head -30",
+        "description": "Check dead code after edit",
+        "matcher": {
+          "file_pattern": "src/.*\\.py$",
+          "tool": "Edit"
+        }
+      },
+      {
+        "action": "log",
+        "description": "Log PR creation",
+        "matcher": {
+          "command_pattern": "gh pr create",
+          "tool": "Bash"
+        },
+        "message": "PR created. Remember to request review."
+      }
+    ],
+    "PreToolUse": [
+      {
+        "action": "allow",
+        "description": "Allow UV-based command execution",
+        "matcher": {
+          "command_pattern": "uv run (python|pytest|ruff|ty)",
+          "tool": "Bash"
+        }
+      },
+      {
+        "action": "pause",
+        "description": "Confirm before git push",
+        "matcher": {
+          "command_pattern": "^git push",
+          "tool": "Bash"
+        },
+        "message": "Review changes before pushing. Run 'make check' to verify all tests and lints pass."
+      },
+      {
+        "action": "warn",
+        "description": "Warn on markdown file creation",
+        "matcher": {
+          "file_pattern": "\\.md$",
+          "tool": "Write"
+        },
+        "message": "Creating markdown file. Is this documentation necessary?"
+      }
+    ],
+    "Stop": [
+      {
+        "action": "check",
+        "checks": [
+          {
+            "file_pattern": "src/.*\\.py$",
+            "message": "Warning: print() statements found in source code. Consider using logging instead.",
+            "pattern": "print\\(",
+            "type": "pattern"
+          },
+          {
+            "file_pattern": "\\.py$",
+            "message": "Warning: breakpoint() found. Remove debug statements before committing.",
+            "pattern": "breakpoint\\(\\)",
+            "type": "pattern"
+          },
+          {
+            "file_pattern": "\\.py$",
+            "message": "CRITICAL: Possible hardcoded secret detected. Use environment variables.",
+            "pattern": "(API_KEY|SECRET|PASSWORD)\\s*=\\s*[\"'][^\"']+[\"']",
+            "type": "pattern"
+          }
+        ],
+        "description": "Pre-commit checks for common issues"
+      }
+    ]
+  },
+  "settings": {
+    "auto_format": true,
+    "block_on_critical": true,
+    "check_types_on_save": false,
+    "format_on_save": true,
+    "run_lint_on_save": true
+  }
+}

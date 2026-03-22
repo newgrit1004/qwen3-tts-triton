@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "description": "GitHub MCP server configuration",
+  "documentation": {
+    "capabilities": [
+      "Create, read, update, and delete issues",
+      "Create and review pull requests",
+      "Access repository content and metadata",
+      "Search code across repositories",
+      "Manage branches and commits"
+    ],
+    "description": "GitHub integration for repository management, issues, and pull requests",
+    "required_env_vars": [
+      "GITHUB_PERSONAL_ACCESS_TOKEN"
+    ],
+    "setup": {
+      "1": "Create a Personal Access Token at https://github.com/settings/tokens",
+      "2": "Select required scopes (repo, read:org, workflow)",
+      "3": "Set GITHUB_PERSONAL_ACCESS_TOKEN environment variable",
+      "4": "Copy this configuration to ~/.claude.json"
+    },
+    "token_scopes": [
+      "repo (full control of private repositories)",
+      "read:org (read organization membership)",
+      "workflow (update GitHub Actions workflows)"
+    ]
+  },
+  "mcpServers": {
+    "github": {
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-github"
+      ],
+      "command": "npx",
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_PERSONAL_ACCESS_TOKEN}"
+      }
+    }
+  }
+}

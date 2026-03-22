@@ -1,0 +1,1517 @@
+{
+  "functions": [
+    {
+      "complexity": 2,
+      "file_name": "__init__.py",
+      "function_name": "_check_torch",
+      "path": "src/qwen3_tts_triton/__init__.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "fused_norm_residual.py",
+      "function_name": "TritonFusedAddRMSNorm::__init__",
+      "path": "src/qwen3_tts_triton/kernels/fused_norm_residual.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "fused_norm_residual.py",
+      "function_name": "TritonFusedAddRMSNorm::extra_repr",
+      "path": "src/qwen3_tts_triton/kernels/fused_norm_residual.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "fused_norm_residual.py",
+      "function_name": "TritonFusedAddRMSNorm::forward",
+      "path": "src/qwen3_tts_triton/kernels/fused_norm_residual.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "fused_norm_residual.py",
+      "function_name": "_fused_add_rms_norm_forward_kernel",
+      "path": "src/qwen3_tts_triton/kernels/fused_norm_residual.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "fused_norm_residual.py",
+      "function_name": "triton_fused_add_rms_norm",
+      "path": "src/qwen3_tts_triton/kernels/fused_norm_residual.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "rms_norm.py",
+      "function_name": "TritonRMSNorm::__init__",
+      "path": "src/qwen3_tts_triton/kernels/rms_norm.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "rms_norm.py",
+      "function_name": "TritonRMSNorm::extra_repr",
+      "path": "src/qwen3_tts_triton/kernels/rms_norm.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "rms_norm.py",
+      "function_name": "TritonRMSNorm::forward",
+      "path": "src/qwen3_tts_triton/kernels/rms_norm.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "rms_norm.py",
+      "function_name": "_rms_norm_forward_kernel",
+      "path": "src/qwen3_tts_triton/kernels/rms_norm.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "rms_norm.py",
+      "function_name": "triton_rms_norm",
+      "path": "src/qwen3_tts_triton/kernels/rms_norm.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "rope.py",
+      "function_name": "_triton_mrope_kernel",
+      "path": "src/qwen3_tts_triton/kernels/rope.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "rope.py",
+      "function_name": "triton_mrope_forward",
+      "path": "src/qwen3_tts_triton/kernels/rope.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "swiglu.py",
+      "function_name": "TritonSwiGLU::forward",
+      "path": "src/qwen3_tts_triton/kernels/swiglu.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "swiglu.py",
+      "function_name": "_swiglu_forward_kernel",
+      "path": "src/qwen3_tts_triton/kernels/swiglu.py"
+    },
+    {
+      "complexity": 3,
+      "file_name": "swiglu.py",
+      "function_name": "triton_swiglu_forward",
+      "path": "src/qwen3_tts_triton/kernels/swiglu.py"
+    },
+    {
+      "complexity": 4,
+      "file_name": "utils.py",
+      "function_name": "calculate_settings",
+      "path": "src/qwen3_tts_triton/kernels/utils.py"
+    },
+    {
+      "complexity": 1,
+      "file_name": "__init__.py",
+      "function_name": "get_runner_class",
+      "path": "src/qwen3_tts_triton/models/__init__.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "base_runner.py",
+      "function_name": "BaseRunner::__init__",
+      "path": "src/qwen3_tts_triton/models/base_runner.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "base_runner.py",
+      "function_name": "BaseRunner::generate_streaming",
+      "path": "src/qwen3_tts_triton/models/base_runner.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "base_runner.py",
+      "function_name": "BaseRunner::generate_voice_clone_streaming",
+      "path": "src/qwen3_tts_triton/models/base_runner.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "base_runner.py",
+      "function_name": "BaseRunner::generate_voice_design",
+      "path": "src/qwen3_tts_triton/models/base_runner.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "base_runner.py",
+      "function_name": "BaseRunner::generate_voice_design_streaming",
+      "path": "src/qwen3_tts_triton/models/base_runner.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "base_runner.py",
+      "function_name": "BaseRunner::load_model",
+      "path": "src/qwen3_tts_triton/models/base_runner.py"
+    },
+    {
+      "complexity": 1,
+      "file_name": "base_runner.py",
+      "function_name": "BaseRunner::_check_loaded",
+      "path": "src/qwen3_tts_triton/models/base_runner.py"
+    },
+    {
+      "complexity": 1,
+      "file_name": "base_runner.py",
+      "function_name": "BaseRunner::_load_clone_model",
+      "path": "src/qwen3_tts_triton/models/base_runner.py"
+    },
+    {
+      "complexity": 1,
+      "file_name": "base_runner.py",
+      "function_name": "BaseRunner::generate",
+      "path": "src/qwen3_tts_triton/models/base_runner.py"
+    },
+    {
+      "complexity": 1,
+      "file_name": "base_runner.py",
+      "function_name": "BaseRunner::model",
+      "path": "src/qwen3_tts_triton/models/base_runner.py"
+    },
+    {
+      "complexity": 1,
+      "file_name": "base_runner.py",
+      "function_name": "BaseRunner::processor",
+      "path": "src/qwen3_tts_triton/models/base_runner.py"
+    },
+    {
+      "complexity": 1,
+      "file_name": "base_runner.py",
+      "function_name": "BaseRunner::unload_model",
+      "path": "src/qwen3_tts_triton/models/base_runner.py"
+    },
+    {
+      "complexity": 2,
+      "file_name": "base_runner.py",
+      "function_name": "BaseRunner::generate_voice_clone",
+      "path": "src/qwen3_tts_triton/models/base_runner.py"
+    },
+    {
+      "complexity": 2,
+      "file_name": "base_runner.py",
+      "function_name": "_resolve_dtype",
+      "path": "src/qwen3_tts_triton/models/base_runner.py"
+    },
+    {
+      "complexity": 2,
+      "file_name": "base_runner.py",
+      "function_name": "_to_numpy",
+      "path": "src/qwen3_tts_triton/models/base_runner.py"
+    },
+    {
+      "complexity": 3,
+      "file_name": "base_runner.py",
+      "function_name": "BaseRunner::list_speakers",
+      "path": "src/qwen3_tts_triton/models/base_runner.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "faster_runner.py",
+      "function_name": "FasterRunner::_lang",
+      "path": "src/qwen3_tts_triton/models/faster_runner.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "faster_runner.py",
+      "function_name": "FasterRunner::generate_voice_clone",
+      "path": "src/qwen3_tts_triton/models/faster_runner.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "faster_runner.py",
+      "function_name": "FasterRunner::generate_voice_clone_streaming",
+      "path": "src/qwen3_tts_triton/models/faster_runner.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "faster_runner.py",
+      "function_name": "FasterRunner::generate_voice_design",
+      "path": "src/qwen3_tts_triton/models/faster_runner.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "faster_runner.py",
+      "function_name": "FasterRunner::generate_voice_design_streaming",
+      "path": "src/qwen3_tts_triton/models/faster_runner.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "faster_runner.py",
+      "function_name": "_sampling_kwargs",
+      "path": "src/qwen3_tts_triton/models/faster_runner.py"
+    },
+    {
+      "complexity": 1,
+      "file_name": "faster_runner.py",
+      "function_name": "FasterRunner::__init__",
+      "path": "src/qwen3_tts_triton/models/faster_runner.py"
+    },
+    {
+      "complexity": 1,
+      "file_name": "faster_runner.py",
+      "function_name": "FasterRunner::_check_loaded",
+      "path": "src/qwen3_tts_triton/models/faster_runner.py"
+    },
+    {
+      "complexity": 1,
+      "file_name": "faster_runner.py",
+      "function_name": "FasterRunner::_load_clone_model",
+      "path": "src/qwen3_tts_triton/models/faster_runner.py"
+    },
+    {
+      "complexity": 1,
+      "file_name": "faster_runner.py",
+      "function_name": "FasterRunner::_result",
+      "path": "src/qwen3_tts_triton/models/faster_runner.py"
+    },
+    {
+      "complexity": 1,
+      "file_name": "faster_runner.py",
+      "function_name": "FasterRunner::generate",
+      "path": "src/qwen3_tts_triton/models/faster_runner.py"
+    },
+    {
+      "complexity": 1,
+      "file_name": "faster_runner.py",
+      "function_name": "FasterRunner::generate_streaming",
+      "path": "src/qwen3_tts_triton/models/faster_runner.py"
+    },
+    {
+      "complexity": 1,
+      "file_name": "faster_runner.py",
+      "function_name": "FasterRunner::load_model",
+      "path": "src/qwen3_tts_triton/models/faster_runner.py"
+    },
+    {
+      "complexity": 1,
+      "file_name": "faster_runner.py",
+      "function_name": "FasterRunner::unload_model",
+      "path": "src/qwen3_tts_triton/models/faster_runner.py"
+    },
+    {
+      "complexity": 3,
+      "file_name": "faster_runner.py",
+      "function_name": "FasterRunner::list_speakers",
+      "path": "src/qwen3_tts_triton/models/faster_runner.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "patching.py",
+      "function_name": "_patch_mlp_forward",
+      "path": "src/qwen3_tts_triton/models/patching.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "patching.py",
+      "function_name": "_replace_rms_norm",
+      "path": "src/qwen3_tts_triton/models/patching.py"
+    },
+    {
+      "complexity": 1,
+      "file_name": "patching.py",
+      "function_name": "_get_parent",
+      "path": "src/qwen3_tts_triton/models/patching.py"
+    },
+    {
+      "complexity": 2,
+      "file_name": "patching.py",
+      "function_name": "_patch_decoder_layer_forward",
+      "path": "src/qwen3_tts_triton/models/patching.py"
+    },
+    {
+      "complexity": 9,
+      "file_name": "patching.py",
+      "function_name": "find_patchable_model",
+      "path": "src/qwen3_tts_triton/models/patching.py"
+    },
+    {
+      "complexity": 14,
+      "file_name": "patching.py",
+      "function_name": "apply_triton_kernels",
+      "path": "src/qwen3_tts_triton/models/patching.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "triton_faster_runner.py",
+      "function_name": "TritonFasterRunner::__init__",
+      "path": "src/qwen3_tts_triton/models/triton_faster_runner.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "triton_faster_runner.py",
+      "function_name": "TritonFasterRunner::load_model",
+      "path": "src/qwen3_tts_triton/models/triton_faster_runner.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "triton_runner.py",
+      "function_name": "TritonRunner::load_model",
+      "path": "src/qwen3_tts_triton/models/triton_runner.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "generate_bench_tables.py",
+      "function_name": "_bold",
+      "path": "scripts/generate_bench_tables.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "generate_bench_tables.py",
+      "function_name": "_normalize_runner",
+      "path": "scripts/generate_bench_tables.py"
+    },
+    {
+      "complexity": 2,
+      "file_name": "generate_bench_tables.py",
+      "function_name": "_aggregate_e2e",
+      "path": "scripts/generate_bench_tables.py"
+    },
+    {
+      "complexity": 2,
+      "file_name": "generate_bench_tables.py",
+      "function_name": "_load_json",
+      "path": "scripts/generate_bench_tables.py"
+    },
+    {
+      "complexity": 6,
+      "file_name": "generate_bench_tables.py",
+      "function_name": "_bold_best",
+      "path": "scripts/generate_bench_tables.py"
+    },
+    {
+      "complexity": 7,
+      "file_name": "generate_bench_tables.py",
+      "function_name": "_render_quality_table",
+      "path": "scripts/generate_bench_tables.py"
+    },
+    {
+      "complexity": 8,
+      "file_name": "generate_bench_tables.py",
+      "function_name": "_render_summary",
+      "path": "scripts/generate_bench_tables.py"
+    },
+    {
+      "complexity": 11,
+      "file_name": "generate_bench_tables.py",
+      "function_name": "_patch_readme",
+      "path": "scripts/generate_bench_tables.py"
+    },
+    {
+      "complexity": 13,
+      "file_name": "generate_bench_tables.py",
+      "function_name": "main",
+      "path": "scripts/generate_bench_tables.py"
+    },
+    {
+      "complexity": 14,
+      "file_name": "generate_bench_tables.py",
+      "function_name": "_render_e2e_table",
+      "path": "scripts/generate_bench_tables.py"
+    },
+    {
+      "complexity": 18,
+      "file_name": "generate_bench_tables.py",
+      "function_name": "_render_kernel_table",
+      "path": "scripts/generate_bench_tables.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "generate_samples.py",
+      "function_name": "_parse_args",
+      "path": "scripts/generate_samples.py"
+    },
+    {
+      "complexity": 1,
+      "file_name": "generate_samples.py",
+      "function_name": "main",
+      "path": "scripts/generate_samples.py"
+    },
+    {
+      "complexity": 4,
+      "file_name": "generate_samples.py",
+      "function_name": "_generate_for_mode",
+      "path": "scripts/generate_samples.py"
+    },
+    {
+      "complexity": 5,
+      "file_name": "generate_samples.py",
+      "function_name": "_generate_clone_for_mode",
+      "path": "scripts/generate_samples.py"
+    },
+    {
+      "complexity": 1,
+      "file_name": "conftest.py",
+      "function_name": "device",
+      "path": "tests/conftest.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "conftest.py",
+      "function_name": "eps",
+      "path": "tests/kernels/conftest.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "conftest.py",
+      "function_name": "hidden_size",
+      "path": "tests/kernels/conftest.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "conftest.py",
+      "function_name": "intermediate_size",
+      "path": "tests/kernels/conftest.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "test_fused_norm.py",
+      "function_name": "_pytorch_rms_norm",
+      "path": "tests/kernels/test_fused_norm.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "test_fused_norm.py",
+      "function_name": "test_fused_add_rms_norm",
+      "path": "tests/kernels/test_fused_norm.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "test_fused_norm.py",
+      "function_name": "test_fused_add_rms_norm_2d_input",
+      "path": "tests/kernels/test_fused_norm.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "test_fused_norm.py",
+      "function_name": "test_fused_add_rms_norm_determinism",
+      "path": "tests/kernels/test_fused_norm.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "test_fused_norm.py",
+      "function_name": "test_fused_add_rms_norm_non_contiguous",
+      "path": "tests/kernels/test_fused_norm.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "test_fused_norm.py",
+      "function_name": "test_fused_add_rms_norm_numerical_stability",
+      "path": "tests/kernels/test_fused_norm.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "test_fused_norm.py",
+      "function_name": "test_module_wrapper",
+      "path": "tests/kernels/test_fused_norm.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "test_fused_norm.py",
+      "function_name": "test_module_wrapper_bfloat16",
+      "path": "tests/kernels/test_fused_norm.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "test_rms_norm.py",
+      "function_name": "_pytorch_rms_norm",
+      "path": "tests/kernels/test_rms_norm.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "test_rms_norm.py",
+      "function_name": "test_triton_rms_norm_2d_input",
+      "path": "tests/kernels/test_rms_norm.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "test_rms_norm.py",
+      "function_name": "test_triton_rms_norm_determinism",
+      "path": "tests/kernels/test_rms_norm.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "test_rms_norm.py",
+      "function_name": "test_triton_rms_norm_float32",
+      "path": "tests/kernels/test_rms_norm.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "test_rms_norm.py",
+      "function_name": "test_triton_rms_norm_function",
+      "path": "tests/kernels/test_rms_norm.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "test_rms_norm.py",
+      "function_name": "test_triton_rms_norm_module",
+      "path": "tests/kernels/test_rms_norm.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "test_rms_norm.py",
+      "function_name": "test_triton_rms_norm_non_contiguous",
+      "path": "tests/kernels/test_rms_norm.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "test_rms_norm.py",
+      "function_name": "test_triton_rms_norm_numerical_stability",
+      "path": "tests/kernels/test_rms_norm.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "test_rms_norm.py",
+      "function_name": "test_triton_rms_norm_single_token",
+      "path": "tests/kernels/test_rms_norm.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "test_rope.py",
+      "function_name": "test_mrope_alternative_sections",
+      "path": "tests/kernels/test_rope.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "test_rope.py",
+      "function_name": "test_mrope_determinism",
+      "path": "tests/kernels/test_rope.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "test_rope.py",
+      "function_name": "test_mrope_inplace_mutation",
+      "path": "tests/kernels/test_rope.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "test_rope.py",
+      "function_name": "test_mrope_non_power_of_2_seq",
+      "path": "tests/kernels/test_rope.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "test_rope.py",
+      "function_name": "test_mrope_seq_len_one",
+      "path": "tests/kernels/test_rope.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "test_rope.py",
+      "function_name": "test_mrope_single_head",
+      "path": "tests/kernels/test_rope.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "test_rope.py",
+      "function_name": "torch_mrope_reference",
+      "path": "tests/kernels/test_rope.py"
+    },
+    {
+      "complexity": 2,
+      "file_name": "test_rope.py",
+      "function_name": "test_mrope_triton_vs_torch",
+      "path": "tests/kernels/test_rope.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "test_swiglu.py",
+      "function_name": "test_swiglu_2d_input",
+      "path": "tests/kernels/test_swiglu.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "test_swiglu.py",
+      "function_name": "test_swiglu_cpu_tensor_raises",
+      "path": "tests/kernels/test_swiglu.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "test_swiglu.py",
+      "function_name": "test_swiglu_determinism",
+      "path": "tests/kernels/test_swiglu.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "test_swiglu.py",
+      "function_name": "test_swiglu_non_contiguous",
+      "path": "tests/kernels/test_swiglu.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "test_swiglu.py",
+      "function_name": "test_swiglu_numerical_stability",
+      "path": "tests/kernels/test_swiglu.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "test_swiglu.py",
+      "function_name": "test_swiglu_shape_mismatch_raises",
+      "path": "tests/kernels/test_swiglu.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "test_swiglu.py",
+      "function_name": "test_triton_swiglu_forward",
+      "path": "tests/kernels/test_swiglu.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "test_swiglu.py",
+      "function_name": "test_triton_swiglu_module",
+      "path": "tests/kernels/test_swiglu.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "test_utils.py",
+      "function_name": "test_calculate_settings",
+      "path": "tests/kernels/test_utils.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "test_utils.py",
+      "function_name": "test_calculate_settings_exceeds_max_raises",
+      "path": "tests/kernels/test_utils.py"
+    },
+    {
+      "complexity": 2,
+      "file_name": "test_utils.py",
+      "function_name": "test_calculate_settings_block_is_power_of_two",
+      "path": "tests/kernels/test_utils.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "test_model_parity.py",
+      "function_name": "_round_metrics",
+      "path": "tests/test_model_parity.py"
+    },
+    {
+      "complexity": 1,
+      "file_name": "test_model_parity.py",
+      "function_name": "_is_vocab_logits",
+      "path": "tests/test_model_parity.py"
+    },
+    {
+      "complexity": 2,
+      "file_name": "test_model_parity.py",
+      "function_name": "_compute_parity_metrics",
+      "path": "tests/test_model_parity.py"
+    },
+    {
+      "complexity": 2,
+      "file_name": "test_model_parity.py",
+      "function_name": "_skip_if_no_hidden_states",
+      "path": "tests/test_model_parity.py"
+    },
+    {
+      "complexity": 2,
+      "file_name": "test_model_parity.py",
+      "function_name": "faster_forward_outputs",
+      "path": "tests/test_model_parity.py"
+    },
+    {
+      "complexity": 2,
+      "file_name": "test_model_parity.py",
+      "function_name": "forward_outputs",
+      "path": "tests/test_model_parity.py"
+    },
+    {
+      "complexity": 2,
+      "file_name": "test_model_parity.py",
+      "function_name": "test_faster_logits_output_cosine",
+      "path": "tests/test_model_parity.py"
+    },
+    {
+      "complexity": 2,
+      "file_name": "test_model_parity.py",
+      "function_name": "test_logits_kl_divergence",
+      "path": "tests/test_model_parity.py"
+    },
+    {
+      "complexity": 2,
+      "file_name": "test_model_parity.py",
+      "function_name": "test_logits_output_cosine",
+      "path": "tests/test_model_parity.py"
+    },
+    {
+      "complexity": 2,
+      "file_name": "test_model_parity.py",
+      "function_name": "test_logits_top_k_overlap",
+      "path": "tests/test_model_parity.py"
+    },
+    {
+      "complexity": 4,
+      "file_name": "test_model_parity.py",
+      "function_name": "_find_decoder_layers",
+      "path": "tests/test_model_parity.py"
+    },
+    {
+      "complexity": 4,
+      "file_name": "test_model_parity.py",
+      "function_name": "test_faster_hidden_state_cosine_similarity",
+      "path": "tests/test_model_parity.py"
+    },
+    {
+      "complexity": 4,
+      "file_name": "test_model_parity.py",
+      "function_name": "test_faster_hidden_state_diagnostics",
+      "path": "tests/test_model_parity.py"
+    },
+    {
+      "complexity": 4,
+      "file_name": "test_model_parity.py",
+      "function_name": "test_faster_hidden_state_max_abs_diff",
+      "path": "tests/test_model_parity.py"
+    },
+    {
+      "complexity": 4,
+      "file_name": "test_model_parity.py",
+      "function_name": "test_faster_hidden_state_relative_l2",
+      "path": "tests/test_model_parity.py"
+    },
+    {
+      "complexity": 4,
+      "file_name": "test_model_parity.py",
+      "function_name": "test_faster_hidden_state_snr",
+      "path": "tests/test_model_parity.py"
+    },
+    {
+      "complexity": 4,
+      "file_name": "test_model_parity.py",
+      "function_name": "test_hidden_state_cosine_similarity",
+      "path": "tests/test_model_parity.py"
+    },
+    {
+      "complexity": 4,
+      "file_name": "test_model_parity.py",
+      "function_name": "test_hidden_state_diagnostics",
+      "path": "tests/test_model_parity.py"
+    },
+    {
+      "complexity": 4,
+      "file_name": "test_model_parity.py",
+      "function_name": "test_hidden_state_max_abs_diff",
+      "path": "tests/test_model_parity.py"
+    },
+    {
+      "complexity": 4,
+      "file_name": "test_model_parity.py",
+      "function_name": "test_hidden_state_relative_l2",
+      "path": "tests/test_model_parity.py"
+    },
+    {
+      "complexity": 4,
+      "file_name": "test_model_parity.py",
+      "function_name": "test_hidden_state_snr",
+      "path": "tests/test_model_parity.py"
+    },
+    {
+      "complexity": 4,
+      "file_name": "test_model_parity.py",
+      "function_name": "test_tier2_write_report",
+      "path": "tests/test_model_parity.py"
+    },
+    {
+      "complexity": 6,
+      "file_name": "test_model_parity.py",
+      "function_name": "_register_hooks",
+      "path": "tests/test_model_parity.py"
+    },
+    {
+      "complexity": 6,
+      "file_name": "test_model_parity.py",
+      "function_name": "test_greedy_token_divergence",
+      "path": "tests/test_model_parity.py"
+    },
+    {
+      "complexity": 11,
+      "file_name": "test_model_parity.py",
+      "function_name": "_pair_pass",
+      "path": "tests/test_model_parity.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "bench_e2e.py",
+      "function_name": "_compute_stats",
+      "path": "benchmark/bench_e2e.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "bench_e2e.py",
+      "function_name": "_parse_args",
+      "path": "benchmark/bench_e2e.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "bench_e2e.py",
+      "function_name": "_peak_vram_gb",
+      "path": "benchmark/bench_e2e.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "bench_e2e.py",
+      "function_name": "_reset_gpu",
+      "path": "benchmark/bench_e2e.py"
+    },
+    {
+      "complexity": 1,
+      "file_name": "bench_e2e.py",
+      "function_name": "_calculate_rtf",
+      "path": "benchmark/bench_e2e.py"
+    },
+    {
+      "complexity": 1,
+      "file_name": "bench_e2e.py",
+      "function_name": "_format_table",
+      "path": "benchmark/bench_e2e.py"
+    },
+    {
+      "complexity": 3,
+      "file_name": "bench_e2e.py",
+      "function_name": "_measure_runs",
+      "path": "benchmark/bench_e2e.py"
+    },
+    {
+      "complexity": 4,
+      "file_name": "bench_e2e.py",
+      "function_name": "_get_runners",
+      "path": "benchmark/bench_e2e.py"
+    },
+    {
+      "complexity": 8,
+      "file_name": "bench_e2e.py",
+      "function_name": "run_e2e_benchmarks",
+      "path": "benchmark/bench_e2e.py"
+    },
+    {
+      "complexity": 10,
+      "file_name": "bench_e2e.py",
+      "function_name": "_check_cuda_graph_status",
+      "path": "benchmark/bench_e2e.py"
+    },
+    {
+      "complexity": 11,
+      "file_name": "bench_e2e.py",
+      "function_name": "bench_runner",
+      "path": "benchmark/bench_e2e.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "bench_kernels.py",
+      "function_name": "_measure_compile_time",
+      "path": "benchmark/bench_kernels.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "bench_kernels.py",
+      "function_name": "_peak_memory_mb",
+      "path": "benchmark/bench_kernels.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "bench_kernels.py",
+      "function_name": "_pytorch_fused_add_rms_norm",
+      "path": "benchmark/bench_kernels.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "bench_kernels.py",
+      "function_name": "_pytorch_rms_norm",
+      "path": "benchmark/bench_kernels.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "bench_kernels.py",
+      "function_name": "_pytorch_swiglu",
+      "path": "benchmark/bench_kernels.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "bench_kernels.py",
+      "function_name": "_reset_memory",
+      "path": "benchmark/bench_kernels.py"
+    },
+    {
+      "complexity": 1,
+      "file_name": "bench_kernels.py",
+      "function_name": "bench_fused_norm_residual",
+      "path": "benchmark/bench_kernels.py"
+    },
+    {
+      "complexity": 1,
+      "file_name": "bench_kernels.py",
+      "function_name": "bench_rms_norm",
+      "path": "benchmark/bench_kernels.py"
+    },
+    {
+      "complexity": 1,
+      "file_name": "bench_kernels.py",
+      "function_name": "bench_swiglu",
+      "path": "benchmark/bench_kernels.py"
+    },
+    {
+      "complexity": 3,
+      "file_name": "bench_kernels.py",
+      "function_name": "_format_table",
+      "path": "benchmark/bench_kernels.py"
+    },
+    {
+      "complexity": 4,
+      "file_name": "bench_kernels.py",
+      "function_name": "run_all_benchmarks",
+      "path": "benchmark/bench_kernels.py"
+    },
+    {
+      "complexity": 7,
+      "file_name": "bench_kernels.py",
+      "function_name": "bench_mrope",
+      "path": "benchmark/bench_kernels.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "eval_quality.py",
+      "function_name": "_compute_distribution_stats",
+      "path": "benchmark/eval_quality.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "eval_quality.py",
+      "function_name": "compute_cer",
+      "path": "benchmark/eval_quality.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "eval_quality.py",
+      "function_name": "compute_speaker_similarity",
+      "path": "benchmark/eval_quality.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "eval_quality.py",
+      "function_name": "compute_utmos",
+      "path": "benchmark/eval_quality.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "eval_quality.py",
+      "function_name": "generate_and_evaluate",
+      "path": "benchmark/eval_quality.py"
+    },
+    {
+      "complexity": 1,
+      "file_name": "eval_quality.py",
+      "function_name": "_get_utmos_predictor",
+      "path": "benchmark/eval_quality.py"
+    },
+    {
+      "complexity": 1,
+      "file_name": "eval_quality.py",
+      "function_name": "_get_voice_encoder",
+      "path": "benchmark/eval_quality.py"
+    },
+    {
+      "complexity": 1,
+      "file_name": "eval_quality.py",
+      "function_name": "_get_whisper_model",
+      "path": "benchmark/eval_quality.py"
+    },
+    {
+      "complexity": 4,
+      "file_name": "eval_quality.py",
+      "function_name": "_select_sentences",
+      "path": "benchmark/eval_quality.py"
+    },
+    {
+      "complexity": 5,
+      "file_name": "eval_quality.py",
+      "function_name": "main",
+      "path": "benchmark/eval_quality.py"
+    },
+    {
+      "complexity": 6,
+      "file_name": "eval_quality.py",
+      "function_name": "run_tier3",
+      "path": "benchmark/eval_quality.py"
+    },
+    {
+      "complexity": 7,
+      "file_name": "eval_quality.py",
+      "function_name": "_print_summary",
+      "path": "benchmark/eval_quality.py"
+    },
+    {
+      "complexity": 7,
+      "file_name": "eval_quality.py",
+      "function_name": "_run_model_evaluation",
+      "path": "benchmark/eval_quality.py"
+    },
+    {
+      "complexity": 9,
+      "file_name": "eval_quality.py",
+      "function_name": "_compute_speaker_similarities",
+      "path": "benchmark/eval_quality.py"
+    },
+    {
+      "complexity": 15,
+      "file_name": "eval_quality.py",
+      "function_name": "_compute_verdict",
+      "path": "benchmark/eval_quality.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "profiler.py",
+      "function_name": "_log_top_operations",
+      "path": "benchmark/profiler.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "profiler.py",
+      "function_name": "profile_forward_pass",
+      "path": "benchmark/profiler.py"
+    },
+    {
+      "complexity": 4,
+      "file_name": "profiler.py",
+      "function_name": "profile_kernel",
+      "path": "benchmark/profiler.py"
+    },
+    {
+      "complexity": 1,
+      "file_name": "run_verification.py",
+      "function_name": "_parse_pytest_line",
+      "path": "benchmark/run_verification.py"
+    },
+    {
+      "complexity": 2,
+      "file_name": "run_verification.py",
+      "function_name": "_load_tier2_artifact",
+      "path": "benchmark/run_verification.py"
+    },
+    {
+      "complexity": 5,
+      "file_name": "run_verification.py",
+      "function_name": "run_tier1",
+      "path": "benchmark/run_verification.py"
+    },
+    {
+      "complexity": 9,
+      "file_name": "run_verification.py",
+      "function_name": "main",
+      "path": "benchmark/run_verification.py"
+    },
+    {
+      "complexity": 10,
+      "file_name": "run_verification.py",
+      "function_name": "run_tier3_load",
+      "path": "benchmark/run_verification.py"
+    },
+    {
+      "complexity": 12,
+      "file_name": "run_verification.py",
+      "function_name": "_print_summary",
+      "path": "benchmark/run_verification.py"
+    },
+    {
+      "complexity": 12,
+      "file_name": "run_verification.py",
+      "function_name": "run_tier2",
+      "path": "benchmark/run_verification.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "app.py",
+      "function_name": "main",
+      "path": "ui/app.py"
+    },
+    {
+      "complexity": 1,
+      "file_name": "charts.py",
+      "function_name": "_normalize_runner_name",
+      "path": "ui/charts.py"
+    },
+    {
+      "complexity": 2,
+      "file_name": "charts.py",
+      "function_name": "render_kernel_chart",
+      "path": "ui/charts.py"
+    },
+    {
+      "complexity": 3,
+      "file_name": "charts.py",
+      "function_name": "render_comparison_chart",
+      "path": "ui/charts.py"
+    },
+    {
+      "complexity": 3,
+      "file_name": "charts.py",
+      "function_name": "render_layer_chart",
+      "path": "ui/charts.py"
+    },
+    {
+      "complexity": 4,
+      "file_name": "charts.py",
+      "function_name": "_find_entry",
+      "path": "ui/charts.py"
+    },
+    {
+      "complexity": 8,
+      "file_name": "charts.py",
+      "function_name": "render_e2e_chart",
+      "path": "ui/charts.py"
+    },
+    {
+      "complexity": 12,
+      "file_name": "charts.py",
+      "function_name": "render_tier3_radar",
+      "path": "ui/charts.py"
+    },
+    {
+      "complexity": 14,
+      "file_name": "charts.py",
+      "function_name": "render_tier2_heatmap",
+      "path": "ui/charts.py"
+    },
+    {
+      "complexity": 2,
+      "file_name": "gpu_info.py",
+      "function_name": "get_gpu_info",
+      "path": "ui/gpu_info.py"
+    },
+    {
+      "complexity": 3,
+      "file_name": "gpu_info.py",
+      "function_name": "_try_torch_cuda",
+      "path": "ui/gpu_info.py"
+    },
+    {
+      "complexity": 8,
+      "file_name": "gpu_info.py",
+      "function_name": "_try_pynvml",
+      "path": "ui/gpu_info.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "i18n.py",
+      "function_name": "I18n::__init__",
+      "path": "ui/i18n.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "i18n.py",
+      "function_name": "I18n::lang",
+      "path": "ui/i18n.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "i18n.py",
+      "function_name": "get_i18n",
+      "path": "ui/i18n.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "i18n.py",
+      "function_name": "t",
+      "path": "ui/i18n.py"
+    },
+    {
+      "complexity": 1,
+      "file_name": "i18n.py",
+      "function_name": "I18n::get",
+      "path": "ui/i18n.py"
+    },
+    {
+      "complexity": 1,
+      "file_name": "i18n.py",
+      "function_name": "I18n::set_language",
+      "path": "ui/i18n.py"
+    },
+    {
+      "complexity": 2,
+      "file_name": "i18n.py",
+      "function_name": "I18n::t",
+      "path": "ui/i18n.py"
+    },
+    {
+      "complexity": 3,
+      "file_name": "i18n.py",
+      "function_name": "I18n::_load_all",
+      "path": "ui/i18n.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "sidebar.py",
+      "function_name": "render_sidebar",
+      "path": "ui/sidebar.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "tab_benchmarks.py",
+      "function_name": "render_benchmarks_tab",
+      "path": "ui/tab_benchmarks.py"
+    },
+    {
+      "complexity": 1,
+      "file_name": "tab_benchmarks.py",
+      "function_name": "_normalize_runner",
+      "path": "ui/tab_benchmarks.py"
+    },
+    {
+      "complexity": 1,
+      "file_name": "tab_benchmarks.py",
+      "function_name": "_render_kernel_benchmarks",
+      "path": "ui/tab_benchmarks.py"
+    },
+    {
+      "complexity": 4,
+      "file_name": "tab_benchmarks.py",
+      "function_name": "_load_json_list",
+      "path": "ui/tab_benchmarks.py"
+    },
+    {
+      "complexity": 4,
+      "file_name": "tab_benchmarks.py",
+      "function_name": "_render_e2e_benchmarks",
+      "path": "ui/tab_benchmarks.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "tab_inference.py",
+      "function_name": "_generate_voice_clone",
+      "path": "ui/tab_inference.py"
+    },
+    {
+      "complexity": 3,
+      "file_name": "tab_inference.py",
+      "function_name": "_generate",
+      "path": "ui/tab_inference.py"
+    },
+    {
+      "complexity": 3,
+      "file_name": "tab_inference.py",
+      "function_name": "_get_runner",
+      "path": "ui/tab_inference.py"
+    },
+    {
+      "complexity": 5,
+      "file_name": "tab_inference.py",
+      "function_name": "render_inference_tab",
+      "path": "ui/tab_inference.py"
+    },
+    {
+      "complexity": 7,
+      "file_name": "tab_inference.py",
+      "function_name": "_display_results",
+      "path": "ui/tab_inference.py"
+    },
+    {
+      "complexity": 8,
+      "file_name": "tab_inference.py",
+      "function_name": "_render_controls",
+      "path": "ui/tab_inference.py"
+    },
+    {
+      "complexity": 10,
+      "file_name": "tab_inference.py",
+      "function_name": "_run_comparison",
+      "path": "ui/tab_inference.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "tab_overview.py",
+      "function_name": "render_overview_tab",
+      "path": "ui/tab_overview.py"
+    },
+    {
+      "complexity": 1,
+      "file_name": "tab_overview.py",
+      "function_name": "_normalize_runner",
+      "path": "ui/tab_overview.py"
+    },
+    {
+      "complexity": 2,
+      "file_name": "tab_overview.py",
+      "function_name": "_badge",
+      "path": "ui/tab_overview.py"
+    },
+    {
+      "complexity": 2,
+      "file_name": "tab_overview.py",
+      "function_name": "_load_e2e_benchmarks",
+      "path": "ui/tab_overview.py"
+    },
+    {
+      "complexity": 2,
+      "file_name": "tab_overview.py",
+      "function_name": "_load_verification_report",
+      "path": "ui/tab_overview.py"
+    },
+    {
+      "complexity": 4,
+      "file_name": "tab_overview.py",
+      "function_name": "_render_gpu_details",
+      "path": "ui/tab_overview.py"
+    },
+    {
+      "complexity": 10,
+      "file_name": "tab_overview.py",
+      "function_name": "_render_verification_summary",
+      "path": "ui/tab_overview.py"
+    },
+    {
+      "complexity": 12,
+      "file_name": "tab_overview.py",
+      "function_name": "_render_quick_benchmarks",
+      "path": "ui/tab_overview.py"
+    },
+    {
+      "complexity": 2,
+      "file_name": "tab_samples.py",
+      "function_name": "_load_metadata",
+      "path": "ui/tab_samples.py"
+    },
+    {
+      "complexity": 4,
+      "file_name": "tab_samples.py",
+      "function_name": "render_samples_tab",
+      "path": "ui/tab_samples.py"
+    },
+    {
+      "complexity": 9,
+      "file_name": "tab_samples.py",
+      "function_name": "_group_by_utterance",
+      "path": "ui/tab_samples.py"
+    },
+    {
+      "complexity": 15,
+      "file_name": "tab_samples.py",
+      "function_name": "_render_sample_group",
+      "path": "ui/tab_samples.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "tab_verification.py",
+      "function_name": "_scorecard_card",
+      "path": "ui/tab_verification.py"
+    },
+    {
+      "complexity": 1,
+      "file_name": "tab_verification.py",
+      "function_name": "_load_tier3_config",
+      "path": "ui/tab_verification.py"
+    },
+    {
+      "complexity": 2,
+      "file_name": "tab_verification.py",
+      "function_name": "_html_badge",
+      "path": "ui/tab_verification.py"
+    },
+    {
+      "complexity": 2,
+      "file_name": "tab_verification.py",
+      "function_name": "_load_verification_report",
+      "path": "ui/tab_verification.py"
+    },
+    {
+      "complexity": 2,
+      "file_name": "tab_verification.py",
+      "function_name": "_status_css_class",
+      "path": "ui/tab_verification.py"
+    },
+    {
+      "complexity": 5,
+      "file_name": "tab_verification.py",
+      "function_name": "_render_pair_card",
+      "path": "ui/tab_verification.py"
+    },
+    {
+      "complexity": 5,
+      "file_name": "tab_verification.py",
+      "function_name": "_render_tier3",
+      "path": "ui/tab_verification.py"
+    },
+    {
+      "complexity": 8,
+      "file_name": "tab_verification.py",
+      "function_name": "render_verification_tab",
+      "path": "ui/tab_verification.py"
+    },
+    {
+      "complexity": 9,
+      "file_name": "tab_verification.py",
+      "function_name": "_render_metric_with_bar",
+      "path": "ui/tab_verification.py"
+    },
+    {
+      "complexity": 9,
+      "file_name": "tab_verification.py",
+      "function_name": "_render_scorecard",
+      "path": "ui/tab_verification.py"
+    },
+    {
+      "complexity": 11,
+      "file_name": "tab_verification.py",
+      "function_name": "_render_tier2",
+      "path": "ui/tab_verification.py"
+    },
+    {
+      "complexity": 24,
+      "file_name": "tab_verification.py",
+      "function_name": "_render_tier1",
+      "path": "ui/tab_verification.py"
+    },
+    {
+      "complexity": 0,
+      "file_name": "utils.py",
+      "function_name": "calculate_ttfa_s",
+      "path": "ui/utils.py"
+    },
+    {
+      "complexity": 1,
+      "file_name": "utils.py",
+      "function_name": "format_speedup",
+      "path": "ui/utils.py"
+    },
+    {
+      "complexity": 1,
+      "file_name": "utils.py",
+      "function_name": "get_peak_vram_gb",
+      "path": "ui/utils.py"
+    },
+    {
+      "complexity": 1,
+      "file_name": "utils.py",
+      "function_name": "get_vram_usage_gb",
+      "path": "ui/utils.py"
+    },
+    {
+      "complexity": 1,
+      "file_name": "utils.py",
+      "function_name": "reset_vram_stats",
+      "path": "ui/utils.py"
+    },
+    {
+      "complexity": 2,
+      "file_name": "utils.py",
+      "function_name": "calculate_rtf",
+      "path": "ui/utils.py"
+    },
+    {
+      "complexity": 2,
+      "file_name": "utils.py",
+      "function_name": "format_delta_percent",
+      "path": "ui/utils.py"
+    },
+    {
+      "complexity": 2,
+      "file_name": "utils.py",
+      "function_name": "load_benchmark_results",
+      "path": "ui/utils.py"
+    }
+  ],
+  "targets": [
+    "/home/sewonkim/projects/qwen3-tts-triton/benchmark",
+    "/home/sewonkim/projects/qwen3-tts-triton/scripts",
+    "/home/sewonkim/projects/qwen3-tts-triton/src",
+    "/home/sewonkim/projects/qwen3-tts-triton/tests",
+    "/home/sewonkim/projects/qwen3-tts-triton/ui"
+  ]
+}

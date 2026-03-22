@@ -1,0 +1,152 @@
+name: Bug Report
+description: Report a bug or unexpected behavior
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting a bug! Please fill out the sections below so we can reproduce and fix it.
+
+        > **Note**: qwen3-tts-triton currently targets **RTX 5090 (Blackwell, sm_120, CUDA 12.8)**.
+        > Other GPU architectures (Ampere, Hopper, etc.) are not yet officially supported.
+        > If your issue is about running on a different GPU, please use the **Feature Request** template instead.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Bug Description
+      description: A clear and concise description of the bug.
+      placeholder: "When I run X, I expect Y but got Z instead."
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to Reproduce
+      description: Minimal code or commands to reproduce the issue.
+      placeholder: |
+        ```python
+        from qwen3_tts_triton import TritonRunner
+
+        runner = TritonRunner()
+        runner.load_model()
+        # ...
+        ```
+
+        Or CLI:
+        ```bash
+        tq3tts custom --speaker vivian --text "Hello" -o out.wav
+        ```
+    validations:
+      required: true
+
+  - type: textarea
+    id: traceback
+    attributes:
+      label: Error Traceback
+      description: Full error traceback (if applicable). This will be auto-formatted as code.
+      render: shell
+
+  - type: dropdown
+    id: install-method
+    attributes:
+      label: Installation Method
+      options:
+        - "pip install qwen3-tts-triton"
+        - "Source (uv sync / pip install -e .)"
+        - "Docker"
+        - "Other"
+    validations:
+      required: true
+
+  - type: input
+    id: package-version
+    attributes:
+      label: Package Version
+      description: "Output of: `python -c \"import qwen3_tts_triton; print(qwen3_tts_triton.__version__)\"`"
+      placeholder: "0.1.0"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: gpu-arch
+    attributes:
+      label: GPU Architecture
+      description: Select your GPU architecture. Check with `nvidia-smi`.
+      options:
+        - "Blackwell (sm_120) — RTX 5090/5080, B100/B200 [Supported]"
+        - "Hopper (sm_90) — H100/H200 [Not yet supported]"
+        - "Ada Lovelace (sm_89) — RTX 4090/4080 [Not yet supported]"
+        - "Ampere (sm_80/sm_86) — A100/RTX 3090 [Not yet supported]"
+        - "Other / Unknown"
+    validations:
+      required: true
+
+  - type: input
+    id: gpu-model
+    attributes:
+      label: GPU Model
+      description: "Exact GPU model. Output of: `nvidia-smi --query-gpu=name --format=csv,noheader`"
+      placeholder: "NVIDIA GeForce RTX 5090"
+    validations:
+      required: true
+
+  - type: input
+    id: gpu-vram
+    attributes:
+      label: GPU VRAM
+      description: "Total VRAM in GB. Output of: `nvidia-smi --query-gpu=memory.total --format=csv,noheader`"
+      placeholder: "32768 MiB"
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: |
+        Please paste the output of the following commands:
+        ```bash
+        python -c "import torch; print(f'PyTorch: {torch.__version__}, CUDA: {torch.version.cuda}, cuDNN: {torch.backends.cudnn.version()}')"
+        python -c "import triton; print(f'Triton: {triton.__version__}')"
+        nvidia-smi | head -4
+        python --version
+        uname -a
+        ```
+      render: shell
+    validations:
+      required: true
+
+  - type: dropdown
+    id: runner-mode
+    attributes:
+      label: Runner Mode
+      description: Which inference mode were you using?
+      options:
+        - "Base (no optimization)"
+        - "Triton (Triton kernels only)"
+        - "Faster (faster-qwen3-tts / CUDA Graph)"
+        - "Hybrid (Faster + Triton)"
+        - "Compile (torch.compile)"
+        - "Compile+Triton"
+        - "Not applicable"
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Context
+      description: Any other context, screenshots, or logs that may help.
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before Submitting
+      options:
+        - label: I have searched existing issues to ensure this is not a duplicate.
+          required: true
+        - label: I have read the [README](https://github.com/newgrit1004/qwen3-tts-triton#readme) and checked GPU requirements.
+          required: true
+        - label: I am using a supported GPU architecture (Blackwell sm_120), or I am reporting an architecture compatibility issue.
+          required: false

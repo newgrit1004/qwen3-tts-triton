@@ -1,0 +1,23 @@
+version: 2
+updates:
+  # GitHub Actions 의존성 업데이트
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    labels:
+      - "dependencies"
+      - "github-actions"
+
+  # pip 의존성 업데이트 (pyproject.toml)
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    labels:
+      - "dependencies"
+      - "python"
+    ignore:
+      # alpha/beta 버전 무시 (Ty는 수동 관리)
+      - dependency-name: "ty"
+        update-types: ["version-update:semver-major", "version-update:semver-minor"]

@@ -1,0 +1,62 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: check-added-large-files
+        name: Check added large files
+        args: ['--maxkb=1024']
+      - id: check-json
+        name: Check json
+      - id: check-merge-conflict
+        name: Check merge conflict
+      - id: check-yaml
+        name: Check yaml
+      - id: check-toml
+        name: Check toml
+      - id: end-of-file-fixer
+        name: End of file fixer
+      - id: pretty-format-json
+        name: Pretty format json
+        args:
+          - --autofix
+      - id: trailing-whitespace
+        name: Trailing whitespace
+      - id: detect-private-key
+        name: Detect private key
+        exclude: ^docs/
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.7.4
+    hooks:
+      - id: ruff
+        name: Lint with ruff
+        args: [--fix]
+      - id: ruff-format
+        name: Format with ruff
+
+  - repo: local
+    hooks:
+      - id: ty
+        name: Type check with ty
+        entry: uv run ty check
+        language: system
+        types: [python]
+        pass_filenames: false
+
+  # Complexipy (cognitive complexity)
+  - repo: https://github.com/rohaquinlop/complexipy-pre-commit
+    rev: v3.3.0
+    hooks:
+      - id: complexipy
+        name: Check cognitive complexity
+        args: [--max-complexity-allowed, "15"]
+
+  # Skylos (dead code detection) - using bash wrapper to check exit properly
+  - repo: local
+    hooks:
+      - id: skylos-dead-code
+        name: Check for dead code
+        entry: bash -c 'output=$(uv run skylos src/ -c 80 2>&1); echo "$output"; if echo "$output" | grep -q "Unused functions:\s*[1-9]"; then exit 1; fi'
+        language: system
+        pass_filenames: false
+        types: [python]

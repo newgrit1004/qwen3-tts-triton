@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "description": "Memory MCP server configuration for persistent knowledge",
+  "documentation": {
+    "best_practices": [
+      "Use descriptive keys for stored values",
+      "Organize entities by type (class, function, module)",
+      "Document relationships between components",
+      "Periodically review and clean up stale data"
+    ],
+    "capabilities": [
+      "Store key-value pairs",
+      "Retrieve stored information",
+      "Create knowledge graph entities",
+      "Define relationships between entities",
+      "Search stored knowledge",
+      "Persist data across sessions"
+    ],
+    "data_format": "JSON-based knowledge graph",
+    "description": "Persistent memory for storing information across sessions",
+    "examples": {
+      "create_entity": {
+        "action": "create_entity",
+        "name": "UserService",
+        "properties": {
+          "file": "src/services/user.py",
+          "purpose": "Handle user operations"
+        },
+        "type": "class"
+      },
+      "create_relation": {
+        "action": "create_relation",
+        "from": "UserService",
+        "to": "UserRepository",
+        "type": "depends_on"
+      },
+      "store_preference": {
+        "action": "store",
+        "key": "code_style",
+        "value": "PEP 8 with 88 char line length"
+      }
+    },
+    "setup": {
+      "1": "Copy this configuration to ~/.claude.json",
+      "2": "Restart Claude Code",
+      "3": "Memory will be created automatically on first use"
+    },
+    "storage_location": "~/.claude-memory/",
+    "use_cases": [
+      "Remember user preferences",
+      "Store project-specific knowledge",
+      "Track decisions and their rationale",
+      "Maintain context across long projects",
+      "Build knowledge graphs of codebases"
+    ]
+  },
+  "mcpServers": {
+    "memory": {
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-memory"
+      ],
+      "command": "npx"
+    }
+  }
+}

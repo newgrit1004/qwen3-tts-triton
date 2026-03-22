@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Questions & Discussion
+    url: https://github.com/newgrit1004/qwen3-tts-triton/issues
+    about: For general questions, please open an issue with the appropriate template.
+  - name: GPU Compatibility Matrix
+    url: https://github.com/newgrit1004/qwen3-tts-triton#readme
+    about: Check the README for supported GPU architectures and CUDA versions.
