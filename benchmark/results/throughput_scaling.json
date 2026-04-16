@@ -1,0 +1,84 @@
+{
+  "context_scaling": [
+    {
+      "baseline_vram_gb": 3.888,
+      "max_new_tokens": 500,
+      "mode": "triton",
+      "oom": false,
+      "peak_vram_gb": 4.033,
+      "successful_runs": 3,
+      "time_mean_s": 3.666,
+      "time_std_s": 0.283
+    },
+    {
+      "baseline_vram_gb": 3.888,
+      "max_new_tokens": 1000,
+      "mode": "triton",
+      "oom": false,
+      "peak_vram_gb": 4.029,
+      "successful_runs": 3,
+      "time_mean_s": 3.628,
+      "time_std_s": 0.127
+    },
+    {
+      "baseline_vram_gb": 3.888,
+      "max_new_tokens": 2000,
+      "mode": "triton",
+      "oom": false,
+      "peak_vram_gb": 4.126,
+      "successful_runs": 3,
+      "time_mean_s": 4.404,
+      "time_std_s": 1.519
+    },
+    {
+      "baseline_vram_gb": 3.888,
+      "max_new_tokens": 4000,
+      "mode": "triton",
+      "oom": false,
+      "peak_vram_gb": 4.017,
+      "successful_runs": 3,
+      "time_mean_s": 3.344,
+      "time_std_s": 0.032
+    },
+    {
+      "baseline_vram_gb": 3.926,
+      "max_new_tokens": 500,
+      "mode": "triton+tq",
+      "oom": false,
+      "peak_vram_gb": 4.074,
+      "successful_runs": 3,
+      "time_mean_s": 3.73,
+      "time_std_s": 0.388
+    },
+    {
+      "baseline_vram_gb": 3.926,
+      "max_new_tokens": 1000,
+      "mode": "triton+tq",
+      "oom": false,
+      "peak_vram_gb": 4.067,
+      "successful_runs": 3,
+      "time_mean_s": 3.796,
+      "time_std_s": 0.252
+    },
+    {
+      "baseline_vram_gb": 3.926,
+      "max_new_tokens": 2000,
+      "mode": "triton+tq",
+      "oom": false,
+      "peak_vram_gb": 4.076,
+      "successful_runs": 3,
+      "time_mean_s": 3.926,
+      "time_std_s": 0.524
+    },
+    {
+      "baseline_vram_gb": 3.926,
+      "max_new_tokens": 4000,
+      "mode": "triton+tq",
+      "oom": false,
+      "peak_vram_gb": 4.083,
+      "successful_runs": 3,
+      "time_mean_s": 3.672,
+      "time_std_s": 0.61
+    }
+  ]
+}

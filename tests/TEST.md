@@ -6,22 +6,29 @@ Inspired by Liger Kernel (LinkedIn) and adapted for TTS inference optimization.
 
 | Tier | What it proves | How | Time |
 |------|---------------|-----|------|
-| **Tier 1** | Each kernel is numerically correct | atol/rtol vs PyTorch reference | ~2s |
+| **Tier 1** | Kernel math is correct and non-GPU release guards still hold | PyTorch reference tests + CPU-only regression checks | ~10-15s |
 | **Tier 2** | 28-layer model output is preserved | Multi-metric parity comparison | ~15s, GPU |
-| **Tier 3** | End-to-end speech quality is equivalent | Independent distribution comparison | ~5-30min, GPU |
+| **Tier 3** | End-to-end speech quality is equivalent | Independent distribution comparison | ~15-80min, GPU |
 
 ```bash
 make test          # Tier 1
 make test-parity   # Tier 2
-make verify        # Tier 1 + 2
-make verify-all    # Tier 1 + 2 + 3
+make eval-fast     # Tier 3 fast artifact
+make eval-full     # Tier 3 full artifact
+make verify        # Tier 1 + 2 + existing Tier 3 artifact report
+make verify-all    # eval-full + consolidated 3-Tier report
 ```
 
-## Tier 1: Kernel Correctness
+## Tier 1: Kernel Correctness + CPU-only Regressions
 
 Every Triton kernel is tested against a pure PyTorch reference implementation.
 Tests live in `tests/kernels/` and follow a 5-stage pattern adapted from
 [autokernel](https://github.com/RightNow-AI/autokernel):
+
+`make test` and `benchmark.run_verification` also include CPU-only regression
+tests for partial patching, benchmark table generation, and release-facing
+Makefile/doc artifacts. Those extra guards are why the current Tier 1 artifact
+reports 197 passing tests instead of just the kernel-only subset.
 
 ### 1. Accuracy (smoke + shape sweep)
 
@@ -115,7 +122,10 @@ waveforms each run. Instead, we follow the vLLM/TensorRT-LLM pattern:
 2. Per-sample task metrics: CER (ASR accuracy), UTMOS (quality), speaker similarity
 3. Compare **distributions** via mean delta + Mann-Whitney U test
 
-See `docs/verification-tiers.md` for full threshold details.
+Threshold summary: UTMOS `|mean delta| < 0.3`, both means `> 2.5`,
+CER `|mean delta| < 0.05`, speaker similarity mean `> 0.75`, and
+Mann-Whitney U `p > 0.05` in full mode. Run `make verify-all` for the
+release gate, or `make eval-fast` when you only need a smoke-check artifact.
 
 ## Test Organization
 
@@ -124,12 +134,18 @@ tests/
 ├── conftest.py                # device() fixture (shared)
 ├── kernels/                   # Tier 1: kernel correctness
 │   ├── conftest.py            # hidden_size, eps, intermediate_size
+│   ├── test_fused_dequant.py  # Fused dequant kernel
 │   ├── test_utils.py          # calculate_settings()
 │   ├── test_rms_norm.py       # RMSNorm kernel
 │   ├── test_rope.py           # M-RoPE kernel
 │   ├── test_swiglu.py         # SwiGLU kernel
-│   └── test_fused_norm.py     # Fused Add+RMSNorm kernel
-└── test_model_parity.py       # Tier 2: model-level parity
+│   ├── test_fused_norm.py     # Fused Add+RMSNorm kernel
+│   └── test_turboquant.py     # TurboQuant kernels
+├── test_model_parity.py       # Tier 2: model-level parity
+├── test_partial_patching.py   # Partial patching regressions
+├── test_generate_bench_tables.py  # README/doc benchmark rendering
+├── test_makefile_targets.py   # verify-all/release metadata guards
+└── test_eval_quality_defaults.py  # Tier 3 default runner coverage
 ```
 
 ## Principles

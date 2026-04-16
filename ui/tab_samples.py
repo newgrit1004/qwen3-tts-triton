@@ -18,12 +18,23 @@ logger = logging.getLogger(__name__)
 _SAMPLES_DIR = Path(__file__).resolve().parent.parent / "assets" / "audio_samples"
 _METADATA_PATH = _SAMPLES_DIR / "metadata.json"
 
-_MODES = ["base", "triton", "faster", "hybrid"]
+_MODES = [
+    "base",
+    "base+tq",
+    "triton",
+    "triton+tq",
+    "faster",
+    "hybrid",
+    "hybrid+tq",
+]
 _MODE_LABELS = {
     "base": "Base (PyTorch)",
+    "base+tq": "Base+TQ (PyTorch+INT4 KV)",
     "triton": "Triton",
+    "triton+tq": "Triton+TQ (INT4 KV)",
     "faster": "Faster (CUDA Graph)",
     "hybrid": "Hybrid (Faster+Triton)",
+    "hybrid+tq": "Hybrid+TQ (Faster+Triton+INT4 KV)",
 }
 
 

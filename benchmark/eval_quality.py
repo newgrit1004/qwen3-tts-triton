@@ -11,10 +11,10 @@ Methodology follows vLLM/TensorRT-LLM pattern:
 - Distribution equivalence is verified via mean delta + Mann-Whitney U test
 
 Usage:
-    # Fast CI evaluation (~5 min, whisper-small, 1 run/sentence)
+    # Fast CI evaluation (~15 min, Cohere Transcribe, 1 run/sentence)
     python -m benchmark.eval_quality --mode fast
 
-    # Full PR gate evaluation (~30 min, whisper-large-v3, 3 runs/sentence)
+    # Full PR gate evaluation (~80 min, Cohere Transcribe, 3 runs/sentence)
     python -m benchmark.eval_quality --mode full
 """
 
@@ -37,7 +37,7 @@ RESULTS_DIR = Path(__file__).parent / "results"
 OUTPUTS_DIR = Path(__file__).parent / "output" / "eval"
 
 # Cache for expensive model loads
-_whisper_model_cache: dict[str, Any] = {}
+_cohere_asr_cache: dict[str, tuple[Any, Any]] = {}  # {model_id: (processor, model)}
 _utmos_predictor_cache: list[Any] = []
 _voice_encoder_cache: list[Any] = []
 
@@ -47,13 +47,20 @@ _voice_encoder_cache: list[Any] = []
 # ────────────────────────────────────────────────────────────
 
 
-def _get_whisper_model(model_size: str) -> Any:
-    """Load and cache Whisper ASR model."""
-    if model_size not in _whisper_model_cache:
-        import whisper
+def _get_cohere_asr(model_id: str) -> tuple[Any, Any]:
+    """Load and cache Cohere Transcribe ASR model."""
+    if model_id not in _cohere_asr_cache:
+        from transformers import AutoModelForSpeechSeq2Seq, AutoProcessor
 
-        _whisper_model_cache[model_size] = whisper.load_model(model_size)
-    return _whisper_model_cache[model_size]
+        device = "cuda:0" if torch.cuda.is_available() else "cpu"
+        processor = AutoProcessor.from_pretrained(model_id, trust_remote_code=True)
+        model = AutoModelForSpeechSeq2Seq.from_pretrained(
+            model_id,
+            trust_remote_code=True,
+        ).to(device)
+        model.eval()
+        _cohere_asr_cache[model_id] = (processor, model)
+    return _cohere_asr_cache[model_id]
 
 
 def _get_utmos_predictor() -> Any:
@@ -85,14 +92,19 @@ def _get_voice_encoder() -> Any:
 def compute_cer(
     wav_path: str | Path,
     ground_truth: str,
-    asr_model: str = "small",
+    asr_model: str,
+    language: str,
 ) -> dict[str, Any]:
     """Compute CER for a single WAV against ground truth text."""
     from jiwer import cer
 
-    model = _get_whisper_model(asr_model)
-    result = model.transcribe(str(wav_path), language=None)
-    transcript = result["text"].strip()
+    processor, model = _get_cohere_asr(asr_model)
+    texts = model.transcribe(
+        processor=processor,
+        audio_files=[str(wav_path)],
+        language=language,
+    )
+    transcript = texts[0].strip()
 
     cer_value = cer(ground_truth, transcript)
     return {
@@ -152,7 +164,7 @@ def generate_and_evaluate(
         runner_name: Name for file naming (e.g., 'base', 'triton').
         idx: Sentence index.
         run: Run number (for multi-run modes).
-        asr_model: Whisper model size for CER computation.
+        asr_model: ASR model ID for CER computation.
 
     Returns:
         Dict with wav_path, cer, utmos, and metadata.
@@ -164,7 +176,9 @@ def generate_and_evaluate(
     wav_path = output_dir / f"{runner_name}_{idx:03d}_r{run}.wav"
     sf.write(str(wav_path), audio, sr)
 
-    cer_result = compute_cer(wav_path, sentence["text"], asr_model)
+    cer_result = compute_cer(
+        wav_path, sentence["text"], asr_model, sentence["language"]
+    )
     utmos_score = compute_utmos(wav_path)
 
     return {
@@ -180,7 +194,7 @@ def generate_and_evaluate(
 
 
 def _run_model_evaluation(
-    runner_cls: type,
+    runner_factory: type,
     runner_name: str,
     sentences: list[dict[str, str]],
     runs_per_sentence: int,
@@ -191,18 +205,19 @@ def _run_model_evaluation(
     """Generate and evaluate all sentences with one model.
 
     Args:
-        runner_cls: Runner class to instantiate.
+        runner_factory: Callable that returns a runner instance (class or
+            zero-argument factory).
         runner_name: Name identifier for the runner.
         sentences: List of sentence dicts.
         runs_per_sentence: Number of generations per sentence.
         output_dir: Output directory for WAV files.
-        asr_model: Whisper model size.
+        asr_model: ASR model ID.
         warmup_runs: Number of warmup generations.
 
     Returns:
         List of per-sample result dicts.
     """
-    runner = runner_cls()
+    runner = runner_factory()
     results: list[dict[str, Any]] = []
 
     try:
@@ -426,6 +441,27 @@ def _compute_speaker_similarities(
 # ────────────────────────────────────────────────────────────
 
 
+def _make_runner_factory(name: str) -> type:
+    """Return a zero-argument callable that constructs a runner by name.
+
+    Supports TurboQuant variants (``'triton+tq'``, ``'hybrid+tq'``) via
+    ``create_runner``.  Plain names use the runner class directly so the
+    existing ``runner_cls()`` call pattern is preserved.
+
+    Args:
+        name: Runner name, e.g. ``'base'``, ``'triton+tq'``.
+
+    Returns:
+        A zero-argument callable returning a runner instance.
+    """
+    from qwen3_tts_triton.models import create_runner
+
+    def _factory() -> object:
+        return create_runner(name)
+
+    return _factory  # type: ignore[return-value]
+
+
 def run_tier3(
     mode: str = "fast",
     ref_runner: str = "base",
@@ -437,17 +473,18 @@ def run_tier3(
     the reference independently.
 
     Args:
-        mode: 'fast' (1 run, whisper-small) or 'full' (3 runs, whisper-large-v3).
+        mode: 'fast' (1 run) or 'full' (3 runs, Mann-Whitney).
         ref_runner: Reference runner name (default: 'base').
-        opt_runners: Optimized runner names (default: all available runners).
+        opt_runners: Optimized runner names (default: all release runners
+            except the reference runner).
 
     Returns:
         Complete evaluation result dict with per-runner comparisons.
     """
-    from qwen3_tts_triton.models import get_runner_class
-
     if opt_runners is None:
-        opt_runners = ["triton", "faster", "hybrid"]
+        from qwen3_tts_triton.models import ALL_RUNNER_NAMES
+
+        opt_runners = [name for name in ALL_RUNNER_NAMES if name != ref_runner]
 
     tier3_cfg = EVAL_CONFIG["tier3"]
     warmup = int(EVAL_CONFIG["warmup_runs"])
@@ -457,9 +494,7 @@ def run_tier3(
         if mode == "fast"
         else tier3_cfg["runs_per_sentence_full"]
     )
-    asr_model = (
-        tier3_cfg["asr_model_fast"] if mode == "fast" else tier3_cfg["asr_model_full"]
-    )
+    asr_model = tier3_cfg["asr_model"]
 
     sentences = _select_sentences(mode)
     output_dir = OUTPUTS_DIR / f"multi_{mode}"
@@ -480,7 +515,7 @@ def run_tier3(
     # Phase 1: Generate reference samples once
     logger.info("Phase 1: Generating with %s (reference)...", ref_runner)
     ref_results = _run_model_evaluation(
-        get_runner_class(ref_runner),
+        _make_runner_factory(ref_runner),
         ref_runner,
         sentences,
         runs_per_sentence,
@@ -494,7 +529,7 @@ def run_tier3(
     for opt_name in opt_runners:
         logger.info("Phase 1: Generating with %s...", opt_name)
         opt_samples[opt_name] = _run_model_evaluation(
-            get_runner_class(opt_name),
+            _make_runner_factory(opt_name),
             opt_name,
             sentences,
             runs_per_sentence,

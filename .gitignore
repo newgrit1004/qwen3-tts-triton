@@ -2,6 +2,7 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=python
 
 ### Custom ###
+.codex
 .claude/
 CLAUDE.md
 .omc/

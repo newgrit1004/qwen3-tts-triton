@@ -1,20 +1,23 @@
 {
-  "generated_at": "2026-03-22T13:11:26.131198+00:00",
+  "generated_at": "2026-03-26T13:22:20.086420+00:00",
   "model_id": "Qwen/Qwen3-TTS-12Hz-1.7B-CustomVoice",
   "modes": [
     "base",
+    "base+tq",
     "triton",
+    "triton+tq",
     "faster",
-    "hybrid"
+    "hybrid",
+    "hybrid+tq"
   ],
   "ref_audio": "assets/reference_audio/ljspeech_sample.wav",
   "ref_text": "so subversive of meditation, so disturbing to the thoughts;",
   "sample_rate": 24000,
   "samples": [
     {
-      "duration_s": 3.2,
+      "duration_s": 3.52,
       "file": "base/ko_01.wav",
-      "generation_time_s": 6.7,
+      "generation_time_s": 5.27,
       "language": "ko",
       "language_name": "Korean",
       "mode": "base",
@@ -23,9 +26,9 @@
       "type": "custom"
     },
     {
-      "duration_s": 6.4,
+      "duration_s": 6.72,
       "file": "base/ko_02.wav",
-      "generation_time_s": 6.44,
+      "generation_time_s": 6.17,
       "language": "ko",
       "language_name": "Korean",
       "mode": "base",
@@ -34,9 +37,9 @@
       "type": "custom"
     },
     {
-      "duration_s": 9.44,
+      "duration_s": 8.72,
       "file": "base/ko_03.wav",
-      "generation_time_s": 10.26,
+      "generation_time_s": 8.38,
       "language": "ko",
       "language_name": "Korean",
       "mode": "base",
@@ -45,9 +48,9 @@
       "type": "custom"
     },
     {
-      "duration_s": 8.56,
+      "duration_s": 9.12,
       "file": "base/ko_04.wav",
-      "generation_time_s": 9.55,
+      "generation_time_s": 8.06,
       "language": "ko",
       "language_name": "Korean",
       "mode": "base",
@@ -56,9 +59,9 @@
       "type": "custom"
     },
     {
-      "duration_s": 11.52,
+      "duration_s": 10.08,
       "file": "base/ko_05.wav",
-      "generation_time_s": 12.35,
+      "generation_time_s": 9.06,
       "language": "ko",
       "language_name": "Korean",
       "mode": "base",
@@ -67,9 +70,9 @@
       "type": "custom"
     },
     {
-      "duration_s": 2.08,
+      "duration_s": 2.0,
       "file": "base/en_01.wav",
-      "generation_time_s": 2.14,
+      "generation_time_s": 1.84,
       "language": "en",
       "language_name": "English",
       "mode": "base",
@@ -78,9 +81,9 @@
       "type": "custom"
     },
     {
-      "duration_s": 6.96,
+      "duration_s": 6.24,
       "file": "base/en_02.wav",
-      "generation_time_s": 7.34,
+      "generation_time_s": 5.57,
       "language": "en",
       "language_name": "English",
       "mode": "base",
@@ -89,9 +92,9 @@
       "type": "custom"
     },
     {
-      "duration_s": 20.72,
+      "duration_s": 15.2,
       "file": "base/en_03.wav",
-      "generation_time_s": 25.14,
+      "generation_time_s": 13.71,
       "language": "en",
       "language_name": "English",
       "mode": "base",
@@ -100,9 +103,9 @@
       "type": "custom"
     },
     {
-      "duration_s": 13.12,
+      "duration_s": 14.0,
       "file": "base/en_04.wav",
-      "generation_time_s": 18.47,
+      "generation_time_s": 12.75,
       "language": "en",
       "language_name": "English",
       "mode": "base",
@@ -111,9 +114,9 @@
       "type": "custom"
     },
     {
-      "duration_s": 12.96,
+      "duration_s": 14.08,
       "file": "base/en_05.wav",
-      "generation_time_s": 15.75,
+      "generation_time_s": 12.77,
       "language": "en",
       "language_name": "English",
       "mode": "base",
@@ -122,9 +125,9 @@
       "type": "custom"
     },
     {
-      "duration_s": 3.44,
+      "duration_s": 3.36,
       "file": "base/clone_ko_01.wav",
-      "generation_time_s": 29.18,
+      "generation_time_s": 18.24,
       "language": "ko",
       "language_name": "Korean",
       "mode": "base",
@@ -132,177 +135,15 @@
       "ref_text": "so subversive of meditation, so disturbing to the thoughts;",
       "style": "conversation",
       "text": "\uc548\ub155\ud558\uc138\uc694, \ud074\ub860\ub41c \ubaa9\uc18c\ub9ac\ub85c \uc778\uc0ac\ub4dc\ub9bd\ub2c8\ub2e4.",
-      "type": "clone"
-    },
-    {
-      "duration_s": 7.36,
-      "file": "base/clone_ko_02.wav",
-      "generation_time_s": 7.68,
-      "language": "ko",
-      "language_name": "Korean",
-      "mode": "base",
-      "ref_audio": "assets/reference_audio/ljspeech_sample.wav",
-      "ref_text": "so subversive of meditation, so disturbing to the thoughts;",
-      "style": "technical",
-      "text": "\uc74c\uc131 \ud074\ub85c\ub2dd \uae30\uc220\uc740 \ucc38\uc870 \uc624\ub514\uc624\uc758 \ud654\uc790 \ud2b9\uc131\uc744 \ucd94\ucd9c\ud558\uc5ec \uc0c8\ub85c\uc6b4 \ud14d\uc2a4\ud2b8\uc5d0 \uc801\uc6a9\ud569\ub2c8\ub2e4.",
-      "type": "clone"
-    },
-    {
-      "duration_s": 4.32,
-      "file": "base/clone_en_01.wav",
-      "generation_time_s": 4.67,
-      "language": "en",
-      "language_name": "English",
-      "mode": "base",
-      "ref_audio": "assets/reference_audio/ljspeech_sample.wav",
-      "ref_text": "so subversive of meditation, so disturbing to the thoughts;",
-      "style": "conversation",
-      "text": "Hello, this voice was cloned from a reference audio sample.",
       "type": "clone"
     },
     {
       "duration_s": 7.12,
-      "file": "base/clone_en_02.wav",
-      "generation_time_s": 7.46,
-      "language": "en",
-      "language_name": "English",
+      "file": "base/clone_ko_02.wav",
+      "generation_time_s": 6.82,
+      "language": "ko",
+      "language_name": "Korean",
       "mode": "base",
-      "ref_audio": "assets/reference_audio/ljspeech_sample.wav",
-      "ref_text": "so subversive of meditation, so disturbing to the thoughts;",
-      "style": "technical",
-      "text": "Voice cloning extracts speaker characteristics from reference audio and applies them to new text.",
-      "type": "clone"
-    },
-    {
-      "duration_s": 3.68,
-      "file": "triton/ko_01.wav",
-      "generation_time_s": 3.74,
-      "language": "ko",
-      "language_name": "Korean",
-      "mode": "triton",
-      "style": "conversation",
-      "text": "\uc548\ub155\ud558\uc138\uc694, \uc624\ub298 \ud558\ub8e8\ub3c4 \uc88b\uc740 \ud558\ub8e8 \ubcf4\ub0b4\uc138\uc694.",
-      "type": "custom"
-    },
-    {
-      "duration_s": 6.48,
-      "file": "triton/ko_02.wav",
-      "generation_time_s": 5.29,
-      "language": "ko",
-      "language_name": "Korean",
-      "mode": "triton",
-      "style": "news",
-      "text": "\uc815\ubd80\ub294 \uc624\ub298 \uc0c8\ub85c\uc6b4 \uacbd\uc81c \uc815\ucc45\uc744 \ubc1c\ud45c\ud558\uba70, \ud558\ubc18\uae30 \uc131\uc7a5\ub960 \ubaa9\ud45c\ub97c \uc0c1\ud5a5 \uc870\uc815\ud588\uc2b5\ub2c8\ub2e4.",
-      "type": "custom"
-    },
-    {
-      "duration_s": 9.6,
-      "file": "triton/ko_03.wav",
-      "generation_time_s": 8.21,
-      "language": "ko",
-      "language_name": "Korean",
-      "mode": "triton",
-      "style": "technical",
-      "text": "\ud2b8\ub9ac\ud1a4 \ucee4\ub110 \ud4e8\uc804\uc740 RMSNorm\uacfc \uc794\ucc28 \uc5f0\uacb0\uc744 \ud558\ub098\uc758 GPU \ucee4\ub110\ub85c \ud569\uccd0 \uba54\ubaa8\ub9ac \ub300\uc5ed\ud3ed\uc744 \uc808\uc57d\ud569\ub2c8\ub2e4.",
-      "type": "custom"
-    },
-    {
-      "duration_s": 7.2,
-      "file": "triton/ko_04.wav",
-      "generation_time_s": 5.91,
-      "language": "ko",
-      "language_name": "Korean",
-      "mode": "triton",
-      "style": "emotional",
-      "text": "\uc624\ub79c \uc2dc\uac04\uc774 \ud758\ub7ec \ub2e4\uc2dc \ucc3e\uc740 \uace0\ud5a5\uc758 \uace8\ubaa9\uae38\uc5d0\uc11c, \uc5b4\ub9b0 \uc2dc\uc808\uc758 \ucd94\uc5b5\uc774 \ubb3c\ubc00\ub4ef \ubc00\ub824\uc654\uc2b5\ub2c8\ub2e4.",
-      "type": "custom"
-    },
-    {
-      "duration_s": 9.2,
-      "file": "triton/ko_05.wav",
-      "generation_time_s": 7.89,
-      "language": "ko",
-      "language_name": "Korean",
-      "mode": "triton",
-      "style": "descriptive",
-      "text": "\ub300\uaddc\ubaa8 \uc5b8\uc5b4 \ubaa8\ub378 \uae30\ubc18\uc758 \uc74c\uc131 \ud569\uc131 \uc2dc\uc2a4\ud15c\uc740 \ud14d\uc2a4\ud2b8\ub97c \uc785\ub825\ubc1b\uc544 \uc790\uc5f0\uc2a4\ub7ec\uc6b4 \uc74c\uc131\uc744 \uc0dd\uc131\ud558\uba70, \ub2e4\uc591\ud55c \ud654\uc790\uc640 \uc2a4\ud0c0\uc77c\uc744 \uc9c0\uc6d0\ud569\ub2c8\ub2e4.",
-      "type": "custom"
-    },
-    {
-      "duration_s": 2.16,
-      "file": "triton/en_01.wav",
-      "generation_time_s": 1.88,
-      "language": "en",
-      "language_name": "English",
-      "mode": "triton",
-      "style": "conversation",
-      "text": "Hi there! How are you doing today?",
-      "type": "custom"
-    },
-    {
-      "duration_s": 6.32,
-      "file": "triton/en_02.wav",
-      "generation_time_s": 5.35,
-      "language": "en",
-      "language_name": "English",
-      "mode": "triton",
-      "style": "news",
-      "text": "The Federal Reserve announced a quarter-point rate cut on Wednesday, signaling a shift in monetary policy.",
-      "type": "custom"
-    },
-    {
-      "duration_s": 10.64,
-      "file": "triton/en_03.wav",
-      "generation_time_s": 9.16,
-      "language": "en",
-      "language_name": "English",
-      "mode": "triton",
-      "style": "technical",
-      "text": "Triton kernel fusion merges RMSNorm and residual addition into a single GPU kernel, reducing memory bandwidth by eliminating intermediate tensor allocations.",
-      "type": "custom"
-    },
-    {
-      "duration_s": 11.44,
-      "file": "triton/en_04.wav",
-      "generation_time_s": 10.04,
-      "language": "en",
-      "language_name": "English",
-      "mode": "triton",
-      "style": "emotional",
-      "text": "She stood at the edge of the cliff, watching the sunset paint the sky in shades of gold and crimson, feeling the weight of the world slowly lift from her shoulders.",
-      "type": "custom"
-    },
-    {
-      "duration_s": 14.8,
-      "file": "triton/en_05.wav",
-      "generation_time_s": 12.57,
-      "language": "en",
-      "language_name": "English",
-      "mode": "triton",
-      "style": "descriptive",
-      "text": "Modern text-to-speech systems leverage transformer architectures to generate high-fidelity audio that captures subtle prosodic variations, emotional nuances, and speaker characteristics.",
-      "type": "custom"
-    },
-    {
-      "duration_s": 3.28,
-      "file": "triton/clone_ko_01.wav",
-      "generation_time_s": 9.61,
-      "language": "ko",
-      "language_name": "Korean",
-      "mode": "triton",
-      "ref_audio": "assets/reference_audio/ljspeech_sample.wav",
-      "ref_text": "so subversive of meditation, so disturbing to the thoughts;",
-      "style": "conversation",
-      "text": "\uc548\ub155\ud558\uc138\uc694, \ud074\ub860\ub41c \ubaa9\uc18c\ub9ac\ub85c \uc778\uc0ac\ub4dc\ub9bd\ub2c8\ub2e4.",
-      "type": "clone"
-    },
-    {
-      "duration_s": 7.44,
-      "file": "triton/clone_ko_02.wav",
-      "generation_time_s": 7.64,
-      "language": "ko",
-      "language_name": "Korean",
-      "mode": "triton",
       "ref_audio": "assets/reference_audio/ljspeech_sample.wav",
       "ref_text": "so subversive of meditation, so disturbing to the thoughts;",
       "style": "technical",
@@ -311,8 +152,332 @@
     },
     {
       "duration_s": 4.24,
+      "file": "base/clone_en_01.wav",
+      "generation_time_s": 3.78,
+      "language": "en",
+      "language_name": "English",
+      "mode": "base",
+      "ref_audio": "assets/reference_audio/ljspeech_sample.wav",
+      "ref_text": "so subversive of meditation, so disturbing to the thoughts;",
+      "style": "conversation",
+      "text": "Hello, this voice was cloned from a reference audio sample.",
+      "type": "clone"
+    },
+    {
+      "duration_s": 6.64,
+      "file": "base/clone_en_02.wav",
+      "generation_time_s": 5.89,
+      "language": "en",
+      "language_name": "English",
+      "mode": "base",
+      "ref_audio": "assets/reference_audio/ljspeech_sample.wav",
+      "ref_text": "so subversive of meditation, so disturbing to the thoughts;",
+      "style": "technical",
+      "text": "Voice cloning extracts speaker characteristics from reference audio and applies them to new text.",
+      "type": "clone"
+    },
+    {
+      "duration_s": 2.8,
+      "file": "base+tq/ko_01.wav",
+      "generation_time_s": 5.66,
+      "language": "ko",
+      "language_name": "Korean",
+      "mode": "base+tq",
+      "style": "conversation",
+      "text": "\uc548\ub155\ud558\uc138\uc694, \uc624\ub298 \ud558\ub8e8\ub3c4 \uc88b\uc740 \ud558\ub8e8 \ubcf4\ub0b4\uc138\uc694.",
+      "type": "custom"
+    },
+    {
+      "duration_s": 6.24,
+      "file": "base+tq/ko_02.wav",
+      "generation_time_s": 7.36,
+      "language": "ko",
+      "language_name": "Korean",
+      "mode": "base+tq",
+      "style": "news",
+      "text": "\uc815\ubd80\ub294 \uc624\ub298 \uc0c8\ub85c\uc6b4 \uacbd\uc81c \uc815\ucc45\uc744 \ubc1c\ud45c\ud558\uba70, \ud558\ubc18\uae30 \uc131\uc7a5\ub960 \ubaa9\ud45c\ub97c \uc0c1\ud5a5 \uc870\uc815\ud588\uc2b5\ub2c8\ub2e4.",
+      "type": "custom"
+    },
+    {
+      "duration_s": 8.24,
+      "file": "base+tq/ko_03.wav",
+      "generation_time_s": 9.62,
+      "language": "ko",
+      "language_name": "Korean",
+      "mode": "base+tq",
+      "style": "technical",
+      "text": "\ud2b8\ub9ac\ud1a4 \ucee4\ub110 \ud4e8\uc804\uc740 RMSNorm\uacfc \uc794\ucc28 \uc5f0\uacb0\uc744 \ud558\ub098\uc758 GPU \ucee4\ub110\ub85c \ud569\uccd0 \uba54\ubaa8\ub9ac \ub300\uc5ed\ud3ed\uc744 \uc808\uc57d\ud569\ub2c8\ub2e4.",
+      "type": "custom"
+    },
+    {
+      "duration_s": 8.16,
+      "file": "base+tq/ko_04.wav",
+      "generation_time_s": 9.49,
+      "language": "ko",
+      "language_name": "Korean",
+      "mode": "base+tq",
+      "style": "emotional",
+      "text": "\uc624\ub79c \uc2dc\uac04\uc774 \ud758\ub7ec \ub2e4\uc2dc \ucc3e\uc740 \uace0\ud5a5\uc758 \uace8\ubaa9\uae38\uc5d0\uc11c, \uc5b4\ub9b0 \uc2dc\uc808\uc758 \ucd94\uc5b5\uc774 \ubb3c\ubc00\ub4ef \ubc00\ub824\uc654\uc2b5\ub2c8\ub2e4.",
+      "type": "custom"
+    },
+    {
+      "duration_s": 7.36,
+      "file": "base+tq/ko_05.wav",
+      "generation_time_s": 9.18,
+      "language": "ko",
+      "language_name": "Korean",
+      "mode": "base+tq",
+      "style": "descriptive",
+      "text": "\ub300\uaddc\ubaa8 \uc5b8\uc5b4 \ubaa8\ub378 \uae30\ubc18\uc758 \uc74c\uc131 \ud569\uc131 \uc2dc\uc2a4\ud15c\uc740 \ud14d\uc2a4\ud2b8\ub97c \uc785\ub825\ubc1b\uc544 \uc790\uc5f0\uc2a4\ub7ec\uc6b4 \uc74c\uc131\uc744 \uc0dd\uc131\ud558\uba70, \ub2e4\uc591\ud55c \ud654\uc790\uc640 \uc2a4\ud0c0\uc77c\uc744 \uc9c0\uc6d0\ud569\ub2c8\ub2e4.",
+      "type": "custom"
+    },
+    {
+      "duration_s": 1.92,
+      "file": "base+tq/en_01.wav",
+      "generation_time_s": 2.07,
+      "language": "en",
+      "language_name": "English",
+      "mode": "base+tq",
+      "style": "conversation",
+      "text": "Hi there! How are you doing today?",
+      "type": "custom"
+    },
+    {
+      "duration_s": 7.2,
+      "file": "base+tq/en_02.wav",
+      "generation_time_s": 7.98,
+      "language": "en",
+      "language_name": "English",
+      "mode": "base+tq",
+      "style": "news",
+      "text": "The Federal Reserve announced a quarter-point rate cut on Wednesday, signaling a shift in monetary policy.",
+      "type": "custom"
+    },
+    {
+      "duration_s": 13.92,
+      "file": "base+tq/en_03.wav",
+      "generation_time_s": 14.8,
+      "language": "en",
+      "language_name": "English",
+      "mode": "base+tq",
+      "style": "technical",
+      "text": "Triton kernel fusion merges RMSNorm and residual addition into a single GPU kernel, reducing memory bandwidth by eliminating intermediate tensor allocations.",
+      "type": "custom"
+    },
+    {
+      "duration_s": 11.84,
+      "file": "base+tq/en_04.wav",
+      "generation_time_s": 14.04,
+      "language": "en",
+      "language_name": "English",
+      "mode": "base+tq",
+      "style": "emotional",
+      "text": "She stood at the edge of the cliff, watching the sunset paint the sky in shades of gold and crimson, feeling the weight of the world slowly lift from her shoulders.",
+      "type": "custom"
+    },
+    {
+      "duration_s": 11.36,
+      "file": "base+tq/en_05.wav",
+      "generation_time_s": 12.67,
+      "language": "en",
+      "language_name": "English",
+      "mode": "base+tq",
+      "style": "descriptive",
+      "text": "Modern text-to-speech systems leverage transformer architectures to generate high-fidelity audio that captures subtle prosodic variations, emotional nuances, and speaker characteristics.",
+      "type": "custom"
+    },
+    {
+      "duration_s": 3.52,
+      "file": "base+tq/clone_ko_01.wav",
+      "generation_time_s": 9.23,
+      "language": "ko",
+      "language_name": "Korean",
+      "mode": "base+tq",
+      "ref_audio": "assets/reference_audio/ljspeech_sample.wav",
+      "ref_text": "so subversive of meditation, so disturbing to the thoughts;",
+      "style": "conversation",
+      "text": "\uc548\ub155\ud558\uc138\uc694, \ud074\ub860\ub41c \ubaa9\uc18c\ub9ac\ub85c \uc778\uc0ac\ub4dc\ub9bd\ub2c8\ub2e4.",
+      "type": "clone"
+    },
+    {
+      "duration_s": 7.2,
+      "file": "base+tq/clone_ko_02.wav",
+      "generation_time_s": 6.59,
+      "language": "ko",
+      "language_name": "Korean",
+      "mode": "base+tq",
+      "ref_audio": "assets/reference_audio/ljspeech_sample.wav",
+      "ref_text": "so subversive of meditation, so disturbing to the thoughts;",
+      "style": "technical",
+      "text": "\uc74c\uc131 \ud074\ub85c\ub2dd \uae30\uc220\uc740 \ucc38\uc870 \uc624\ub514\uc624\uc758 \ud654\uc790 \ud2b9\uc131\uc744 \ucd94\ucd9c\ud558\uc5ec \uc0c8\ub85c\uc6b4 \ud14d\uc2a4\ud2b8\uc5d0 \uc801\uc6a9\ud569\ub2c8\ub2e4.",
+      "type": "clone"
+    },
+    {
+      "duration_s": 3.92,
+      "file": "base+tq/clone_en_01.wav",
+      "generation_time_s": 3.73,
+      "language": "en",
+      "language_name": "English",
+      "mode": "base+tq",
+      "ref_audio": "assets/reference_audio/ljspeech_sample.wav",
+      "ref_text": "so subversive of meditation, so disturbing to the thoughts;",
+      "style": "conversation",
+      "text": "Hello, this voice was cloned from a reference audio sample.",
+      "type": "clone"
+    },
+    {
+      "duration_s": 6.56,
+      "file": "base+tq/clone_en_02.wav",
+      "generation_time_s": 6.45,
+      "language": "en",
+      "language_name": "English",
+      "mode": "base+tq",
+      "ref_audio": "assets/reference_audio/ljspeech_sample.wav",
+      "ref_text": "so subversive of meditation, so disturbing to the thoughts;",
+      "style": "technical",
+      "text": "Voice cloning extracts speaker characteristics from reference audio and applies them to new text.",
+      "type": "clone"
+    },
+    {
+      "duration_s": 3.36,
+      "file": "triton/ko_01.wav",
+      "generation_time_s": 2.66,
+      "language": "ko",
+      "language_name": "Korean",
+      "mode": "triton",
+      "style": "conversation",
+      "text": "\uc548\ub155\ud558\uc138\uc694, \uc624\ub298 \ud558\ub8e8\ub3c4 \uc88b\uc740 \ud558\ub8e8 \ubcf4\ub0b4\uc138\uc694.",
+      "type": "custom"
+    },
+    {
+      "duration_s": 5.84,
+      "file": "triton/ko_02.wav",
+      "generation_time_s": 4.57,
+      "language": "ko",
+      "language_name": "Korean",
+      "mode": "triton",
+      "style": "news",
+      "text": "\uc815\ubd80\ub294 \uc624\ub298 \uc0c8\ub85c\uc6b4 \uacbd\uc81c \uc815\ucc45\uc744 \ubc1c\ud45c\ud558\uba70, \ud558\ubc18\uae30 \uc131\uc7a5\ub960 \ubaa9\ud45c\ub97c \uc0c1\ud5a5 \uc870\uc815\ud588\uc2b5\ub2c8\ub2e4.",
+      "type": "custom"
+    },
+    {
+      "duration_s": 8.16,
+      "file": "triton/ko_03.wav",
+      "generation_time_s": 6.4,
+      "language": "ko",
+      "language_name": "Korean",
+      "mode": "triton",
+      "style": "technical",
+      "text": "\ud2b8\ub9ac\ud1a4 \ucee4\ub110 \ud4e8\uc804\uc740 RMSNorm\uacfc \uc794\ucc28 \uc5f0\uacb0\uc744 \ud558\ub098\uc758 GPU \ucee4\ub110\ub85c \ud569\uccd0 \uba54\ubaa8\ub9ac \ub300\uc5ed\ud3ed\uc744 \uc808\uc57d\ud569\ub2c8\ub2e4.",
+      "type": "custom"
+    },
+    {
+      "duration_s": 9.52,
+      "file": "triton/ko_04.wav",
+      "generation_time_s": 7.69,
+      "language": "ko",
+      "language_name": "Korean",
+      "mode": "triton",
+      "style": "emotional",
+      "text": "\uc624\ub79c \uc2dc\uac04\uc774 \ud758\ub7ec \ub2e4\uc2dc \ucc3e\uc740 \uace0\ud5a5\uc758 \uace8\ubaa9\uae38\uc5d0\uc11c, \uc5b4\ub9b0 \uc2dc\uc808\uc758 \ucd94\uc5b5\uc774 \ubb3c\ubc00\ub4ef \ubc00\ub824\uc654\uc2b5\ub2c8\ub2e4.",
+      "type": "custom"
+    },
+    {
+      "duration_s": 12.24,
+      "file": "triton/ko_05.wav",
+      "generation_time_s": 10.16,
+      "language": "ko",
+      "language_name": "Korean",
+      "mode": "triton",
+      "style": "descriptive",
+      "text": "\ub300\uaddc\ubaa8 \uc5b8\uc5b4 \ubaa8\ub378 \uae30\ubc18\uc758 \uc74c\uc131 \ud569\uc131 \uc2dc\uc2a4\ud15c\uc740 \ud14d\uc2a4\ud2b8\ub97c \uc785\ub825\ubc1b\uc544 \uc790\uc5f0\uc2a4\ub7ec\uc6b4 \uc74c\uc131\uc744 \uc0dd\uc131\ud558\uba70, \ub2e4\uc591\ud55c \ud654\uc790\uc640 \uc2a4\ud0c0\uc77c\uc744 \uc9c0\uc6d0\ud569\ub2c8\ub2e4.",
+      "type": "custom"
+    },
+    {
+      "duration_s": 2.08,
+      "file": "triton/en_01.wav",
+      "generation_time_s": 1.78,
+      "language": "en",
+      "language_name": "English",
+      "mode": "triton",
+      "style": "conversation",
+      "text": "Hi there! How are you doing today?",
+      "type": "custom"
+    },
+    {
+      "duration_s": 7.04,
+      "file": "triton/en_02.wav",
+      "generation_time_s": 5.98,
+      "language": "en",
+      "language_name": "English",
+      "mode": "triton",
+      "style": "news",
+      "text": "The Federal Reserve announced a quarter-point rate cut on Wednesday, signaling a shift in monetary policy.",
+      "type": "custom"
+    },
+    {
+      "duration_s": 12.48,
+      "file": "triton/en_03.wav",
+      "generation_time_s": 10.63,
+      "language": "en",
+      "language_name": "English",
+      "mode": "triton",
+      "style": "technical",
+      "text": "Triton kernel fusion merges RMSNorm and residual addition into a single GPU kernel, reducing memory bandwidth by eliminating intermediate tensor allocations.",
+      "type": "custom"
+    },
+    {
+      "duration_s": 10.88,
+      "file": "triton/en_04.wav",
+      "generation_time_s": 9.0,
+      "language": "en",
+      "language_name": "English",
+      "mode": "triton",
+      "style": "emotional",
+      "text": "She stood at the edge of the cliff, watching the sunset paint the sky in shades of gold and crimson, feeling the weight of the world slowly lift from her shoulders.",
+      "type": "custom"
+    },
+    {
+      "duration_s": 13.12,
+      "file": "triton/en_05.wav",
+      "generation_time_s": 10.25,
+      "language": "en",
+      "language_name": "English",
+      "mode": "triton",
+      "style": "descriptive",
+      "text": "Modern text-to-speech systems leverage transformer architectures to generate high-fidelity audio that captures subtle prosodic variations, emotional nuances, and speaker characteristics.",
+      "type": "custom"
+    },
+    {
+      "duration_s": 3.76,
+      "file": "triton/clone_ko_01.wav",
+      "generation_time_s": 9.4,
+      "language": "ko",
+      "language_name": "Korean",
+      "mode": "triton",
+      "ref_audio": "assets/reference_audio/ljspeech_sample.wav",
+      "ref_text": "so subversive of meditation, so disturbing to the thoughts;",
+      "style": "conversation",
+      "text": "\uc548\ub155\ud558\uc138\uc694, \ud074\ub860\ub41c \ubaa9\uc18c\ub9ac\ub85c \uc778\uc0ac\ub4dc\ub9bd\ub2c8\ub2e4.",
+      "type": "clone"
+    },
+    {
+      "duration_s": 7.36,
+      "file": "triton/clone_ko_02.wav",
+      "generation_time_s": 8.02,
+      "language": "ko",
+      "language_name": "Korean",
+      "mode": "triton",
+      "ref_audio": "assets/reference_audio/ljspeech_sample.wav",
+      "ref_text": "so subversive of meditation, so disturbing to the thoughts;",
+      "style": "technical",
+      "text": "\uc74c\uc131 \ud074\ub85c\ub2dd \uae30\uc220\uc740 \ucc38\uc870 \uc624\ub514\uc624\uc758 \ud654\uc790 \ud2b9\uc131\uc744 \ucd94\ucd9c\ud558\uc5ec \uc0c8\ub85c\uc6b4 \ud14d\uc2a4\ud2b8\uc5d0 \uc801\uc6a9\ud569\ub2c8\ub2e4.",
+      "type": "clone"
+    },
+    {
+      "duration_s": 4.56,
       "file": "triton/clone_en_01.wav",
-      "generation_time_s": 4.26,
+      "generation_time_s": 5.73,
       "language": "en",
       "language_name": "English",
       "mode": "triton",
@@ -323,9 +488,9 @@
       "type": "clone"
     },
     {
-      "duration_s": 7.28,
+      "duration_s": 7.6,
       "file": "triton/clone_en_02.wav",
-      "generation_time_s": 6.81,
+      "generation_time_s": 7.77,
       "language": "en",
       "language_name": "English",
       "mode": "triton",
@@ -336,9 +501,171 @@
       "type": "clone"
     },
     {
-      "duration_s": 3.68,
+      "duration_s": 3.28,
+      "file": "triton+tq/ko_01.wav",
+      "generation_time_s": 3.06,
+      "language": "ko",
+      "language_name": "Korean",
+      "mode": "triton+tq",
+      "style": "conversation",
+      "text": "\uc548\ub155\ud558\uc138\uc694, \uc624\ub298 \ud558\ub8e8\ub3c4 \uc88b\uc740 \ud558\ub8e8 \ubcf4\ub0b4\uc138\uc694.",
+      "type": "custom"
+    },
+    {
+      "duration_s": 5.68,
+      "file": "triton+tq/ko_02.wav",
+      "generation_time_s": 4.86,
+      "language": "ko",
+      "language_name": "Korean",
+      "mode": "triton+tq",
+      "style": "news",
+      "text": "\uc815\ubd80\ub294 \uc624\ub298 \uc0c8\ub85c\uc6b4 \uacbd\uc81c \uc815\ucc45\uc744 \ubc1c\ud45c\ud558\uba70, \ud558\ubc18\uae30 \uc131\uc7a5\ub960 \ubaa9\ud45c\ub97c \uc0c1\ud5a5 \uc870\uc815\ud588\uc2b5\ub2c8\ub2e4.",
+      "type": "custom"
+    },
+    {
+      "duration_s": 8.4,
+      "file": "triton+tq/ko_03.wav",
+      "generation_time_s": 7.91,
+      "language": "ko",
+      "language_name": "Korean",
+      "mode": "triton+tq",
+      "style": "technical",
+      "text": "\ud2b8\ub9ac\ud1a4 \ucee4\ub110 \ud4e8\uc804\uc740 RMSNorm\uacfc \uc794\ucc28 \uc5f0\uacb0\uc744 \ud558\ub098\uc758 GPU \ucee4\ub110\ub85c \ud569\uccd0 \uba54\ubaa8\ub9ac \ub300\uc5ed\ud3ed\uc744 \uc808\uc57d\ud569\ub2c8\ub2e4.",
+      "type": "custom"
+    },
+    {
+      "duration_s": 6.96,
+      "file": "triton+tq/ko_04.wav",
+      "generation_time_s": 7.19,
+      "language": "ko",
+      "language_name": "Korean",
+      "mode": "triton+tq",
+      "style": "emotional",
+      "text": "\uc624\ub79c \uc2dc\uac04\uc774 \ud758\ub7ec \ub2e4\uc2dc \ucc3e\uc740 \uace0\ud5a5\uc758 \uace8\ubaa9\uae38\uc5d0\uc11c, \uc5b4\ub9b0 \uc2dc\uc808\uc758 \ucd94\uc5b5\uc774 \ubb3c\ubc00\ub4ef \ubc00\ub824\uc654\uc2b5\ub2c8\ub2e4.",
+      "type": "custom"
+    },
+    {
+      "duration_s": 10.4,
+      "file": "triton+tq/ko_05.wav",
+      "generation_time_s": 9.4,
+      "language": "ko",
+      "language_name": "Korean",
+      "mode": "triton+tq",
+      "style": "descriptive",
+      "text": "\ub300\uaddc\ubaa8 \uc5b8\uc5b4 \ubaa8\ub378 \uae30\ubc18\uc758 \uc74c\uc131 \ud569\uc131 \uc2dc\uc2a4\ud15c\uc740 \ud14d\uc2a4\ud2b8\ub97c \uc785\ub825\ubc1b\uc544 \uc790\uc5f0\uc2a4\ub7ec\uc6b4 \uc74c\uc131\uc744 \uc0dd\uc131\ud558\uba70, \ub2e4\uc591\ud55c \ud654\uc790\uc640 \uc2a4\ud0c0\uc77c\uc744 \uc9c0\uc6d0\ud569\ub2c8\ub2e4.",
+      "type": "custom"
+    },
+    {
+      "duration_s": 3.04,
+      "file": "triton+tq/en_01.wav",
+      "generation_time_s": 2.62,
+      "language": "en",
+      "language_name": "English",
+      "mode": "triton+tq",
+      "style": "conversation",
+      "text": "Hi there! How are you doing today?",
+      "type": "custom"
+    },
+    {
+      "duration_s": 6.64,
+      "file": "triton+tq/en_02.wav",
+      "generation_time_s": 6.15,
+      "language": "en",
+      "language_name": "English",
+      "mode": "triton+tq",
+      "style": "news",
+      "text": "The Federal Reserve announced a quarter-point rate cut on Wednesday, signaling a shift in monetary policy.",
+      "type": "custom"
+    },
+    {
+      "duration_s": 12.16,
+      "file": "triton+tq/en_03.wav",
+      "generation_time_s": 11.53,
+      "language": "en",
+      "language_name": "English",
+      "mode": "triton+tq",
+      "style": "technical",
+      "text": "Triton kernel fusion merges RMSNorm and residual addition into a single GPU kernel, reducing memory bandwidth by eliminating intermediate tensor allocations.",
+      "type": "custom"
+    },
+    {
+      "duration_s": 14.24,
+      "file": "triton+tq/en_04.wav",
+      "generation_time_s": 12.25,
+      "language": "en",
+      "language_name": "English",
+      "mode": "triton+tq",
+      "style": "emotional",
+      "text": "She stood at the edge of the cliff, watching the sunset paint the sky in shades of gold and crimson, feeling the weight of the world slowly lift from her shoulders.",
+      "type": "custom"
+    },
+    {
+      "duration_s": 13.44,
+      "file": "triton+tq/en_05.wav",
+      "generation_time_s": 11.57,
+      "language": "en",
+      "language_name": "English",
+      "mode": "triton+tq",
+      "style": "descriptive",
+      "text": "Modern text-to-speech systems leverage transformer architectures to generate high-fidelity audio that captures subtle prosodic variations, emotional nuances, and speaker characteristics.",
+      "type": "custom"
+    },
+    {
+      "duration_s": 3.2,
+      "file": "triton+tq/clone_ko_01.wav",
+      "generation_time_s": 9.22,
+      "language": "ko",
+      "language_name": "Korean",
+      "mode": "triton+tq",
+      "ref_audio": "assets/reference_audio/ljspeech_sample.wav",
+      "ref_text": "so subversive of meditation, so disturbing to the thoughts;",
+      "style": "conversation",
+      "text": "\uc548\ub155\ud558\uc138\uc694, \ud074\ub860\ub41c \ubaa9\uc18c\ub9ac\ub85c \uc778\uc0ac\ub4dc\ub9bd\ub2c8\ub2e4.",
+      "type": "clone"
+    },
+    {
+      "duration_s": 6.96,
+      "file": "triton+tq/clone_ko_02.wav",
+      "generation_time_s": 7.2,
+      "language": "ko",
+      "language_name": "Korean",
+      "mode": "triton+tq",
+      "ref_audio": "assets/reference_audio/ljspeech_sample.wav",
+      "ref_text": "so subversive of meditation, so disturbing to the thoughts;",
+      "style": "technical",
+      "text": "\uc74c\uc131 \ud074\ub85c\ub2dd \uae30\uc220\uc740 \ucc38\uc870 \uc624\ub514\uc624\uc758 \ud654\uc790 \ud2b9\uc131\uc744 \ucd94\ucd9c\ud558\uc5ec \uc0c8\ub85c\uc6b4 \ud14d\uc2a4\ud2b8\uc5d0 \uc801\uc6a9\ud569\ub2c8\ub2e4.",
+      "type": "clone"
+    },
+    {
+      "duration_s": 4.8,
+      "file": "triton+tq/clone_en_01.wav",
+      "generation_time_s": 4.77,
+      "language": "en",
+      "language_name": "English",
+      "mode": "triton+tq",
+      "ref_audio": "assets/reference_audio/ljspeech_sample.wav",
+      "ref_text": "so subversive of meditation, so disturbing to the thoughts;",
+      "style": "conversation",
+      "text": "Hello, this voice was cloned from a reference audio sample.",
+      "type": "clone"
+    },
+    {
+      "duration_s": 5.84,
+      "file": "triton+tq/clone_en_02.wav",
+      "generation_time_s": 5.65,
+      "language": "en",
+      "language_name": "English",
+      "mode": "triton+tq",
+      "ref_audio": "assets/reference_audio/ljspeech_sample.wav",
+      "ref_text": "so subversive of meditation, so disturbing to the thoughts;",
+      "style": "technical",
+      "text": "Voice cloning extracts speaker characteristics from reference audio and applies them to new text.",
+      "type": "clone"
+    },
+    {
+      "duration_s": 3.6,
       "file": "faster/ko_01.wav",
-      "generation_time_s": 5.63,
+      "generation_time_s": 5.57,
       "language": "ko",
       "language_name": "Korean",
       "mode": "faster",
@@ -347,9 +674,9 @@
       "type": "custom"
     },
     {
-      "duration_s": 7.2,
+      "duration_s": 6.64,
       "file": "faster/ko_02.wav",
-      "generation_time_s": 1.84,
+      "generation_time_s": 1.72,
       "language": "ko",
       "language_name": "Korean",
       "mode": "faster",
@@ -358,9 +685,9 @@
       "type": "custom"
     },
     {
-      "duration_s": 9.52,
+      "duration_s": 7.68,
       "file": "faster/ko_03.wav",
-      "generation_time_s": 2.45,
+      "generation_time_s": 1.91,
       "language": "ko",
       "language_name": "Korean",
       "mode": "faster",
@@ -369,9 +696,9 @@
       "type": "custom"
     },
     {
-      "duration_s": 8.16,
+      "duration_s": 7.28,
       "file": "faster/ko_04.wav",
-      "generation_time_s": 2.13,
+      "generation_time_s": 1.78,
       "language": "ko",
       "language_name": "Korean",
       "mode": "faster",
@@ -380,9 +707,9 @@
       "type": "custom"
     },
     {
-      "duration_s": 10.32,
+      "duration_s": 11.36,
       "file": "faster/ko_05.wav",
-      "generation_time_s": 2.69,
+      "generation_time_s": 2.73,
       "language": "ko",
       "language_name": "Korean",
       "mode": "faster",
@@ -391,9 +718,9 @@
       "type": "custom"
     },
     {
-      "duration_s": 2.16,
+      "duration_s": 1.84,
       "file": "faster/en_01.wav",
-      "generation_time_s": 0.61,
+      "generation_time_s": 0.53,
       "language": "en",
       "language_name": "English",
       "mode": "faster",
@@ -402,9 +729,9 @@
       "type": "custom"
     },
     {
-      "duration_s": 6.88,
+      "duration_s": 7.76,
       "file": "faster/en_02.wav",
-      "generation_time_s": 1.78,
+      "generation_time_s": 1.91,
       "language": "en",
       "language_name": "English",
       "mode": "faster",
@@ -413,9 +740,9 @@
       "type": "custom"
     },
     {
-      "duration_s": 12.16,
+      "duration_s": 12.88,
       "file": "faster/en_03.wav",
-      "generation_time_s": 3.11,
+      "generation_time_s": 3.1,
       "language": "en",
       "language_name": "English",
       "mode": "faster",
@@ -424,9 +751,9 @@
       "type": "custom"
     },
     {
-      "duration_s": 11.68,
+      "duration_s": 11.6,
       "file": "faster/en_04.wav",
-      "generation_time_s": 2.98,
+      "generation_time_s": 2.86,
       "language": "en",
       "language_name": "English",
       "mode": "faster",
@@ -435,9 +762,9 @@
       "type": "custom"
     },
     {
-      "duration_s": 13.52,
+      "duration_s": 13.84,
       "file": "faster/en_05.wav",
-      "generation_time_s": 3.47,
+      "generation_time_s": 3.38,
       "language": "en",
       "language_name": "English",
       "mode": "faster",
@@ -446,9 +773,9 @@
       "type": "custom"
     },
     {
-      "duration_s": 3.28,
+      "duration_s": 3.52,
       "file": "faster/clone_ko_01.wav",
-      "generation_time_s": 11.43,
+      "generation_time_s": 10.62,
       "language": "ko",
       "language_name": "Korean",
       "mode": "faster",
@@ -461,7 +788,7 @@
     {
       "duration_s": 7.2,
       "file": "faster/clone_ko_02.wav",
-      "generation_time_s": 1.88,
+      "generation_time_s": 1.76,
       "language": "ko",
       "language_name": "Korean",
       "mode": "faster",
@@ -472,9 +799,9 @@
       "type": "clone"
     },
     {
-      "duration_s": 4.08,
+      "duration_s": 4.88,
       "file": "faster/clone_en_01.wav",
-      "generation_time_s": 1.09,
+      "generation_time_s": 1.22,
       "language": "en",
       "language_name": "English",
       "mode": "faster",
@@ -485,9 +812,9 @@
       "type": "clone"
     },
     {
-      "duration_s": 7.84,
+      "duration_s": 7.44,
       "file": "faster/clone_en_02.wav",
-      "generation_time_s": 2.02,
+      "generation_time_s": 1.82,
       "language": "en",
       "language_name": "English",
       "mode": "faster",
@@ -498,9 +825,9 @@
       "type": "clone"
     },
     {
-      "duration_s": 3.28,
+      "duration_s": 4.08,
       "file": "hybrid/ko_01.wav",
-      "generation_time_s": 5.41,
+      "generation_time_s": 5.07,
       "language": "ko",
       "language_name": "Korean",
       "mode": "hybrid",
@@ -509,9 +836,9 @@
       "type": "custom"
     },
     {
-      "duration_s": 6.96,
+      "duration_s": 6.72,
       "file": "hybrid/ko_02.wav",
-      "generation_time_s": 1.46,
+      "generation_time_s": 1.39,
       "language": "ko",
       "language_name": "Korean",
       "mode": "hybrid",
@@ -520,9 +847,9 @@
       "type": "custom"
     },
     {
-      "duration_s": 9.52,
+      "duration_s": 7.68,
       "file": "hybrid/ko_03.wav",
-      "generation_time_s": 1.97,
+      "generation_time_s": 1.59,
       "language": "ko",
       "language_name": "Korean",
       "mode": "hybrid",
@@ -533,7 +860,7 @@
     {
       "duration_s": 9.44,
       "file": "hybrid/ko_04.wav",
-      "generation_time_s": 1.98,
+      "generation_time_s": 1.92,
       "language": "ko",
       "language_name": "Korean",
       "mode": "hybrid",
@@ -542,9 +869,9 @@
       "type": "custom"
     },
     {
-      "duration_s": 10.24,
+      "duration_s": 10.72,
       "file": "hybrid/ko_05.wav",
-      "generation_time_s": 2.16,
+      "generation_time_s": 2.12,
       "language": "ko",
       "language_name": "Korean",
       "mode": "hybrid",
@@ -553,9 +880,9 @@
       "type": "custom"
     },
     {
-      "duration_s": 1.6,
+      "duration_s": 2.16,
       "file": "hybrid/en_01.wav",
-      "generation_time_s": 0.39,
+      "generation_time_s": 0.5,
       "language": "en",
       "language_name": "English",
       "mode": "hybrid",
@@ -564,9 +891,9 @@
       "type": "custom"
     },
     {
-      "duration_s": 6.48,
+      "duration_s": 7.76,
       "file": "hybrid/en_02.wav",
-      "generation_time_s": 1.37,
+      "generation_time_s": 1.52,
       "language": "en",
       "language_name": "English",
       "mode": "hybrid",
@@ -575,9 +902,9 @@
       "type": "custom"
     },
     {
-      "duration_s": 12.64,
+      "duration_s": 11.6,
       "file": "hybrid/en_03.wav",
-      "generation_time_s": 2.67,
+      "generation_time_s": 2.21,
       "language": "en",
       "language_name": "English",
       "mode": "hybrid",
@@ -586,9 +913,9 @@
       "type": "custom"
     },
     {
-      "duration_s": 10.8,
+      "duration_s": 11.36,
       "file": "hybrid/en_04.wav",
-      "generation_time_s": 2.21,
+      "generation_time_s": 2.15,
       "language": "en",
       "language_name": "English",
       "mode": "hybrid",
@@ -597,9 +924,9 @@
       "type": "custom"
     },
     {
-      "duration_s": 13.36,
+      "duration_s": 15.68,
       "file": "hybrid/en_05.wav",
-      "generation_time_s": 2.7,
+      "generation_time_s": 3.02,
       "language": "en",
       "language_name": "English",
       "mode": "hybrid",
@@ -608,9 +935,9 @@
       "type": "custom"
     },
     {
-      "duration_s": 3.2,
+      "duration_s": 4.32,
       "file": "hybrid/clone_ko_01.wav",
-      "generation_time_s": 11.54,
+      "generation_time_s": 11.01,
       "language": "ko",
       "language_name": "Korean",
       "mode": "hybrid",
@@ -621,9 +948,9 @@
       "type": "clone"
     },
     {
-      "duration_s": 7.12,
+      "duration_s": 6.96,
       "file": "hybrid/clone_ko_02.wav",
-      "generation_time_s": 1.94,
+      "generation_time_s": 1.7,
       "language": "ko",
       "language_name": "Korean",
       "mode": "hybrid",
@@ -634,9 +961,9 @@
       "type": "clone"
     },
     {
-      "duration_s": 4.24,
+      "duration_s": 4.64,
       "file": "hybrid/clone_en_01.wav",
-      "generation_time_s": 1.15,
+      "generation_time_s": 1.17,
       "language": "en",
       "language_name": "English",
       "mode": "hybrid",
@@ -647,9 +974,9 @@
       "type": "clone"
     },
     {
-      "duration_s": 7.12,
+      "duration_s": 7.44,
       "file": "hybrid/clone_en_02.wav",
-      "generation_time_s": 1.86,
+      "generation_time_s": 1.79,
       "language": "en",
       "language_name": "English",
       "mode": "hybrid",
@@ -658,9 +985,171 @@
       "style": "technical",
       "text": "Voice cloning extracts speaker characteristics from reference audio and applies them to new text.",
       "type": "clone"
+    },
+    {
+      "duration_s": 3.04,
+      "file": "hybrid+tq/ko_01.wav",
+      "generation_time_s": 4.7,
+      "language": "ko",
+      "language_name": "Korean",
+      "mode": "hybrid+tq",
+      "style": "conversation",
+      "text": "\uc548\ub155\ud558\uc138\uc694, \uc624\ub298 \ud558\ub8e8\ub3c4 \uc88b\uc740 \ud558\ub8e8 \ubcf4\ub0b4\uc138\uc694.",
+      "type": "custom"
+    },
+    {
+      "duration_s": 6.56,
+      "file": "hybrid+tq/ko_02.wav",
+      "generation_time_s": 1.27,
+      "language": "ko",
+      "language_name": "Korean",
+      "mode": "hybrid+tq",
+      "style": "news",
+      "text": "\uc815\ubd80\ub294 \uc624\ub298 \uc0c8\ub85c\uc6b4 \uacbd\uc81c \uc815\ucc45\uc744 \ubc1c\ud45c\ud558\uba70, \ud558\ubc18\uae30 \uc131\uc7a5\ub960 \ubaa9\ud45c\ub97c \uc0c1\ud5a5 \uc870\uc815\ud588\uc2b5\ub2c8\ub2e4.",
+      "type": "custom"
+    },
+    {
+      "duration_s": 11.84,
+      "file": "hybrid+tq/ko_03.wav",
+      "generation_time_s": 2.24,
+      "language": "ko",
+      "language_name": "Korean",
+      "mode": "hybrid+tq",
+      "style": "technical",
+      "text": "\ud2b8\ub9ac\ud1a4 \ucee4\ub110 \ud4e8\uc804\uc740 RMSNorm\uacfc \uc794\ucc28 \uc5f0\uacb0\uc744 \ud558\ub098\uc758 GPU \ucee4\ub110\ub85c \ud569\uccd0 \uba54\ubaa8\ub9ac \ub300\uc5ed\ud3ed\uc744 \uc808\uc57d\ud569\ub2c8\ub2e4.",
+      "type": "custom"
+    },
+    {
+      "duration_s": 6.24,
+      "file": "hybrid+tq/ko_04.wav",
+      "generation_time_s": 1.21,
+      "language": "ko",
+      "language_name": "Korean",
+      "mode": "hybrid+tq",
+      "style": "emotional",
+      "text": "\uc624\ub79c \uc2dc\uac04\uc774 \ud758\ub7ec \ub2e4\uc2dc \ucc3e\uc740 \uace0\ud5a5\uc758 \uace8\ubaa9\uae38\uc5d0\uc11c, \uc5b4\ub9b0 \uc2dc\uc808\uc758 \ucd94\uc5b5\uc774 \ubb3c\ubc00\ub4ef \ubc00\ub824\uc654\uc2b5\ub2c8\ub2e4.",
+      "type": "custom"
+    },
+    {
+      "duration_s": 9.44,
+      "file": "hybrid+tq/ko_05.wav",
+      "generation_time_s": 1.81,
+      "language": "ko",
+      "language_name": "Korean",
+      "mode": "hybrid+tq",
+      "style": "descriptive",
+      "text": "\ub300\uaddc\ubaa8 \uc5b8\uc5b4 \ubaa8\ub378 \uae30\ubc18\uc758 \uc74c\uc131 \ud569\uc131 \uc2dc\uc2a4\ud15c\uc740 \ud14d\uc2a4\ud2b8\ub97c \uc785\ub825\ubc1b\uc544 \uc790\uc5f0\uc2a4\ub7ec\uc6b4 \uc74c\uc131\uc744 \uc0dd\uc131\ud558\uba70, \ub2e4\uc591\ud55c \ud654\uc790\uc640 \uc2a4\ud0c0\uc77c\uc744 \uc9c0\uc6d0\ud569\ub2c8\ub2e4.",
+      "type": "custom"
+    },
+    {
+      "duration_s": 2.48,
+      "file": "hybrid+tq/en_01.wav",
+      "generation_time_s": 0.54,
+      "language": "en",
+      "language_name": "English",
+      "mode": "hybrid+tq",
+      "style": "conversation",
+      "text": "Hi there! How are you doing today?",
+      "type": "custom"
+    },
+    {
+      "duration_s": 6.64,
+      "file": "hybrid+tq/en_02.wav",
+      "generation_time_s": 1.31,
+      "language": "en",
+      "language_name": "English",
+      "mode": "hybrid+tq",
+      "style": "news",
+      "text": "The Federal Reserve announced a quarter-point rate cut on Wednesday, signaling a shift in monetary policy.",
+      "type": "custom"
+    },
+    {
+      "duration_s": 11.44,
+      "file": "hybrid+tq/en_03.wav",
+      "generation_time_s": 2.21,
+      "language": "en",
+      "language_name": "English",
+      "mode": "hybrid+tq",
+      "style": "technical",
+      "text": "Triton kernel fusion merges RMSNorm and residual addition into a single GPU kernel, reducing memory bandwidth by eliminating intermediate tensor allocations.",
+      "type": "custom"
+    },
+    {
+      "duration_s": 11.44,
+      "file": "hybrid+tq/en_04.wav",
+      "generation_time_s": 2.18,
+      "language": "en",
+      "language_name": "English",
+      "mode": "hybrid+tq",
+      "style": "emotional",
+      "text": "She stood at the edge of the cliff, watching the sunset paint the sky in shades of gold and crimson, feeling the weight of the world slowly lift from her shoulders.",
+      "type": "custom"
+    },
+    {
+      "duration_s": 12.56,
+      "file": "hybrid+tq/en_05.wav",
+      "generation_time_s": 2.43,
+      "language": "en",
+      "language_name": "English",
+      "mode": "hybrid+tq",
+      "style": "descriptive",
+      "text": "Modern text-to-speech systems leverage transformer architectures to generate high-fidelity audio that captures subtle prosodic variations, emotional nuances, and speaker characteristics.",
+      "type": "custom"
+    },
+    {
+      "duration_s": 3.2,
+      "file": "hybrid+tq/clone_ko_01.wav",
+      "generation_time_s": 11.09,
+      "language": "ko",
+      "language_name": "Korean",
+      "mode": "hybrid+tq",
+      "ref_audio": "assets/reference_audio/ljspeech_sample.wav",
+      "ref_text": "so subversive of meditation, so disturbing to the thoughts;",
+      "style": "conversation",
+      "text": "\uc548\ub155\ud558\uc138\uc694, \ud074\ub860\ub41c \ubaa9\uc18c\ub9ac\ub85c \uc778\uc0ac\ub4dc\ub9bd\ub2c8\ub2e4.",
+      "type": "clone"
+    },
+    {
+      "duration_s": 7.12,
+      "file": "hybrid+tq/clone_ko_02.wav",
+      "generation_time_s": 1.73,
+      "language": "ko",
+      "language_name": "Korean",
+      "mode": "hybrid+tq",
+      "ref_audio": "assets/reference_audio/ljspeech_sample.wav",
+      "ref_text": "so subversive of meditation, so disturbing to the thoughts;",
+      "style": "technical",
+      "text": "\uc74c\uc131 \ud074\ub85c\ub2dd \uae30\uc220\uc740 \ucc38\uc870 \uc624\ub514\uc624\uc758 \ud654\uc790 \ud2b9\uc131\uc744 \ucd94\ucd9c\ud558\uc5ec \uc0c8\ub85c\uc6b4 \ud14d\uc2a4\ud2b8\uc5d0 \uc801\uc6a9\ud569\ub2c8\ub2e4.",
+      "type": "clone"
+    },
+    {
+      "duration_s": 4.72,
+      "file": "hybrid+tq/clone_en_01.wav",
+      "generation_time_s": 1.19,
+      "language": "en",
+      "language_name": "English",
+      "mode": "hybrid+tq",
+      "ref_audio": "assets/reference_audio/ljspeech_sample.wav",
+      "ref_text": "so subversive of meditation, so disturbing to the thoughts;",
+      "style": "conversation",
+      "text": "Hello, this voice was cloned from a reference audio sample.",
+      "type": "clone"
+    },
+    {
+      "duration_s": 7.52,
+      "file": "hybrid+tq/clone_en_02.wav",
+      "generation_time_s": 1.78,
+      "language": "en",
+      "language_name": "English",
+      "mode": "hybrid+tq",
+      "ref_audio": "assets/reference_audio/ljspeech_sample.wav",
+      "ref_text": "so subversive of meditation, so disturbing to the thoughts;",
+      "style": "technical",
+      "text": "Voice cloning extracts speaker characteristics from reference audio and applies them to new text.",
+      "type": "clone"
     }
   ],
   "speaker": "sohee",
-  "total_generation_time_s": 375.1,
-  "total_samples": 56
+  "total_generation_time_s": 603.3,
+  "total_samples": 98
 }

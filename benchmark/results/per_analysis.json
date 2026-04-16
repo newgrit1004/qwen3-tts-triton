@@ -1,0 +1,164 @@
+{
+  "base": {
+    "accuracy_mean": 0.2993,
+    "n_samples": 15,
+    "per_language": {
+      "ko": {
+        "accuracy_mean": 0.1067,
+        "n_samples": 3,
+        "per_mean": 0.8933,
+        "per_std": 0.1508
+      },
+      "zh": {
+        "accuracy_mean": 0.3475,
+        "n_samples": 12,
+        "per_mean": 0.6525,
+        "per_std": 0.3999
+      }
+    },
+    "per_mean": 0.7007,
+    "per_std": 0.3765
+  },
+  "base+sage": {
+    "accuracy_mean": 0.429,
+    "n_samples": 10,
+    "per_language": {
+      "zh": {
+        "accuracy_mean": 0.429,
+        "n_samples": 10,
+        "per_mean": 0.571,
+        "per_std": 0.4108
+      }
+    },
+    "per_mean": 0.571,
+    "per_std": 0.4108
+  },
+  "faster": {
+    "accuracy_mean": 0.2827,
+    "n_samples": 15,
+    "per_language": {
+      "ko": {
+        "accuracy_mean": 0.0,
+        "n_samples": 3,
+        "per_mean": 1.0,
+        "per_std": 0.0
+      },
+      "zh": {
+        "accuracy_mean": 0.3534,
+        "n_samples": 12,
+        "per_mean": 0.6466,
+        "per_std": 0.3951
+      }
+    },
+    "per_mean": 0.7173,
+    "per_std": 0.3807
+  },
+  "hybrid": {
+    "accuracy_mean": 0.2859,
+    "n_samples": 15,
+    "per_language": {
+      "ko": {
+        "accuracy_mean": 0.1024,
+        "n_samples": 3,
+        "per_mean": 0.8976,
+        "per_std": 0.0817
+      },
+      "zh": {
+        "accuracy_mean": 0.3318,
+        "n_samples": 12,
+        "per_mean": 0.6682,
+        "per_std": 0.3853
+      }
+    },
+    "per_mean": 0.7141,
+    "per_std": 0.3585
+  },
+  "hybrid+sage": {
+    "accuracy_mean": 0.347,
+    "n_samples": 10,
+    "per_language": {
+      "zh": {
+        "accuracy_mean": 0.347,
+        "n_samples": 10,
+        "per_mean": 0.653,
+        "per_std": 0.5134
+      }
+    },
+    "per_mean": 0.653,
+    "per_std": 0.5134
+  },
+  "hybrid+tq": {
+    "accuracy_mean": 0.311,
+    "n_samples": 15,
+    "per_language": {
+      "ko": {
+        "accuracy_mean": 0.1067,
+        "n_samples": 3,
+        "per_mean": 0.8933,
+        "per_std": 0.1508
+      },
+      "zh": {
+        "accuracy_mean": 0.3621,
+        "n_samples": 12,
+        "per_mean": 0.6379,
+        "per_std": 0.4207
+      }
+    },
+    "per_mean": 0.689,
+    "per_std": 0.3957
+  },
+  "triton": {
+    "accuracy_mean": 0.3101,
+    "n_samples": 15,
+    "per_language": {
+      "ko": {
+        "accuracy_mean": 0.1067,
+        "n_samples": 3,
+        "per_mean": 0.8933,
+        "per_std": 0.1508
+      },
+      "zh": {
+        "accuracy_mean": 0.361,
+        "n_samples": 12,
+        "per_mean": 0.639,
+        "per_std": 0.4047
+      }
+    },
+    "per_mean": 0.6899,
+    "per_std": 0.382
+  },
+  "triton+sage": {
+    "accuracy_mean": 0.4115,
+    "n_samples": 10,
+    "per_language": {
+      "zh": {
+        "accuracy_mean": 0.4115,
+        "n_samples": 10,
+        "per_mean": 0.5885,
+        "per_std": 0.3918
+      }
+    },
+    "per_mean": 0.5885,
+    "per_std": 0.3918
+  },
+  "triton+tq": {
+    "accuracy_mean": -0.271,
+    "n_samples": 15,
+    "per_language": {
+      "ko": {
+        "accuracy_mean": 0.1067,
+        "n_samples": 3,
+        "per_mean": 0.8933,
+        "per_std": 0.1508
+      },
+      "zh": {
+        "accuracy_mean": -0.3654,
+        "n_samples": 12,
+        "per_mean": 1.3654,
+        "per_std": 2.1668
+      }
+    },
+    "per_mean": 1.271,
+    "per_std": 1.9484
+  }
+}

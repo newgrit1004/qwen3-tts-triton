@@ -87,10 +87,21 @@ def _render_kernel_benchmarks() -> None:
 
 
 def _normalize_runner(name: str) -> str:
-    """Normalize runner names (e.g. 'Turbo' -> 'Hybrid')."""
-    if name == "Turbo":
-        return "Hybrid"
-    return name
+    """Normalize runner names to display form."""
+    _MAP: dict[str, str] = {
+        "Turbo": "Hybrid",
+        "triton": "Triton",
+        "base": "Base",
+        "faster": "Faster",
+        "hybrid": "Hybrid",
+        "Base+TQ": "Base+TQ",
+        "Triton+TQ": "Triton+TQ",
+        "Hybrid+TQ": "Hybrid+TQ",
+        "base+tq": "Base+TQ",
+        "triton+tq": "Triton+TQ",
+        "hybrid+tq": "Hybrid+TQ",
+    }
+    return _MAP.get(name, name)
 
 
 def _load_json_list(path: Path) -> list[dict[str, Any]]:

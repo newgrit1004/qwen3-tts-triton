@@ -4,8 +4,8 @@ Verifies that Triton-patched model produces numerically close outputs
 to the base model at the hidden state and logits level.
 
 Two comparison pairs:
-- Pair A (base_vs_triton): BaseRunner model with Triton kernels applied in-place
-- Pair B (faster_vs_hybrid): FasterRunner model with Triton kernels applied in-place
+- Pair A (base_vs_triton): BaseRunner model with Triton kernels applied
+- Pair B (faster_vs_hybrid): FasterRunner model with Triton kernels applied
 
 Liger Kernel-style convergence test (inference variant).
 Uses only torch/transformers/qwen-tts with no extra dependencies.
@@ -763,22 +763,27 @@ def test_faster_logits_output_cosine(faster_forward_outputs) -> None:
     )
 
 
-def _pair_pass(pair_data: dict) -> bool:
+def _pair_pass(
+    pair_data: dict,
+    cos_min: float = COSINE_SIM_MIN,
+    rel_l2_max: float = RELATIVE_L2_MAX,
+    snr_min: float = SNR_DB_MIN,
+) -> bool:
     """Return True if all metrics in a pair's data pass thresholds."""
     all_pass = True
     for layer_key, metrics in pair_data.get("layers", {}).items():
         layer_idx = int(layer_key)
-        if metrics.get("cosine_sim", 0) <= COSINE_SIM_MIN:
+        if metrics.get("cosine_sim", 0) <= cos_min:
             all_pass = False
-        if metrics.get("relative_l2", 1) >= RELATIVE_L2_MAX:
+        if metrics.get("relative_l2", 1) >= rel_l2_max:
             all_pass = False
-        if metrics.get("snr_db", 0) <= SNR_DB_MIN:
+        if metrics.get("snr_db", 0) <= snr_min:
             all_pass = False
         threshold = MAX_ABS_DIFF_THRESHOLDS.get(layer_idx, 30.0)
         if metrics.get("max_abs_diff", threshold) >= threshold:
             all_pass = False
     output_cos = pair_data.get("logits", {}).get("output_cosine_sim")
-    if output_cos is not None and output_cos <= COSINE_SIM_MIN:
+    if output_cos is not None and output_cos <= cos_min:
         all_pass = False
     return all_pass
 
@@ -789,15 +794,15 @@ def test_tier2_write_report(forward_outputs, faster_forward_outputs) -> None:
     Must run last (file ordering). Produces benchmark/results/tier2_metrics.json
     consumed by run_verification.py and the Streamlit verification tab.
 
-    Output uses a "pairs" structure for both comparison pairs:
-      base_vs_triton and faster_vs_hybrid.
+    Output uses a "pairs" structure for all comparison pairs:
+      base_vs_triton, faster_vs_hybrid.
     """
     pairs = _REPORT_DATA["pairs"]
     bvt_pass = _pair_pass(pairs["base_vs_triton"])
     fvh_pass = _pair_pass(pairs["faster_vs_hybrid"])
     overall_pass = bvt_pass and fvh_pass
 
-    report = {
+    report: dict = {
         "status": "PASS" if overall_pass else "FAIL",
         "pairs": {
             "base_vs_triton": {

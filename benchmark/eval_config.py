@@ -1,7 +1,8 @@
 """Evaluation configuration and test sentences for TTS quality assessment.
 
 Defines distribution-level comparison thresholds (industry-standard),
-ASR model settings, and test sentences for zh/ko languages.
+ASR model settings, test sentences for zh/ko/en languages, and tongue
+twister stress-test sentences for pronunciation robustness evaluation.
 
 Methodology: Independent benchmark comparison (vLLM/TensorRT-LLM pattern).
 Each model generates independently, then distribution-level metrics are compared.
@@ -13,7 +14,7 @@ from typing import Any
 
 EVAL_CONFIG: dict[str, Any] = {
     "warmup_runs": 3,
-    "languages": ["zh", "ko"],
+    "languages": ["zh", "ko", "en"],
     # --- Tier 3: Quality Distribution (independent benchmark comparison) ---
     "tier3": {
         # Generation settings
@@ -27,8 +28,7 @@ EVAL_CONFIG: dict[str, Any] = {
         # Statistical test (full mode only)
         "mann_whitney_alpha": 0.05,
         # ASR model sizes
-        "asr_model_fast": "small",  # CI (~5 min)
-        "asr_model_full": "large-v3",  # PR gate (~30 min)
+        "asr_model": "CohereLabs/cohere-transcribe-03-2026",
     },
 }
 
@@ -135,6 +135,279 @@ EVAL_SENTENCES: dict[str, list[dict[str, str]]] = {
                 "SwiGLU 활성화 함수의 퓨전은 중간 텐서 할당을 제거합니다."
             ),
             "language": "ko",
+        },
+    ],
+    "en": [
+        # Short (<50 chars)
+        {"text": "Hello, how are you today?", "language": "en"},
+        {"text": "Welcome to the speech synthesis demo.", "language": "en"},
+        {"text": "Thank you for your support.", "language": "en"},
+        {"text": "See you tomorrow, goodbye.", "language": "en"},
+        {"text": "This is a voice test.", "language": "en"},
+        # Medium (50-150 chars)
+        {
+            "text": (
+                "Artificial intelligence is transforming the way "
+                "we interact with technology every day."
+            ),
+            "language": "en",
+        },
+        {
+            "text": (
+                "Deep learning models can generate incredibly natural speech "
+                "that is almost indistinguishable from real humans."
+            ),
+            "language": "en",
+        },
+        {
+            "text": (
+                "This system uses the latest Transformer architecture "
+                "to support multilingual speech synthesis."
+            ),
+            "language": "en",
+        },
+        {
+            "text": (
+                "Our goal is to make high quality speech synthesis "
+                "accessible to everyone around the world."
+            ),
+            "language": "en",
+        },
+        {
+            "text": (
+                "By optimizing inference speed with GPU kernels, "
+                "we can achieve real-time voice generation."
+            ),
+            "language": "en",
+        },
+        # Long (>150 chars)
+        {
+            "text": (
+                "With the rapid advancement of large language models, "
+                "speech synthesis technology has also reached new heights. "
+                "End-to-end models based on Transformer architecture can "
+                "generate high-fidelity speech while capturing the speaker's "
+                "emotions and intonation naturally."
+            ),
+            "language": "en",
+        },
+        {
+            "text": (
+                "In practical applications, speech synthesis systems need to "
+                "minimize computational latency while maintaining quality. "
+                "Through GPU acceleration and operator fusion techniques, "
+                "we can significantly improve inference speed without "
+                "sacrificing audio quality."
+            ),
+            "language": "en",
+        },
+    ],
+}
+
+# --- Tongue twister sentences (pronunciation stress test) ---
+# References: Seed-TTS hard set (ByteDance 2024), MaskGCT (ICLR 2025),
+# EmergentTTS-Eval (NeurIPS 2025). 15 sentences per language.
+
+TONGUE_TWISTER_SENTENCES: dict[str, list[dict[str, str]]] = {
+    "zh": [
+        # Tonal minimal pairs (si/shi distinction)
+        {"text": "四是四，十是十，十四是十四，四十是四十。", "language": "zh"},
+        # Repeated syllable clusters
+        {
+            "text": "吃葡萄不吐葡萄皮，不吃葡萄倒吐葡萄皮。",
+            "language": "zh",
+        },
+        # Plosive initials (b/p/b/p)
+        {"text": "八百标兵奔北坡，炮兵并排北边跑。", "language": "zh"},
+        # h/f/h alternation
+        {
+            "text": "黑化肥发灰会挥发，灰化肥挥发会发黑。",
+            "language": "zh",
+        },
+        # l/lv/lv minimal trio
+        {"text": "红鲤鱼与绿鲤鱼与驴。", "language": "zh"},
+        # n/l nasal-lateral contrast
+        {"text": "牛郎恋刘娘，刘娘念牛郎。", "language": "zh"},
+        # b/d/ch length contrast
+        {
+            "text": "扁担长板凳宽，板凳没有扁担长，扁担没有板凳宽。",
+            "language": "zh",
+        },
+        # g/k/g velar clusters
+        {"text": "哥哥挎筐过宽沟，赶快过沟看怪狗。", "language": "zh"},
+        # q/x/b/d rhythm pattern
+        {
+            "text": "天上七颗星，地上七块冰，树上七只鹰。",
+            "language": "zh",
+        },
+        # f/h/f/h with tonal variation
+        {
+            "text": "粉红墙上画凤凰，凤凰画在粉红墙。",
+            "language": "zh",
+        },
+        # All shi syllables (extreme tonal stress)
+        {"text": "石室诗士施氏嗜狮誓食十狮。", "language": "zh"},
+        # zhi/bu repetition
+        {
+            "text": "知之为知之，不知为不知，是知也。",
+            "language": "zh",
+        },
+        # d/dao/dao tonal cascade
+        {"text": "短刀断稻倒岛道。", "language": "zh"},
+        # hu/zhu/lu animal enumeration
+        {"text": "初入江湖，一日遇一虎一猪一鹿。", "language": "zh"},
+        # h/f compound (variant of #4)
+        {"text": "化肥会挥发，黑化肥发灰，灰化肥发黑。", "language": "zh"},
+    ],
+    "ko": [
+        # ㄱ/ㄲ/ㅋ velar triple + ㅈ/ㅊ affricates
+        {
+            "text": (
+                "간장 공장 공장장은 강 공장장이고 된장 공장 공장장은 공 공장장이다."
+            ),
+            "language": "ko",
+        },
+        # ㅊ/ㅅ/ㅆ sibilant + ㄹ lateral
+        {
+            "text": ("경찰청 철창살은 외철창살이고 검찰청 철창살은 쌍철창살이다."),
+            "language": "ko",
+        },
+        # ㄲ/ㄱ tense-lax alternation
+        {
+            "text": "저기 저 콩깍지가 깐 콩깍지인가 안 깐 콩깍지인가.",
+            "language": "ko",
+        },
+        # ㄱ/ㄹ/ㄴ nasal-liquid with vowel contrast
+        {
+            "text": (
+                "내가 그린 기린 그림은 긴 기린 그림이고 "
+                "네가 그린 기린 그림은 안 긴 기린 그림이다."
+            ),
+            "language": "ko",
+        },
+        # ㅊ/ㅋ aspirate cluster
+        {
+            "text": "칠월 칠석은 평창 친구 친정 칠촌 칠순 잔치 날.",
+            "language": "ko",
+        },
+        # ㄱ/ㅂ/ㄱ plosive cluster
+        {
+            "text": ("고려고 교복은 고급 교복이고 고려고 교복은 고급 원단 교복이다."),
+            "language": "ko",
+        },
+        # ㅂ/ㅃ/ㄲ tense consonant mix
+        {
+            "text": (
+                "상표 붙인 큰 깡통은 된장 깡통이고 "
+                "상표 안 붙인 큰 깡통은 간장 깡통이다."
+            ),
+            "language": "ko",
+        },
+        # ㄲ/ㄱ variant of #3
+        {
+            "text": "들의 콩깍지는 깐 콩깍지인가 안 깐 콩깍지인가.",
+            "language": "ko",
+        },
+        # ㅅ/ㅆ/ㅊ sibilant-affricate
+        {"text": "신진 샹숑 가수의 신춘 샹숑 쇼.", "language": "ko"},
+        # ㄷ/ㅍ/ㅎ aspirate + plosive
+        {
+            "text": "청단풍잎 홍단풍잎 흑단풍잎 백단풍잎.",
+            "language": "ko",
+        },
+        # ㅈ/ㅊ/ㅆ tense sibilant cluster
+        {"text": "생쥐 철쥐 쇠철쥐 쌍철쥐.", "language": "ko"},
+        # ㅎ/ㅋ/ㄱ aspirate-velar
+        {
+            "text": "서울특별시 특허허가과 허가과장 허과장.",
+            "language": "ko",
+        },
+        # ㅈ/ㅊ/ㅅ affricate-sibilant
+        {
+            "text": "정책 실장은 정 실장이고 정치 실장도 정 실장이다.",
+            "language": "ko",
+        },
+        # ㅇ/ㅈ/ㅇ vowel-onset repetition
+        {
+            "text": ("한양양장점 옆 한영양장점 한영양장점 옆은 한양양장점."),
+            "language": "ko",
+        },
+        # ㄲ/ㅌ/ㅁ plosive-nasal mix
+        {"text": "깐 토마토가 안 깐 토마토보다 낫다.", "language": "ko"},
+    ],
+    "en": [
+        # Sibilant /s/sh/ stress
+        {"text": "She sells seashells by the seashore.", "language": "en"},
+        # Plosive /p/ cluster
+        {
+            "text": "Peter Piper picked a peck of pickled peppers.",
+            "language": "en",
+        },
+        # /w/ch/ repetition
+        {
+            "text": (
+                "How much wood would a woodchuck chuck if a woodchuck could chuck wood?"
+            ),
+            "language": "en",
+        },
+        # /r/l/ liquid contrast
+        {
+            "text": "Red lorry, yellow lorry, red lorry, yellow lorry.",
+            "language": "en",
+        },
+        # /s/ks/ consonant cluster
+        {
+            "text": "The sixth sick sheikh's sixth sheep's sick.",
+            "language": "en",
+        },
+        # /n/y/k/ rhythm
+        {
+            "text": "Unique New York, you know you need unique New York.",
+            "language": "en",
+        },
+        # /t/b/ minimal pair repetition
+        {
+            "text": "Toy boat, toy boat, toy boat, toy boat.",
+            "language": "en",
+        },
+        # /r/s/w/ cluster
+        {"text": "Irish wristwatch, Swiss wristwatch.", "language": "en"},
+        # /w/ch/ alliteration
+        {
+            "text": "Which witch wished which wicked wish?",
+            "language": "en",
+        },
+        # /p/k/ plosive
+        {"text": "A proper copper coffee pot.", "language": "en"},
+        # /f/d/b/ voiced-voiceless
+        {
+            "text": "Fred fed Ted bread and Ted fed Fred bread.",
+            "language": "en",
+        },
+        # /s/l/ liquid-sibilant
+        {
+            "text": "Six slippery snails slid slowly seaward.",
+            "language": "en",
+        },
+        # /th/ fricative cluster
+        {
+            "text": (
+                "The thirty-three thieves thought that they "
+                "thrilled the throne throughout Thursday."
+            ),
+            "language": "en",
+        },
+        # /k/n/ repetition
+        {
+            "text": "Can you can a can as a canner can can a can?",
+            "language": "en",
+        },
+        # /b/t/ plosive alternation
+        {
+            "text": (
+                "Betty Botter bought some butter but she said the butter's bitter."
+            ),
+            "language": "en",
         },
     ],
 }

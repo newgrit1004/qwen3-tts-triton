@@ -1,0 +1,102 @@
+[
+  {
+    "batch_size": 1,
+    "bits": 3,
+    "cache_mb": 24.86,
+    "peak_mb": 26.92,
+    "rotation_mb": 14.0,
+    "seq_len": 128,
+    "uncompressed_mb": 14.0,
+    "vram_ratio": 0.56
+  },
+  {
+    "batch_size": 1,
+    "bits": 3,
+    "cache_mb": 19.47,
+    "peak_mb": 23.59,
+    "rotation_mb": 14.0,
+    "seq_len": 256,
+    "uncompressed_mb": 28.0,
+    "vram_ratio": 1.44
+  },
+  {
+    "batch_size": 1,
+    "bits": 3,
+    "cache_mb": 24.94,
+    "peak_mb": 33.19,
+    "rotation_mb": 14.0,
+    "seq_len": 512,
+    "uncompressed_mb": 56.0,
+    "vram_ratio": 2.25
+  },
+  {
+    "batch_size": 1,
+    "bits": 3,
+    "cache_mb": 35.88,
+    "peak_mb": 52.75,
+    "rotation_mb": 14.0,
+    "seq_len": 1024,
+    "uncompressed_mb": 112.0,
+    "vram_ratio": 3.12
+  },
+  {
+    "batch_size": 1,
+    "bits": 3,
+    "cache_mb": 57.75,
+    "peak_mb": 91.63,
+    "rotation_mb": 14.0,
+    "seq_len": 2048,
+    "uncompressed_mb": 224.0,
+    "vram_ratio": 3.88
+  },
+  {
+    "batch_size": 1,
+    "bits": 4,
+    "cache_mb": 17.61,
+    "peak_mb": 18.99,
+    "rotation_mb": 14.0,
+    "seq_len": 128,
+    "uncompressed_mb": 14.0,
+    "vram_ratio": 0.79
+  },
+  {
+    "batch_size": 1,
+    "bits": 4,
+    "cache_mb": 21.22,
+    "peak_mb": 23.97,
+    "rotation_mb": 14.0,
+    "seq_len": 256,
+    "uncompressed_mb": 28.0,
+    "vram_ratio": 1.32
+  },
+  {
+    "batch_size": 1,
+    "bits": 4,
+    "cache_mb": 28.44,
+    "peak_mb": 33.94,
+    "rotation_mb": 14.0,
+    "seq_len": 512,
+    "uncompressed_mb": 56.0,
+    "vram_ratio": 1.97
+  },
+  {
+    "batch_size": 1,
+    "bits": 4,
+    "cache_mb": 42.88,
+    "peak_mb": 53.88,
+    "rotation_mb": 14.0,
+    "seq_len": 1024,
+    "uncompressed_mb": 112.0,
+    "vram_ratio": 2.61
+  },
+  {
+    "batch_size": 1,
+    "bits": 4,
+    "cache_mb": 71.75,
+    "peak_mb": 93.75,
+    "rotation_mb": 14.0,
+    "seq_len": 2048,
+    "uncompressed_mb": 224.0,
+    "vram_ratio": 3.12
+  }
+]

@@ -114,7 +114,15 @@ LANG_DISPLAY: dict[str, str] = {
     "en": "English",
 }
 
-ALL_MODES = ["base", "triton", "faster", "hybrid"]
+ALL_MODES = [
+    "base",
+    "base+tq",
+    "triton",
+    "triton+tq",
+    "faster",
+    "hybrid",
+    "hybrid+tq",
+]
 
 
 def _generate_for_mode(
@@ -125,11 +133,10 @@ def _generate_for_mode(
     skip_clone: bool = False,
 ) -> list[dict]:
     """Load one runner, generate custom voice + clone samples, unload."""
-    from qwen3_tts_triton.models import get_runner_class
+    from qwen3_tts_triton.models import create_runner
 
     logger.info("=== Mode: %s ===", mode)
-    cls = get_runner_class(mode)
-    runner = cls(device="cuda")
+    runner = create_runner(mode, device="cuda")
     runner.load_model()
 
     samples: list[dict] = []
@@ -274,9 +281,9 @@ def _parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--modes",
         nargs="+",
-        default=ALL_MODES,
+        default=None,
         choices=ALL_MODES,
-        help="Runner modes to generate (default: all 4)",
+        help="Runner modes to generate (default: all available)",
     )
     parser.add_argument(
         "--speaker",
@@ -308,10 +315,12 @@ def main() -> None:
     output_dir = Path(args.output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
 
+    modes: list[str] = args.modes if args.modes is not None else list(ALL_MODES)
+
     all_samples: list[dict] = []
     total_start = time.perf_counter()
 
-    for mode in args.modes:
+    for mode in modes:
         mode_samples = _generate_for_mode(
             mode, args.speaker, output_dir, skip_clone=args.skip_clone
         )
@@ -329,7 +338,7 @@ def main() -> None:
         "ref_text": REF_TEXT,
         "total_samples": len(all_samples),
         "total_generation_time_s": round(total_elapsed, 1),
-        "modes": args.modes,
+        "modes": modes,
         "samples": all_samples,
     }
 

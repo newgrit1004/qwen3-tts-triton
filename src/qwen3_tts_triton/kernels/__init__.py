@@ -16,6 +16,10 @@ All kernels are forward-only and optimised for CUDA devices (RTX 5090 /
 sm_120, CUDA 12.8).
 """
 
+from qwen3_tts_triton.kernels.fused_dequant import (
+    triton_fused_dequant,
+    triton_fused_quant,
+)
 from qwen3_tts_triton.kernels.fused_norm_residual import (
     TritonFusedAddRMSNorm,
     triton_fused_add_rms_norm,
@@ -23,6 +27,17 @@ from qwen3_tts_triton.kernels.fused_norm_residual import (
 from qwen3_tts_triton.kernels.rms_norm import TritonRMSNorm, triton_rms_norm
 from qwen3_tts_triton.kernels.rope import triton_mrope_forward
 from qwen3_tts_triton.kernels.swiglu import TritonSwiGLU, triton_swiglu_forward
+from qwen3_tts_triton.kernels.turboquant import (
+    TurboQuantKVCache,
+    dequantize_vectors,
+    generate_rotation_matrix,
+    lloyd_max_codebook,
+    pack_3bit,
+    pack_4bit,
+    quantize_vectors,
+    unpack_3bit,
+    unpack_4bit,
+)
 
 __all__ = [
     "triton_rms_norm",
@@ -32,4 +47,15 @@ __all__ = [
     "triton_mrope_forward",
     "triton_fused_add_rms_norm",
     "TritonFusedAddRMSNorm",
+    "TurboQuantKVCache",
+    "quantize_vectors",
+    "dequantize_vectors",
+    "lloyd_max_codebook",
+    "generate_rotation_matrix",
+    "pack_4bit",
+    "unpack_4bit",
+    "pack_3bit",
+    "unpack_3bit",
+    "triton_fused_dequant",
+    "triton_fused_quant",
 ]

@@ -1,0 +1,123 @@
+{
+  "asr_model": "large-v3",
+  "comparisons": [
+    {
+      "cer_delta": 0.0144,
+      "failures": [],
+      "opt": "Hybrid",
+      "ref": "Base",
+      "speaker_sim_mean": 0.7937,
+      "status": "PASS",
+      "utmos_delta": 0.0965
+    },
+    {
+      "cer_delta": 0.0141,
+      "failures": [],
+      "opt": "Hybrid+P(0,24)",
+      "ref": "Base",
+      "speaker_sim_mean": 0.7971,
+      "status": "PASS",
+      "utmos_delta": 0.1242
+    }
+  ],
+  "eval_time_s": 1806.63,
+  "mode": "full",
+  "num_sentences": 45,
+  "patch_ranges": [
+    [
+      0,
+      24
+    ]
+  ],
+  "runners": {
+    "Base": {
+      "cer_mean": 0.1837,
+      "cer_std": 0.2441,
+      "per_language": {
+        "en": {
+          "cer_mean": 0.0725,
+          "cer_std": 0.1352,
+          "n_samples": 45,
+          "utmos_mean": 3.7783,
+          "utmos_std": 0.6775
+        },
+        "ko": {
+          "cer_mean": 0.1196,
+          "cer_std": 0.1617,
+          "n_samples": 45,
+          "utmos_mean": 2.8381,
+          "utmos_std": 0.6043
+        },
+        "zh": {
+          "cer_mean": 0.3591,
+          "cer_std": 0.295,
+          "n_samples": 45,
+          "utmos_mean": 2.9033,
+          "utmos_std": 0.7603
+        }
+      },
+      "utmos_mean": 3.1733,
+      "utmos_std": 0.8069
+    },
+    "Hybrid": {
+      "cer_mean": 0.1693,
+      "cer_std": 0.2236,
+      "per_language": {
+        "en": {
+          "cer_mean": 0.0609,
+          "cer_std": 0.0994,
+          "n_samples": 45,
+          "utmos_mean": 3.7131,
+          "utmos_std": 0.721
+        },
+        "ko": {
+          "cer_mean": 0.1291,
+          "cer_std": 0.19,
+          "n_samples": 45,
+          "utmos_mean": 2.7085,
+          "utmos_std": 0.568
+        },
+        "zh": {
+          "cer_mean": 0.318,
+          "cer_std": 0.2618,
+          "n_samples": 45,
+          "utmos_mean": 2.8087,
+          "utmos_std": 0.6972
+        }
+      },
+      "utmos_mean": 3.0767,
+      "utmos_std": 0.8044
+    },
+    "Hybrid+P(0,24)": {
+      "cer_mean": 0.1696,
+      "cer_std": 0.2062,
+      "per_language": {
+        "en": {
+          "cer_mean": 0.0907,
+          "cer_std": 0.1203,
+          "n_samples": 45,
+          "utmos_mean": 3.7477,
+          "utmos_std": 0.6761
+        },
+        "ko": {
+          "cer_mean": 0.1165,
+          "cer_std": 0.1378,
+          "n_samples": 45,
+          "utmos_mean": 2.5362,
+          "utmos_std": 0.5493
+        },
+        "zh": {
+          "cer_mean": 0.3016,
+          "cer_std": 0.2601,
+          "n_samples": 45,
+          "utmos_mean": 2.8635,
+          "utmos_std": 0.6587
+        }
+      },
+      "utmos_mean": 3.0491,
+      "utmos_std": 0.812
+    }
+  },
+  "runs_per_sentence": 3,
+  "sentence_set": "tongue_twister"
+}

@@ -101,7 +101,7 @@
   "verification.tier2": "Tier 2 : Parit\u00e9 du mod\u00e8le",
   "verification.tier2_not_run": "Tier 2 non ex\u00e9cut\u00e9. Lancez : `make test-parity`",
   "verification.tier3": "Tier 3 : Qualit\u00e9 E2E",
-  "verification.tier3_deps_note": "Le Tier 3 n\u00e9cessite des d\u00e9pendances suppl\u00e9mentaires (jiwer, whisper, resemblyzer). Installez avec : `uv sync --extra eval` ou `pip install qwen3-tts-triton[eval]`, puis ex\u00e9cutez `make eval-fast` (~5 min) ou `make eval-full` (~30 min).",
+  "verification.tier3_deps_note": "Le Tier 3 n\u00e9cessite des d\u00e9pendances suppl\u00e9mentaires (jiwer, cohere-transcribe, resemblyzer). Installez avec : `uv sync --extra eval` ou `pip install qwen3-tts-triton[eval]`, puis ex\u00e9cutez `make eval-fast` (~5 min) ou `make eval-full` (~30 min).",
   "verification.tier3_not_run": "Tier 3 non ex\u00e9cut\u00e9. Lancez : `make eval-fast`",
   "verification.utmos_delta": "Delta UTMOS"
 }
