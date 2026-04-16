@@ -12,6 +12,52 @@ from qwen3_tts_triton.kernels.swiglu import triton_swiglu_forward
 logger = logging.getLogger(__name__)
 
 
+def _get_layer_index(name: str) -> int | None:
+    """Extract layer index from a dotted module name.
+
+    Args:
+        name: Dotted module path such as ``"model.layers.5.input_layernorm"``.
+
+    Returns:
+        The integer layer index, or ``None`` if the module is not inside a
+        numbered ``layers`` collection (e.g. final norm).
+
+    Examples:
+        >>> _get_layer_index("model.layers.5.input_layernorm")
+        5
+        >>> _get_layer_index("model.layers.27.mlp.gate_proj")
+        27
+        >>> _get_layer_index("model.norm")  # final norm
+    """
+    parts = name.split(".")
+    for i, part in enumerate(parts):
+        if part == "layers" and i + 1 < len(parts):
+            try:
+                return int(parts[i + 1])
+            except ValueError:
+                pass
+    return None
+
+
+def _should_patch(name: str, patch_range: tuple[int, int] | None) -> bool:
+    """Check whether a module should be patched based on its layer index.
+
+    Args:
+        name: Dotted module path.
+        patch_range: ``(start, end)`` half-open range of layer indices to
+            patch.  ``None`` means patch everything (default behaviour).
+
+    Returns:
+        ``True`` if the module should receive a Triton patch.
+    """
+    if patch_range is None:
+        return True
+    layer_idx = _get_layer_index(name)
+    if layer_idx is None:
+        return False  # outside any numbered layer (e.g. final norm)
+    return patch_range[0] <= layer_idx < patch_range[1]
+
+
 def _get_parent(model: nn.Module, dotted_name: str) -> tuple[nn.Module, str]:
     """Resolve a dotted module path to its parent module and attribute name.
 
@@ -133,9 +179,69 @@ def _patch_decoder_layer_forward(layer: nn.Module) -> None:
     layer.forward = types.MethodType(_forward, layer)
 
 
+def _is_rms_norm(module: nn.Module) -> bool:
+    """Check if module is an RMSNorm variant with patchable weight."""
+    return "RMSNorm" in type(module).__name__ and hasattr(module, "weight")
+
+
+def _is_swiglu_mlp(module: nn.Module) -> bool:
+    """Check if module is a SwiGLU MLP (gate/up/down projections)."""
+    return (
+        hasattr(module, "gate_proj")
+        and hasattr(module, "up_proj")
+        and hasattr(module, "down_proj")
+    )
+
+
+def _is_decoder_layer(module: nn.Module) -> bool:
+    """Check if module is a decoder layer with fusible norm+residual."""
+    return (
+        hasattr(module, "input_layernorm")
+        and hasattr(module, "post_attention_layernorm")
+        and hasattr(module, "self_attn")
+        and hasattr(module, "mlp")
+    )
+
+
+def _validate_patch_range(patch_range: tuple[int, int] | None) -> None:
+    """Validate patch_range argument."""
+    if patch_range is not None:
+        start, end = patch_range
+        if start < 0 or end <= start:
+            raise ValueError(
+                f"patch_range must satisfy 0 <= start < end, got ({start}, {end})"
+            )
+
+
+def _log_patch_summary(
+    patch_range: tuple[int, int] | None,
+    norm_count: int,
+    mlp_count: int,
+    fused_count: int,
+) -> None:
+    """Log patching summary."""
+    if patch_range is None:
+        logger.info(
+            "Triton patching: %d RMSNorm, %d MLP, %d FusedNormResidual",
+            norm_count,
+            mlp_count,
+            fused_count,
+        )
+    else:
+        logger.info(
+            "[Partial] Layers [%d, %d): %d RMSNorm, %d MLP, %d FusedNormResidual",
+            patch_range[0],
+            patch_range[1],
+            norm_count,
+            mlp_count,
+            fused_count,
+        )
+
+
 def apply_triton_kernels(
     model: nn.Module,
     enable_fused_norm: bool = True,
+    patch_range: tuple[int, int] | None = None,
 ) -> None:
     """Replace PyTorch ops with Triton kernels in Qwen3-TTS model.
 
@@ -147,49 +253,37 @@ def apply_triton_kernels(
     Args:
         model: The nn.Module to patch.
         enable_fused_norm: Enable fused norm+residual kernel. Default True.
+        patch_range: Half-open ``(start, end)`` range of decoder layer
+            indices to patch.  ``None`` (default) patches **all** layers,
+            preserving the original behaviour.  For example,
+            ``(0, 20)`` patches layers 0–19 with Triton and leaves layers
+            20–27 (plus the final norm) as original PyTorch.
+
+    Raises:
+        ValueError: If *patch_range* is invalid (start >= end or negative).
     """
+    _validate_patch_range(patch_range)
+
     norm_count = 0
     mlp_count = 0
     fused_count = 0
-
-    # Collect names first to avoid mutation during iteration
     modules = list(model.named_modules())
 
     for name, module in modules:
-        cls_name = type(module).__name__
-
-        # 1. Replace any RMSNorm variant with TritonRMSNorm
-        if "RMSNorm" in cls_name and hasattr(module, "weight"):
+        if _is_rms_norm(module) and _should_patch(name, patch_range):
             _replace_rms_norm(model, name, module)
             norm_count += 1
-
-        # 2. Patch SwiGLU MLPs (identified by gate/up/down projections)
-        if (
-            hasattr(module, "gate_proj")
-            and hasattr(module, "up_proj")
-            and hasattr(module, "down_proj")
-        ):
+        if _is_swiglu_mlp(module) and _should_patch(name, patch_range):
             _patch_mlp_forward(module)
             mlp_count += 1
 
-    # 3. Fused Norm+Residual (decoder layer forward replacement)
     if enable_fused_norm:
         for _name, module in modules:
-            if (
-                hasattr(module, "input_layernorm")
-                and hasattr(module, "post_attention_layernorm")
-                and hasattr(module, "self_attn")
-                and hasattr(module, "mlp")
-            ):
+            if _is_decoder_layer(module) and _should_patch(_name, patch_range):
                 _patch_decoder_layer_forward(module)
                 fused_count += 1
 
-    logger.info(
-        "Triton patching: %d RMSNorm, %d MLP, %d FusedNormResidual",
-        norm_count,
-        mlp_count,
-        fused_count,
-    )
+    _log_patch_summary(patch_range, norm_count, mlp_count, fused_count)
 
 
 def find_patchable_model(model: object) -> nn.Module:

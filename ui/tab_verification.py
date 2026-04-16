@@ -290,10 +290,16 @@ def _render_tier2(data: dict[str, Any]) -> None:
         render_layer_chart(layers, key="layer_chart_legacy")
 
 
+_PAIR_LABELS: dict[str, str] = {
+    "base_vs_triton": "Base vs Triton",
+    "faster_vs_hybrid": "Faster vs Hybrid",
+}
+
+
 def _render_pair_card(pair_name: str, pair_data: dict[str, Any]) -> None:
     """Render a single Tier 2 pair with status, metrics, and heatmap."""
     status = pair_data.get("status", "PENDING")
-    label = pair_name.replace("_", " ").title()
+    label = _PAIR_LABELS.get(pair_name, pair_name.replace("_", " ").title())
     badge = _html_badge(status)
 
     st.markdown(f"#### {label} {badge}", unsafe_allow_html=True)

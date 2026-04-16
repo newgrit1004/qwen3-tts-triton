@@ -101,7 +101,7 @@
   "verification.tier2": "Tier 2: Model Parity",
   "verification.tier2_not_run": "Tier 2 not run. Execute: `make test-parity`",
   "verification.tier3": "Tier 3: E2E Quality",
-  "verification.tier3_deps_note": "Tier 3 requires extra dependencies (jiwer, whisper, resemblyzer). Install with: `uv sync --extra eval` or `pip install qwen3-tts-triton[eval]`, then run `make eval-fast` (~5 min) or `make eval-full` (~30 min).",
+  "verification.tier3_deps_note": "Tier 3 requires extra dependencies (jiwer, cohere-transcribe, resemblyzer). Install with: `uv sync --extra eval` or `pip install qwen3-tts-triton[eval]`, then run `make eval-fast` (~5 min) or `make eval-full` (~30 min).",
   "verification.tier3_not_run": "Tier 3 not run. Execute: `make eval-fast`",
   "verification.utmos_delta": "UTMOS delta"
 }

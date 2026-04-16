@@ -101,7 +101,7 @@
   "verification.tier2": "Tier 2: \ubaa8\ub378 \ud328\ub9ac\ud2f0",
   "verification.tier2_not_run": "Tier 2 \ubbf8\uc2e4\ud589. `make test-parity`\ub97c \uc2e4\ud589\ud558\uc138\uc694.",
   "verification.tier3": "Tier 3: E2E \ud488\uc9c8",
-  "verification.tier3_deps_note": "Tier 3\ub294 \ucd94\uac00 \uc758\uc874\uc131(jiwer, whisper, resemblyzer)\uc774 \ud544\uc694\ud569\ub2c8\ub2e4. `uv sync --extra eval` \ub610\ub294 `pip install qwen3-tts-triton[eval]`\ub85c \uc124\uce58 \ud6c4, `make eval-fast`(~5\ubd84) \ub610\ub294 `make eval-full`(~30\ubd84)\uc744 \uc2e4\ud589\ud558\uc138\uc694.",
+  "verification.tier3_deps_note": "Tier 3\ub294 \ucd94\uac00 \uc758\uc874\uc131(jiwer, cohere-transcribe, resemblyzer)\uc774 \ud544\uc694\ud569\ub2c8\ub2e4. `uv sync --extra eval` \ub610\ub294 `pip install qwen3-tts-triton[eval]`\ub85c \uc124\uce58 \ud6c4, `make eval-fast`(~5\ubd84) \ub610\ub294 `make eval-full`(~30\ubd84)\uc744 \uc2e4\ud589\ud558\uc138\uc694.",
   "verification.tier3_not_run": "Tier 3 \ubbf8\uc2e4\ud589. `make eval-fast`\ub97c \uc2e4\ud589\ud558\uc138\uc694.",
   "verification.utmos_delta": "UTMOS \ucc28\uc774"
 }

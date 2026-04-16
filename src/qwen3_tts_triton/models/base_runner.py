@@ -71,12 +71,17 @@ class BaseRunner:
         device: str = "cuda",
         model_id: str = DEFAULT_MODEL_ID,
         dtype: str | torch.dtype = "bf16",
+        enable_turboquant: bool = False,
+        tq_bits: int = 4,
     ) -> None:
         self.device = device
         self.model_id = model_id
         self.dtype = _resolve_dtype(dtype)
+        self.enable_turboquant = enable_turboquant
+        self.tq_bits = tq_bits
         self._tts: Any = None
         self._clone_tts: Any = None
+        self._tq_cache: Any = None
 
     def load_model(self) -> None:
         """Download and load model + processor onto device."""
@@ -91,8 +96,47 @@ class BaseRunner:
             dtype=self.dtype,
         )
 
+        if self.enable_turboquant:
+            self._init_turboquant_cache()
+
         vram_gb = torch.cuda.max_memory_allocated() / 1024**3
         logger.info("Model loaded. VRAM: %.2f GB", vram_gb)
+
+    def _init_turboquant_cache(self) -> None:
+        """Create TurboQuantKVCache and patch talker's generate().
+
+        Wraps the talker's ``generate()`` so each call resets the cache
+        and injects it as ``past_key_values``.  This makes HuggingFace's
+        generation loop store/retrieve KV through our quantized cache.
+        """
+        from qwen3_tts_triton.kernels.turboquant import TurboQuantKVCache
+
+        config = self._tts.model.talker.config
+        self._tq_cache = TurboQuantKVCache(
+            bits=self.tq_bits,
+            num_layers=config.num_hidden_layers,
+            num_kv_heads=config.num_key_value_heads,
+            head_dim=config.hidden_size // config.num_attention_heads,
+            device=self.device,
+            dtype=self.dtype,
+        )
+
+        # Monkey-patch talker.generate() to inject TQ cache
+        talker = self._tts.model.talker
+        original_generate = talker.generate
+
+        tq_cache = self._tq_cache
+
+        def _tq_generate(*args: Any, **kwargs: Any) -> Any:
+            tq_cache.reset()
+            kwargs.setdefault("past_key_values", tq_cache)
+            return original_generate(*args, **kwargs)
+
+        talker.generate = _tq_generate
+        logger.info(
+            "TurboQuant %d-bit KV cache injected into talker.generate()",
+            self.tq_bits,
+        )
 
     @property
     def model(self) -> Any:

@@ -19,9 +19,12 @@ logger = logging.getLogger(__name__)
 
 _DISPLAY_TO_KEY: dict[str, str] = {
     "Base": "base",
+    "Base+TQ": "base+tq",
     "Triton": "triton",
+    "Triton+TQ": "triton+tq",
     "Faster": "faster",
     "Hybrid": "hybrid",
+    "Hybrid+TQ": "hybrid+tq",
 }
 
 LANGUAGES = [
@@ -57,8 +60,24 @@ SAMPLE_TEXTS: dict[str, str] = {
     "Portuguese": "Ola, esta e uma demo do Qwen3 TTS Triton.",
 }
 
-ALL_RUNNER_NAMES = ["Base", "Triton", "Faster", "Hybrid"]
-DEFAULT_RUNNERS = ["Base", "Triton", "Faster", "Hybrid"]
+ALL_RUNNER_NAMES = [
+    "Base",
+    "Base+TQ",
+    "Triton",
+    "Triton+TQ",
+    "Faster",
+    "Hybrid",
+    "Hybrid+TQ",
+]
+DEFAULT_RUNNERS = [
+    "Base",
+    "Base+TQ",
+    "Triton",
+    "Triton+TQ",
+    "Faster",
+    "Hybrid",
+    "Hybrid+TQ",
+]
 DEFAULT_SPEAKERS = ["sohee", "vivian"]
 
 
@@ -178,7 +197,7 @@ def _run_comparison(
             try:
                 # Phase 2: Load model (+ CUDA graph warmup for Faster/Hybrid)
                 key = _DISPLAY_TO_KEY.get(name, name.lower())
-                if key in ("faster", "hybrid"):
+                if key in ("faster", "hybrid", "hybrid+tq"):
                     st.write(t("inference.loading_warmup", name=name))
                 else:
                     st.write(t("inference.loading_model", name=name))
@@ -263,13 +282,12 @@ def _display_results(
 
 
 def _get_runner(name: str) -> Any:
-    """Import a runner class by display name with graceful fallback."""
+    """Import a runner instance by display name with graceful fallback."""
     try:
-        from qwen3_tts_triton.models import get_runner_class
+        from qwen3_tts_triton.models import create_runner
 
         key = _DISPLAY_TO_KEY.get(name, name.lower())
-        cls = get_runner_class(key)
-        return cls() if cls else None
+        return create_runner(key)
     except (ImportError, KeyError):
         return None
 

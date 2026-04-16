@@ -16,7 +16,7 @@ Typical usage::
 
 import warnings
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 
 
 def _check_torch() -> None:
@@ -43,17 +43,24 @@ from qwen3_tts_triton.kernels import (  # noqa: E402
     TritonFusedAddRMSNorm,
     TritonRMSNorm,
     TritonSwiGLU,
+    TurboQuantKVCache,
+    dequantize_vectors,
+    generate_rotation_matrix,
+    lloyd_max_codebook,
+    quantize_vectors,
     triton_fused_add_rms_norm,
     triton_mrope_forward,
     triton_rms_norm,
     triton_swiglu_forward,
 )
 from qwen3_tts_triton.models import (  # noqa: E402
+    ALL_RUNNER_NAMES,
     BaseRunner,
     FasterRunner,
     TritonFasterRunner,
     TritonRunner,
     apply_triton_kernels,
+    create_runner,
     get_runner_class,
 )
 
@@ -63,10 +70,15 @@ __all__ = [
     "TritonRMSNorm",
     "TritonSwiGLU",
     "TritonFusedAddRMSNorm",
+    "TurboQuantKVCache",
     "triton_rms_norm",
     "triton_swiglu_forward",
     "triton_mrope_forward",
     "triton_fused_add_rms_norm",
+    "quantize_vectors",
+    "dequantize_vectors",
+    "lloyd_max_codebook",
+    "generate_rotation_matrix",
     # Models
     "BaseRunner",
     "FasterRunner",
@@ -74,4 +86,6 @@ __all__ = [
     "TritonFasterRunner",
     "apply_triton_kernels",
     "get_runner_class",
+    "create_runner",
+    "ALL_RUNNER_NAMES",
 ]

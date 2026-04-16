@@ -19,6 +19,7 @@ from ui.sidebar import render_sidebar
 from ui.tab_benchmarks import render_benchmarks_tab
 from ui.tab_inference import render_inference_tab
 from ui.tab_overview import render_overview_tab
+from ui.tab_partial import render_partial_tab
 from ui.tab_samples import render_samples_tab
 from ui.tab_verification import render_verification_tab
 
@@ -34,12 +35,13 @@ def main() -> None:
     # Sidebar (UI language only)
     render_sidebar()
 
-    # 5 tabs
+    # 6 tabs
     (
         tab_overview,
         tab_inference,
         tab_samples,
         tab_bench,
+        tab_partial,
         tab_verify,
     ) = st.tabs(
         [
@@ -47,6 +49,7 @@ def main() -> None:
             t("app.tab_inference"),
             t("app.tab_samples"),
             t("app.tab_benchmarks"),
+            "Partial Patching",
             t("app.tab_verification"),
         ]
     )
@@ -62,6 +65,9 @@ def main() -> None:
 
     with tab_bench:
         render_benchmarks_tab()
+
+    with tab_partial:
+        render_partial_tab()
 
     with tab_verify:
         render_verification_tab()

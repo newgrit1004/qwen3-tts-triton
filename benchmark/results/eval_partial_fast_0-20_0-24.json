@@ -1,0 +1,76 @@
+{
+  "asr_model": "small",
+  "comparisons": [
+    {
+      "cer_delta": 0.0196,
+      "failures": [],
+      "opt": "Hybrid",
+      "ref": "Base",
+      "speaker_sim_mean": 0.7823,
+      "status": "PASS",
+      "utmos_delta": 0.296
+    },
+    {
+      "cer_delta": 0.0032,
+      "failures": [
+        "Speaker sim 0.7252 < 0.75"
+      ],
+      "opt": "Hybrid+P(0,20)",
+      "ref": "Base",
+      "speaker_sim_mean": 0.7252,
+      "status": "FAIL",
+      "utmos_delta": 0.0061
+    },
+    {
+      "cer_delta": 0.0177,
+      "failures": [
+        "UTMOS delta 0.3867 > 0.3"
+      ],
+      "opt": "Hybrid+P(0,24)",
+      "ref": "Base",
+      "speaker_sim_mean": 0.7618,
+      "status": "FAIL",
+      "utmos_delta": 0.3867
+    }
+  ],
+  "eval_time_s": 134.35,
+  "mode": "fast",
+  "num_sentences": 10,
+  "patch_ranges": [
+    [
+      0,
+      20
+    ],
+    [
+      0,
+      24
+    ]
+  ],
+  "runners": {
+    "Base": {
+      "cer_mean": 0.1585,
+      "cer_std": 0.1452,
+      "utmos_mean": 3.0034,
+      "utmos_std": 0.5451
+    },
+    "Hybrid": {
+      "cer_mean": 0.1782,
+      "cer_std": 0.1555,
+      "utmos_mean": 3.2995,
+      "utmos_std": 0.476
+    },
+    "Hybrid+P(0,20)": {
+      "cer_mean": 0.1553,
+      "cer_std": 0.1238,
+      "utmos_mean": 3.0095,
+      "utmos_std": 0.5434
+    },
+    "Hybrid+P(0,24)": {
+      "cer_mean": 0.1762,
+      "cer_std": 0.1294,
+      "utmos_mean": 3.3901,
+      "utmos_std": 0.3763
+    }
+  },
+  "runs_per_sentence": 1
+}

@@ -21,7 +21,23 @@ RESULTS_DIR = PROJECT_ROOT / "benchmark" / "results"
 README_FILES = [PROJECT_ROOT / "README.md", PROJECT_ROOT / "README_ko.md"]
 
 RUNNER_ALIASES: dict[str, str] = {"Turbo": "Hybrid"}
-RUNNER_ORDER: list[str] = ["Base", "Triton", "Faster", "Hybrid"]
+RUNNER_ORDER: list[str] = [
+    "Base",
+    "Base+TQ",
+    "Triton",
+    "Triton+TQ",
+    "Faster",
+    "Hybrid",
+    "Hybrid+TQ",
+]
+QUALITY_RUNNER_ORDER: list[str] = [
+    "base+tq",
+    "triton",
+    "triton+tq",
+    "faster",
+    "hybrid",
+    "hybrid+tq",
+]
 
 HBM_SAVINGS: dict[str, str] = {
     "RMSNorm": "4\u21921 trips",
@@ -103,6 +119,22 @@ def _normalize_runner(name: str) -> str:
     return RUNNER_ALIASES.get(name, name)
 
 
+def _display_runner_name(name: str) -> str:
+    """Convert internal runner names to release-facing labels."""
+    display = {
+        "Base": "Base (PyTorch)",
+        "Hybrid": "__Hybrid (Faster+Triton)__",
+        "base": "Base (ref)",
+        "base+tq": "Base+TQ (`base+tq`)",
+        "triton": "Triton (`triton`)",
+        "triton+tq": "Triton+TQ (`triton+tq`)",
+        "faster": "Faster (`faster`)",
+        "hybrid": "Hybrid (`hybrid`)",
+        "hybrid+tq": "Hybrid+TQ (`hybrid+tq`)",
+    }
+    return display.get(name, name)
+
+
 # --- E2E table ---
 
 
@@ -111,10 +143,12 @@ def _aggregate_e2e(
 ) -> dict[str, dict[str, float]]:
     """Aggregate E2E results across languages per runner.
 
-    Returns dict[runner_name, {latency_s, rtf, vram}].
-    For latency: average of per-language means (converted ms->s).
-    For RTF: average of per-language means.
-    For VRAM: max across languages.
+    Returns dict[runner_name, {...}].
+    Keeps:
+    - aggregate latency/RTF across languages
+    - per-language latency/RTF for release tables
+    - peak VRAM across languages
+    - model load time per runner
     """
     by_runner: dict[str, list[dict]] = {}
     for entry in raw:
@@ -126,12 +160,24 @@ def _aggregate_e2e(
         latencies = [e["time_ms"]["mean"] for e in entries]
         rtfs = [e["rtf"]["mean"] for e in entries]
         vrams = [e["peak_vram_gb"] for e in entries]
+        load_times = [
+            float(e["model_load_time_s"])
+            for e in entries
+            if e.get("model_load_time_s") is not None
+        ]
 
-        aggregated[runner] = {
+        aggregated[runner] = {  # type: ignore[assignment]
             "latency_s": sum(latencies) / len(latencies) / 1000.0,
             "rtf": sum(rtfs) / len(rtfs),
             "vram": max(vrams),
+            "load_time_s": max(load_times) if load_times else None,
         }
+        for entry in entries:
+            lang = entry.get("language")
+            if lang not in {"ko", "en"}:
+                continue
+            aggregated[runner][f"latency_ms_{lang}"] = entry["time_ms"]["mean"]
+            aggregated[runner][f"rtf_{lang}"] = entry["rtf"]["mean"]
     return aggregated
 
 
@@ -149,23 +195,55 @@ def _render_e2e_table(
             "`make bench-e2e`\ub85c \uc7ac\ud604 \uac00\ub2a5."
         )
         header = (
-            "| \ubaa8\ub4dc | \ub808\uc774\ud134\uc2dc (s) | RTF "
-            "| \ud53c\ud06c VRAM (GB) | vs Base |"
+            "| \ubaa8\ub4dc | \ub85c\ub4dc \uc2dc\uac04 | "
+            "\uc9c0\uc5f0 (\ud55c\uad6d\uc5b4) | \uc9c0\uc5f0 (\uc601\uc5b4) | "
+            "RTF (ko) | RTF (en) | Base \ub300\ube44 | \ud53c\ud06c VRAM |"
+        )
+        note = (
+            "> Triton/Triton+TQ/Hybrid/Hybrid+TQ \uc218\uce58\ub294 "
+            "\uae30\ubcf8 partial patch range `[0, 24)` \uc124\uc815 "
+            "\uae30\uc900\uc774\uba70, \ub9c8\uc9c0\ub9c9 4\uac1c decoder "
+            "\ub808\uc774\uc5b4\ub294 \ubc1c\uc74c \uc548\uc815\uc131\uc744 "
+            "\uc704\ud574 PyTorch\ub85c \ub0a8\uaca8\ub461\ub2c8\ub2e4."
         )
     else:
         caption = (
             "> RTX 5090, bf16, 2 texts (ko + en), "
             "3 warmup + 20 runs each. Run `make bench-e2e` to reproduce."
         )
-        header = "| Mode | Latency (s) | RTF | Peak VRAM (GB) | vs Base |"
+        header = (
+            "| Mode | Load Time | Latency (ko) | Latency (en) | "
+            "RTF (ko) | RTF (en) | vs Base | Peak VRAM |"
+        )
+        note = (
+            "> Triton/Triton+TQ/Hybrid/Hybrid+TQ use the default partial "
+            "patch range `[0, 24)`; the final 4 decoder layers stay in "
+            "PyTorch for pronunciation stability."
+        )
 
-    divider = "|------|:-----------:|:---:|:--------------:|:-------:|"
+    divider = (
+        "|------|:---------:|:------------:|:------------:|"
+        ":--------:|:--------:|:-------:|:---------:|"
+    )
 
     # Collect values for bold-best computation
     present = [r for r in RUNNER_ORDER if r in aggregated]
-    lat_vals = {r: aggregated[r]["latency_s"] for r in present}
-    rtf_vals = {r: aggregated[r]["rtf"] for r in present}
-    vram_vals = {r: aggregated[r]["vram"] for r in present}
+    lat_ko_vals = {
+        r: aggregated[r]["latency_ms_ko"]
+        for r in present
+        if "latency_ms_ko" in aggregated[r]
+    }
+    lat_en_vals = {
+        r: aggregated[r]["latency_ms_en"]
+        for r in present
+        if "latency_ms_en" in aggregated[r]
+    }
+    rtf_ko_vals = {
+        r: aggregated[r]["rtf_ko"] for r in present if "rtf_ko" in aggregated[r]
+    }
+    rtf_en_vals = {
+        r: aggregated[r]["rtf_en"] for r in present if "rtf_en" in aggregated[r]
+    }
     speedup_vals: dict[str, float] = {}
     for r in present:
         if r == "Base":
@@ -175,11 +253,11 @@ def _render_e2e_table(
         else:
             speedup_vals[r] = 0.0
 
-    # Bold the best in each column (exclude Base from speedup best)
-    lat_fmt = _bold_best(lat_vals, "{:.2f}", minimize=True)
-    rtf_fmt = _bold_best(rtf_vals, "{:.2f}", minimize=False)
-    vram_fmt = _bold_best(vram_vals, "{:.2f}", minimize=True)
-    spd_fmt = _bold_best(speedup_vals, "{:.2f}x", minimize=False, exclude={"Base"})
+    lat_ko_fmt = _bold_best(lat_ko_vals, "{:,.0f} ms", minimize=True)
+    lat_en_fmt = _bold_best(lat_en_vals, "{:,.0f} ms", minimize=True)
+    rtf_ko_fmt = _bold_best(rtf_ko_vals, "{:.2f}x", minimize=False)
+    rtf_en_fmt = _bold_best(rtf_en_vals, "{:.2f}x", minimize=False)
+    spd_fmt = _bold_best(speedup_vals, "{:.1f}x", minimize=False, exclude={"Base"})
 
     lines = [caption, "", header, divider]
 
@@ -187,21 +265,23 @@ def _render_e2e_table(
         if runner not in aggregated:
             continue
 
-        lat = lat_fmt[runner]
-        rtf = rtf_fmt[runner]
-        vram = vram_fmt[runner]
+        label = _display_runner_name(runner)
+        load_time = aggregated[runner].get("load_time_s")
+        load_time_str = f"{load_time:.1f}s" if load_time is not None else "\u2014"
+        lat_ko = lat_ko_fmt.get(runner, "\u2014")
+        lat_en = lat_en_fmt.get(runner, "\u2014")
+        rtf_ko = rtf_ko_fmt.get(runner, "\u2014")
+        rtf_en = rtf_en_fmt.get(runner, "\u2014")
         vs_base = spd_fmt[runner]
+        vram = aggregated[runner].get("vram")
+        vram_str = f"{vram:.2f} GB" if vram is not None else "\u2014"
 
-        # stable-fast style labels
-        if runner == "Hybrid":
-            label = "__Hybrid (Faster+Triton)__"
-        elif runner == "Base":
-            label = "Base (PyTorch)"
-        else:
-            label = runner
+        lines.append(
+            f"| {label} | {load_time_str} | {lat_ko} | {lat_en} | "
+            f"{rtf_ko} | {rtf_en} | {vs_base} | {vram_str} |"
+        )
 
-        lines.append(f"| {label} | {lat} | {rtf} | {vram} | {vs_base} |")
-
+    lines.extend(["", note])
     return "\n".join(lines)
 
 
@@ -342,11 +422,11 @@ def _format_kernel_row(
 # --- Quality table ---
 
 
-def _render_quality_table(
+def _render_quality_table_legacy(
     raw: dict | None,
     is_korean: bool = False,
 ) -> str:
-    """Render the Tier 3 audio quality markdown table."""
+    """Render the legacy single-comparison Tier 3 markdown table."""
     if is_korean:
         preamble = (
             "Triton \ucee4\ub110\uc740 PyTorch \uae30\ubcf8\uacfc "
@@ -415,6 +495,144 @@ def _render_quality_table(
     return "\n".join(lines)
 
 
+def _render_quality_table_multi(
+    raw: dict,
+    is_korean: bool = False,
+) -> str:
+    """Render the multi-runner Tier 3 markdown table."""
+    mode = raw.get("mode", "full")
+    runners = raw.get("runners", {})
+    comparisons = raw.get("comparisons", [])
+    cmp_by_opt = {comp.get("opt"): comp for comp in comparisons}
+
+    if is_korean:
+        preamble = (
+            f"\uacf5\uc2dd \ub9b4\ub9ac\uc2a4 \ud488\uc9c8 "
+            f"\uc218\uce58\ub294 {mode} \ubaa8\ub4dc "
+            f"\uae30\uc900\uc73c\ub85c \uc815\ub9ac\ud588\uc2b5\ub2c8\ub2e4."
+        )
+        header = "| \ub7ec\ub108 | UTMOS | CER | Speaker Sim | \uc0c1\ud0dc |"
+        divider = "|--------|:-----:|:---:|:-----------:|:----:|"
+        reproduce_cmd = (
+            "`make eval-full`\ub85c \uc7ac\ud604 \uac00\ub2a5."
+            if mode == "full"
+            else "`make eval-fast`\ub85c \uc7ac\ud604 \uac00\ub2a5."
+        )
+        footer = (
+            f"{reproduce_cmd} "
+            "fast \ubaa8\ub4dc\ub294 \uc2a4\ubaa8\ud06c "
+            "\uccb4\ud06c\uc6a9\uc73c\ub85c \ubcf4\ub294 \ud3b8\uc774 \ub0ab\ub2e4."
+        )
+        caveat_title = (
+            f"\ub9b4\ub9ac\uc2a4 \uc8fc\uc758\uc0ac\ud56d ({mode} \ubaa8\ub4dc):"
+        )
+    else:
+        preamble = (
+            f"Official release quality numbers use {mode} mode "
+            f"as the canonical Tier 3 result."
+        )
+        header = "| Runner | UTMOS | CER | Speaker Sim | Status |"
+        divider = "|--------|:-----:|:---:|:-----------:|:------:|"
+        reproduce_cmd = (
+            "Run `make eval-full` to reproduce."
+            if mode == "full"
+            else "Run `make eval-fast` to reproduce."
+        )
+        footer = (
+            f"{reproduce_cmd} Treat fast mode as a "
+            "smoke check, not the release authority."
+        )
+        caveat_title = f"Release caveats ({mode} mode):"
+
+    lines = [preamble, "", header, divider]
+
+    base_stats = runners.get("base", {})
+    base_utmos = (
+        f"{base_stats.get('utmos_mean', 0):.2f} \u00b1 "
+        f"{base_stats.get('utmos_std', 0):.2f}"
+    )
+    base_cer = (
+        f"{base_stats.get('cer_mean', 0):.2f} \u00b1 {base_stats.get('cer_std', 0):.2f}"
+    )
+    base_label = "Base (\uae30\uc900)" if is_korean else _display_runner_name("base")
+    base_status = "\uae30\uc900" if is_korean else "ref"
+    lines.append(f"| {base_label} | {base_utmos} | {base_cer} | - | {base_status} |")
+
+    for runner in QUALITY_RUNNER_ORDER:
+        if runner not in runners:
+            continue
+        stats = runners[runner]
+        cmp = cmp_by_opt.get(runner, {})
+        u_m = stats.get("utmos_mean", 0)
+        u_s = stats.get("utmos_std", 0)
+        utmos = f"{u_m:.2f} \u00b1 {u_s:.2f}"
+        c_m = stats.get("cer_mean", 0)
+        c_s = stats.get("cer_std", 0)
+        cer = f"{c_m:.2f} \u00b1 {c_s:.2f}"
+        sim = cmp.get("speaker_sim_mean")
+        sim_str = f"{sim:.2f}" if sim is not None else "-"
+        status = cmp.get("status", "N/A")
+        lines.append(
+            f"| {_display_runner_name(runner)} "
+            f"| {utmos} | {cer} "
+            f"| {sim_str} | {status} |"
+        )
+
+    failing = [comp for comp in comparisons if comp.get("failures")]
+    if failing:
+        lines.extend(["", caveat_title])
+        for comp in failing:
+            failures = "; ".join(comp.get("failures", []))
+            opt = comp.get("opt", "?")
+            st = comp.get("status", "FAIL")
+            lines.append(f"- `{opt}`: {st} - {failures}")
+    else:
+        if is_korean:
+            lines.extend(
+                [
+                    "",
+                    "- \ubaa8\ub4e0 \ucd5c\uc801\ud654 \ub7ec\ub108\uac00 "
+                    "full mode \uae30\uc900\uc744 "
+                    "\ud1b5\uacfc\ud588\uc2b5\ub2c8\ub2e4.",
+                ]
+            )
+        else:
+            lines.extend(
+                [
+                    "",
+                    "- All optimized runners pass the full mode release gate.",
+                ]
+            )
+
+    lines.extend(["", footer])
+    return "\n".join(lines)
+
+
+def _render_quality_table(
+    raw: dict | None,
+    is_korean: bool = False,
+) -> str:
+    """Render the Tier 3 audio quality markdown table."""
+    if raw and "runners" in raw and "comparisons" in raw:
+        return _render_quality_table_multi(raw, is_korean=is_korean)
+    return _render_quality_table_legacy(raw, is_korean=is_korean)
+
+
+def _load_tier3_result() -> dict | None:
+    """Load the canonical Tier 3 artifact, preferring full multi-runner results."""
+    candidate_names = [
+        "tier3_full_multi.json",
+        "tier3_fast_multi.json",
+        "tier3_full_base_vs_triton.json",
+        "tier3_fast_base_vs_triton.json",
+    ]
+    for name in candidate_names:
+        raw = _load_json(RESULTS_DIR / name)
+        if isinstance(raw, dict):
+            return raw
+    return None
+
+
 # --- Patching logic ---
 
 
@@ -479,7 +697,7 @@ def main() -> None:
     # Load data
     e2e_raw = _load_json(RESULTS_DIR / "e2e_benchmarks.json")
     kernel_raw = _load_json(RESULTS_DIR / "kernel_benchmarks.json")
-    tier3_raw = _load_json(RESULTS_DIR / "tier3_fast_base_vs_triton.json")
+    tier3_raw = _load_tier3_result()
 
     # Aggregate E2E data
     e2e_agg: dict[str, dict[str, float]] = {}

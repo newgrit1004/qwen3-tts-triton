@@ -1,9 +1,9 @@
 """3-Tier verification runner. Saves structured JSON for UI display.
 
 Usage:
-    python -m benchmark.run_verification              # All tiers
-    python -m benchmark.run_verification --skip-tier3  # Tier 1+2 only
-    python -m benchmark.run_verification --tier 1      # Tier 1 only
+    python -m benchmark.run_verification
+    python -m benchmark.run_verification --skip-tier3
+    python -m benchmark.run_verification --tier 1
 """
 
 import argparse
@@ -28,20 +28,61 @@ TIER2_ARTIFACT = RESULTS_DIR / "tier2_metrics.json"
 # ────────────────────────────────────────────────────────────
 
 
-def _parse_pytest_line(line: str) -> dict[str, Any] | None:
-    """Parse a pytest verbose output line into test result dict."""
-    # Pattern: tests/test_foo.py::test_name PASSED/FAILED [duration]
-    match = re.match(
-        r"^(tests/\S+::(\S+))\s+(PASSED|FAILED|SKIPPED|ERROR)",
-        line.strip(),
-    )
-    if not match:
-        return None
-    return {
-        "name": match.group(2),
-        "fullname": match.group(1),
-        "status": match.group(3),
-    }
+_RE_RESULT_INLINE = re.compile(r"^(tests/\S+::(\S+))\s+(PASSED|FAILED|SKIPPED|ERROR)")
+_RE_TEST_NAME = re.compile(r"^(tests/\S+::(\S+))\s*$")
+_RE_BARE_STATUS = re.compile(r"^(PASSED|FAILED|SKIPPED|ERROR)\b")
+
+
+def _parse_pytest_output(stdout: str) -> list[dict[str, Any]]:
+    """Parse pytest verbose output into test result dicts.
+
+    Handles two output formats:
+    - Inline: ``tests/foo.py::test_bar PASSED``
+    - Split (live log): test name on one line, then log lines,
+      then ``PASSED`` on a separate line.
+    """
+    tests: list[dict[str, Any]] = []
+    pending_name: str | None = None
+    pending_fullname: str | None = None
+
+    for line in stdout.splitlines():
+        stripped = line.strip()
+
+        # Case 1: result on same line as test name
+        m = _RE_RESULT_INLINE.match(stripped)
+        if m:
+            pending_name = None
+            tests.append(
+                {
+                    "name": m.group(2),
+                    "fullname": m.group(1),
+                    "status": m.group(3),
+                }
+            )
+            continue
+
+        # Case 2: test name only (result will follow after live log)
+        m = _RE_TEST_NAME.match(stripped)
+        if m:
+            pending_fullname = m.group(1)
+            pending_name = m.group(2)
+            continue
+
+        # Case 3: bare status line following a pending test name
+        if pending_name:
+            m = _RE_BARE_STATUS.match(stripped)
+            if m:
+                tests.append(
+                    {
+                        "name": pending_name,
+                        "fullname": pending_fullname,
+                        "status": m.group(1),
+                    }
+                )
+                pending_name = None
+                continue
+
+    return tests
 
 
 def run_tier1() -> dict[str, Any]:
@@ -56,7 +97,8 @@ def run_tier1() -> dict[str, Any]:
         "--ignore=tests/test_model_parity.py",
         "-v",
         "--tb=short",
-        "-q",
+        "-o",
+        "addopts=",
     ]
     result = subprocess.run(
         cmd,
@@ -67,11 +109,7 @@ def run_tier1() -> dict[str, Any]:
     duration = round(time.perf_counter() - t_start, 2)
 
     # Parse test results from stdout
-    tests: list[dict[str, Any]] = []
-    for line in result.stdout.splitlines():
-        parsed = _parse_pytest_line(line)
-        if parsed:
-            tests.append(parsed)
+    tests = _parse_pytest_output(result.stdout)
 
     passed = sum(1 for t in tests if t["status"] == "PASSED")
     failed = sum(1 for t in tests if t["status"] == "FAILED")
@@ -114,7 +152,8 @@ def run_tier2() -> dict[str, Any]:
         "tests/test_model_parity.py",
         "-v",
         "--tb=short",
-        "-q",
+        "-o",
+        "addopts=",
     ]
     result = subprocess.run(
         cmd,
@@ -125,11 +164,7 @@ def run_tier2() -> dict[str, Any]:
     duration = round(time.perf_counter() - t_start, 2)
 
     # Parse test results
-    tests: list[dict[str, Any]] = []
-    for line in result.stdout.splitlines():
-        parsed = _parse_pytest_line(line)
-        if parsed:
-            tests.append(parsed)
+    tests = _parse_pytest_output(result.stdout)
 
     passed = sum(1 for t in tests if t["status"] == "PASSED")
     failed = sum(1 for t in tests if t["status"] == "FAILED")
@@ -187,12 +222,12 @@ def _load_tier2_artifact() -> dict[str, Any] | None:
 
 
 # ────────────────────────────────────────────────────────────
-# Tier 3: Load existing eval results (no execution)
+# Tier 3: Load existing eval results artifact
 # ────────────────────────────────────────────────────────────
 
 
 def run_tier3_load() -> dict[str, Any] | None:
-    """Tier 3: Load existing eval results JSON (does not run eval).
+    """Tier 3: Load existing eval results JSON artifact (does not run eval).
 
     Supports three formats:
     - Multi-runner (tier3_*_multi.json with ``comparisons`` list)
@@ -270,8 +305,8 @@ def run_tier3_load() -> dict[str, Any] | None:
 
 
 def main() -> None:
-    """CLI entrypoint for 3-Tier verification."""
-    parser = argparse.ArgumentParser(description="3-Tier verification runner")
+    """CLI entrypoint for 3-Tier verification reporting."""
+    parser = argparse.ArgumentParser(description="3-Tier verification reporter")
     parser.add_argument(
         "--tier",
         type=str,
@@ -336,14 +371,18 @@ def main() -> None:
     # Tier 3
     if 3 in tiers:
         logger.info("=" * 50)
-        logger.info("Loading Tier 3: E2E quality results...")
+        logger.info("Loading Tier 3: existing E2E quality results...")
         logger.info("=" * 50)
         tier3 = run_tier3_load()
         if tier3:
             report["tier3"] = tier3
             logger.info("Tier 3: %s (source: %s)", tier3["status"], tier3["source"])
         else:
-            logger.info("Tier 3: No eval results found. Run 'make eval-fast' first.")
+            logger.info(
+                "Tier 3: No eval results found. "
+                "Run 'make eval-fast', 'make eval-full', "
+                "or 'make verify-all' first."
+            )
             report["tier3"] = None
 
     # Save report

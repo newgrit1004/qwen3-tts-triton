@@ -1,63 +1,89 @@
 {
-  "asr_model": "small",
+  "asr_model": "CohereLabs/cohere-transcribe-03-2026",
   "comparisons": [
     {
-      "cer_delta": 0.02,
+      "cer_delta": 0.0096,
       "failures": [],
       "opt": "triton",
       "ref": "base",
-      "speaker_sim_mean": 0.7645,
+      "speaker_sim_mean": 0.7541,
       "status": "PASS",
-      "utmos_delta": 0.1623
+      "utmos_delta": 0.0527
     },
     {
-      "cer_delta": 0.0571,
+      "cer_delta": 0.3486,
       "failures": [
-        "CER delta 0.0571 > 0.05"
+        "UTMOS delta 0.4400 > 0.3",
+        "CER delta 0.3486 > 0.05",
+        "Speaker sim 0.7228 < 0.75"
+      ],
+      "opt": "triton+tq",
+      "ref": "base",
+      "speaker_sim_mean": 0.7228,
+      "status": "FAIL",
+      "utmos_delta": 0.44
+    },
+    {
+      "cer_delta": 0.01,
+      "failures": [
+        "Speaker sim 0.7474 < 0.75"
       ],
       "opt": "faster",
       "ref": "base",
-      "speaker_sim_mean": 0.7506,
+      "speaker_sim_mean": 0.7474,
       "status": "FAIL",
-      "utmos_delta": 0.1636
+      "utmos_delta": 0.1556
     },
     {
-      "cer_delta": 0.0445,
-      "failures": [],
+      "cer_delta": 0.008,
+      "failures": [
+        "Speaker sim 0.7249 < 0.75"
+      ],
       "opt": "hybrid",
       "ref": "base",
-      "speaker_sim_mean": 0.7684,
+      "speaker_sim_mean": 0.7249,
+      "status": "FAIL",
+      "utmos_delta": 0.1582
+    },
+    {
+      "cer_delta": 0.0028,
+      "failures": [],
+      "opt": "hybrid+tq",
+      "ref": "base",
+      "speaker_sim_mean": 0.7636,
       "status": "PASS",
-      "utmos_delta": 0.1774
+      "utmos_delta": 0.2167
     }
   ],
-  "eval_time_s": 170.98,
+  "eval_time_s": 835.55,
   "mode": "fast",
-  "num_sentences": 10,
+  "num_sentences": 15,
   "opt_runners": [
     "triton",
+    "triton+tq",
     "faster",
-    "hybrid"
+    "hybrid",
+    "hybrid+tq"
   ],
   "opt_samples": {
     "faster": [
       {
-        "cer": 0.2,
+        "cer": 0.1,
         "language": "zh",
         "run": 0,
         "sentence_idx": 0,
         "text": "\u4f60\u597d\uff0c\u4eca\u5929\u5929\u6c14\u771f\u597d\u3002",
-        "transcript": "\u4f60\u597d \u4eca\u5929\u5929\u6c14\u771f\u597d",
-        "utmos": 3.8025684356689453
+        "transcript": "\u4f60\u597d,\u4eca\u5929\u5929\u6c14\u771f\u597d\u3002",
+        "utmos": 3.6484789848327637
       },
       {
-        "cer": 0.36363636363636365,
+        "cer": 0.0,
         "language": "zh",
         "run": 0,
         "sentence_idx": 1,
         "text": "\u6b22\u8fce\u4f7f\u7528\u8bed\u97f3\u5408\u6210\u7cfb\u7edf\u3002",
-        "transcript": "\u6b61\u8fce\u4f7f\u7528\u8a9e\u97f3\u5408\u6210\u7cfb\u7d71",
-        "utmos": 2.854902744293213
+        "transcript": "\u6b22\u8fce\u4f7f\u7528\u8bed\u97f3\u5408\u6210\u7cfb\u7edf\u3002",
+        "utmos": 3.21258282661438
       },
       {
         "cer": 0.1,
@@ -66,25 +92,25 @@
         "sentence_idx": 2,
         "text": "\u8bf7\u95ee\u60a8\u9700\u8981\u4ec0\u4e48\u5e2e\u52a9\uff1f",
         "transcript": "\u8bf7\u95ee\u60a8\u9700\u8981\u4ec0\u4e48\u5e2e\u52a9?",
-        "utmos": 3.5951850414276123
+        "utmos": 4.008832931518555
       },
       {
-        "cer": 0.42857142857142855,
+        "cer": 0.0,
         "language": "zh",
         "run": 0,
         "sentence_idx": 3,
         "text": "\u8c22\u8c22\u4f60\u7684\u652f\u6301\u3002",
-        "transcript": "\u8b1d\u8b1d\u4f60\u7684\u652f\u6301",
-        "utmos": 3.992013931274414
+        "transcript": "\u8c22\u8c22\u4f60\u7684\u652f\u6301\u3002",
+        "utmos": 3.7508676052093506
       },
       {
-        "cer": 0.8571428571428571,
+        "cer": 0.14285714285714285,
         "language": "zh",
         "run": 0,
         "sentence_idx": 4,
         "text": "\u660e\u5929\u89c1\uff0c\u518d\u89c1\u3002",
-        "transcript": "\u654f\u4e00\u4e2a\u5251 \u518d\u89c1",
-        "utmos": 3.9893085956573486
+        "transcript": "\u660e\u5929\u89c1,\u518d\u89c1\u3002",
+        "utmos": 3.646062135696411
       },
       {
         "cer": 0.07692307692307693,
@@ -93,16 +119,16 @@
         "sentence_idx": 5,
         "text": "\uc548\ub155\ud558\uc138\uc694, \ubc18\uac11\uc2b5\ub2c8\ub2e4.",
         "transcript": "\uc548\ub155\ud558\uc138\uc694. \ubc18\uac11\uc2b5\ub2c8\ub2e4.",
-        "utmos": 2.3669347763061523
+        "utmos": 3.1444849967956543
       },
       {
-        "cer": 0.07142857142857142,
+        "cer": 0.0,
         "language": "ko",
         "run": 0,
         "sentence_idx": 6,
         "text": "\uc624\ub298 \ub0a0\uc528\uac00 \uc815\ub9d0 \uc88b\ub124\uc694.",
-        "transcript": "\uc624\ub298 \ub0a0\uc528\uac00 \uc815\ub9d0 \uc88b\ub124\uc694",
-        "utmos": 3.1522018909454346
+        "transcript": "\uc624\ub298 \ub0a0\uc528\uac00 \uc815\ub9d0 \uc88b\ub124\uc694.",
+        "utmos": 4.056910991668701
       },
       {
         "cer": 0.058823529411764705,
@@ -111,7 +137,7 @@
         "sentence_idx": 7,
         "text": "\uac10\uc0ac\ud569\ub2c8\ub2e4, \uc88b\uc740 \ud558\ub8e8 \ub418\uc138\uc694.",
         "transcript": "\uac10\uc0ac\ud569\ub2c8\ub2e4. \uc88b\uc740 \ud558\ub8e8 \ub418\uc138\uc694.",
-        "utmos": 3.830526113510132
+        "utmos": 4.237590789794922
       },
       {
         "cer": 0.0,
@@ -120,7 +146,7 @@
         "sentence_idx": 8,
         "text": "\uc74c\uc131 \ud569\uc131 \ud14c\uc2a4\ud2b8\uc785\ub2c8\ub2e4.",
         "transcript": "\uc74c\uc131 \ud569\uc131 \ud14c\uc2a4\ud2b8\uc785\ub2c8\ub2e4.",
-        "utmos": 2.5089635848999023
+        "utmos": 2.085176944732666
       },
       {
         "cer": 0.0,
@@ -129,119 +155,72 @@
         "sentence_idx": 9,
         "text": "\ub2e4\uc74c\uc5d0 \ub610 \ub9cc\ub098\uc694.",
         "transcript": "\ub2e4\uc74c\uc5d0 \ub610 \ub9cc\ub098\uc694.",
-        "utmos": 2.7790355682373047
+        "utmos": 3.6230931282043457
+      },
+      {
+        "cer": 0.08,
+        "language": "en",
+        "run": 0,
+        "sentence_idx": 10,
+        "text": "Hello, how are you today?",
+        "transcript": "Hello! How are you today?",
+        "utmos": 3.0825228691101074
+      },
+      {
+        "cer": 0.16216216216216217,
+        "language": "en",
+        "run": 0,
+        "sentence_idx": 11,
+        "text": "Welcome to the speech synthesis demo.",
+        "transcript": "Welcome to this Speech Synthesis Demo!",
+        "utmos": 4.093474388122559
+      },
+      {
+        "cer": 0.0,
+        "language": "en",
+        "run": 0,
+        "sentence_idx": 12,
+        "text": "Thank you for your support.",
+        "transcript": "Thank you for your support.",
+        "utmos": 3.9564852714538574
+      },
+      {
+        "cer": 0.07692307692307693,
+        "language": "en",
+        "run": 0,
+        "sentence_idx": 13,
+        "text": "See you tomorrow, goodbye.",
+        "transcript": "See you tomorrow. Goodbye.",
+        "utmos": 3.6080610752105713
+      },
+      {
+        "cer": 0.0,
+        "language": "en",
+        "run": 0,
+        "sentence_idx": 14,
+        "text": "This is a voice test.",
+        "transcript": "This is a voice test.",
+        "utmos": 3.4560515880584717
       }
     ],
     "hybrid": [
       {
-        "cer": 0.3,
+        "cer": 0.1,
         "language": "zh",
         "run": 0,
         "sentence_idx": 0,
         "text": "\u4f60\u597d\uff0c\u4eca\u5929\u5929\u6c14\u771f\u597d\u3002",
-        "transcript": "\u4f60\u597d \u4eca\u5929\u5929\u6c23\u771f\u597d",
-        "utmos": 3.801908016204834
+        "transcript": "\u4f60\u597d,\u4eca\u5929\u5929\u6c14\u771f\u597d\u3002",
+        "utmos": 3.935236930847168
       },
       {
-        "cer": 0.45454545454545453,
+        "cer": 0.09090909090909091,
         "language": "zh",
         "run": 0,
         "sentence_idx": 1,
         "text": "\u6b22\u8fce\u4f7f\u7528\u8bed\u97f3\u5408\u6210\u7cfb\u7edf\u3002",
-        "transcript": "\u89c0\u97f3\u4f7f\u7528\u8a9e\u97f3\u5408\u6210\u7cfb\u7d71",
-        "utmos": 3.7279515266418457
-      },
-      {
-        "cer": 0.1,
-        "language": "zh",
-        "run": 0,
-        "sentence_idx": 2,
-        "text": "\u8bf7\u95ee\u60a8\u9700\u8981\u4ec0\u4e48\u5e2e\u52a9\uff1f",
-        "transcript": "\u8bf7\u95ee\u60a8\u9700\u8981\u4ec0\u4e48\u5e2e\u52a9",
-        "utmos": 2.085901975631714
-      },
-      {
-        "cer": 0.42857142857142855,
-        "language": "zh",
-        "run": 0,
-        "sentence_idx": 3,
-        "text": "\u8c22\u8c22\u4f60\u7684\u652f\u6301\u3002",
-        "transcript": "\u8b1d\u8b1d\u4f60\u7684\u652f\u6301",
-        "utmos": 4.253509521484375
-      },
-      {
-        "cer": 0.2857142857142857,
-        "language": "zh",
-        "run": 0,
-        "sentence_idx": 4,
-        "text": "\u660e\u5929\u89c1\uff0c\u518d\u89c1\u3002",
-        "transcript": "\u660e\u5929\u89c1 \u518d\u89c1",
-        "utmos": 3.3011837005615234
-      },
-      {
-        "cer": 0.15384615384615385,
-        "language": "ko",
-        "run": 0,
-        "sentence_idx": 5,
-        "text": "\uc548\ub155\ud558\uc138\uc694, \ubc18\uac11\uc2b5\ub2c8\ub2e4.",
-        "transcript": "\uc548\ub155\ud558\uc138\uc694 \ubc18\uac11\uc2b5\ub2c8\ub2e4",
-        "utmos": 4.1432881355285645
-      },
-      {
-        "cer": 0.07142857142857142,
-        "language": "ko",
-        "run": 0,
-        "sentence_idx": 6,
-        "text": "\uc624\ub298 \ub0a0\uc528\uac00 \uc815\ub9d0 \uc88b\ub124\uc694.",
-        "transcript": "\uc624\ub298 \ub0a0\uc528\uac00 \uc815\ub9d0 \uc88b\ub124\uc694",
-        "utmos": 2.82749080657959
-      },
-      {
-        "cer": 0.058823529411764705,
-        "language": "ko",
-        "run": 0,
-        "sentence_idx": 7,
-        "text": "\uac10\uc0ac\ud569\ub2c8\ub2e4, \uc88b\uc740 \ud558\ub8e8 \ub418\uc138\uc694.",
-        "transcript": "\uac10\uc0ac\ud569\ub2c8\ub2e4. \uc88b\uc740 \ud558\ub8e8 \ub418\uc138\uc694.",
-        "utmos": 4.230870246887207
-      },
-      {
-        "cer": 0.07692307692307693,
-        "language": "ko",
-        "run": 0,
-        "sentence_idx": 8,
-        "text": "\uc74c\uc131 \ud569\uc131 \ud14c\uc2a4\ud2b8\uc785\ub2c8\ub2e4.",
-        "transcript": "\uc74c\uc131 \ud569\uc131 \ud14c\uc2a4\ud2b8\uc785\ub2c8\ub2e4",
-        "utmos": 1.7250372171401978
-      },
-      {
-        "cer": 0.1,
-        "language": "ko",
-        "run": 0,
-        "sentence_idx": 9,
-        "text": "\ub2e4\uc74c\uc5d0 \ub610 \ub9cc\ub098\uc694.",
-        "transcript": "\ub2e4\uc74c\uc5d0 \ub610 \ub9cc\ub098\uc694!",
-        "utmos": 2.9122118949890137
-      }
-    ],
-    "triton": [
-      {
-        "cer": 0.3,
-        "language": "zh",
-        "run": 0,
-        "sentence_idx": 0,
-        "text": "\u4f60\u597d\uff0c\u4eca\u5929\u5929\u6c14\u771f\u597d\u3002",
-        "transcript": "\u4f60\u597d \u4eca\u5929\u5929\u6c23\u771f\u597d",
-        "utmos": 3.461792230606079
-      },
-      {
-        "cer": 0.36363636363636365,
-        "language": "zh",
-        "run": 0,
-        "sentence_idx": 1,
-        "text": "\u6b22\u8fce\u4f7f\u7528\u8bed\u97f3\u5408\u6210\u7cfb\u7edf\u3002",
-        "transcript": "\u6b61\u8fce\u4f7f\u7528\u8a9e\u97f3\u5408\u6210\u7cfb\u7d71",
-        "utmos": 3.0956838130950928
+        "transcript": "\u6b22\u8fce\u4f7f\u7528\u8bed\u97f3\u5408\u6210\u7cfb\u7edf",
+        "utmos": 3.385881185531616
       },
       {
         "cer": 0.1,
@@ -250,25 +229,25 @@
         "sentence_idx": 2,
         "text": "\u8bf7\u95ee\u60a8\u9700\u8981\u4ec0\u4e48\u5e2e\u52a9\uff1f",
         "transcript": "\u8bf7\u95ee\u60a8\u9700\u8981\u4ec0\u4e48\u5e2e\u52a9?",
-        "utmos": 3.028046131134033
+        "utmos": 3.99641752243042
       },
       {
-        "cer": 0.42857142857142855,
+        "cer": 0.0,
         "language": "zh",
         "run": 0,
         "sentence_idx": 3,
         "text": "\u8c22\u8c22\u4f60\u7684\u652f\u6301\u3002",
-        "transcript": "\u8b1d\u8b1d\u4f60\u7684\u652f\u6301",
-        "utmos": 3.9425888061523438
+        "transcript": "\u8c22\u8c22\u4f60\u7684\u652f\u6301\u3002",
+        "utmos": 3.536020278930664
       },
       {
-        "cer": 0.2857142857142857,
+        "cer": 0.14285714285714285,
         "language": "zh",
         "run": 0,
         "sentence_idx": 4,
         "text": "\u660e\u5929\u89c1\uff0c\u518d\u89c1\u3002",
-        "transcript": "\u660e\u5929\u89c1 \u518d\u89c1",
-        "utmos": 3.035270929336548
+        "transcript": "\u660e\u5929\u89c1,\u518d\u89c1\u3002",
+        "utmos": 4.289119720458984
       },
       {
         "cer": 0.07692307692307693,
@@ -277,16 +256,16 @@
         "sentence_idx": 5,
         "text": "\uc548\ub155\ud558\uc138\uc694, \ubc18\uac11\uc2b5\ub2c8\ub2e4.",
         "transcript": "\uc548\ub155\ud558\uc138\uc694. \ubc18\uac11\uc2b5\ub2c8\ub2e4.",
-        "utmos": 4.119304180145264
+        "utmos": 3.9958372116088867
       },
       {
-        "cer": 0.07142857142857142,
+        "cer": 0.0,
         "language": "ko",
         "run": 0,
         "sentence_idx": 6,
         "text": "\uc624\ub298 \ub0a0\uc528\uac00 \uc815\ub9d0 \uc88b\ub124\uc694.",
-        "transcript": "\uc624\ub298 \ub0a0\uc528\uac00 \uc815\ub9d0 \uc88b\ub124\uc694",
-        "utmos": 3.5137267112731934
+        "transcript": "\uc624\ub298 \ub0a0\uc528\uac00 \uc815\ub9d0 \uc88b\ub124\uc694.",
+        "utmos": 3.3031561374664307
       },
       {
         "cer": 0.058823529411764705,
@@ -295,7 +274,7 @@
         "sentence_idx": 7,
         "text": "\uac10\uc0ac\ud569\ub2c8\ub2e4, \uc88b\uc740 \ud558\ub8e8 \ub418\uc138\uc694.",
         "transcript": "\uac10\uc0ac\ud569\ub2c8\ub2e4. \uc88b\uc740 \ud558\ub8e8 \ub418\uc138\uc694.",
-        "utmos": 3.3202733993530273
+        "utmos": 3.564713716506958
       },
       {
         "cer": 0.0,
@@ -304,7 +283,7 @@
         "sentence_idx": 8,
         "text": "\uc74c\uc131 \ud569\uc131 \ud14c\uc2a4\ud2b8\uc785\ub2c8\ub2e4.",
         "transcript": "\uc74c\uc131 \ud569\uc131 \ud14c\uc2a4\ud2b8\uc785\ub2c8\ub2e4.",
-        "utmos": 2.762202262878418
+        "utmos": 2.9625933170318604
       },
       {
         "cer": 0.1,
@@ -312,8 +291,464 @@
         "run": 0,
         "sentence_idx": 9,
         "text": "\ub2e4\uc74c\uc5d0 \ub610 \ub9cc\ub098\uc694.",
-        "transcript": "\ub2e4\uc74c\uc5d0 \ub610 \ub9cc\ub098\uc694",
-        "utmos": 2.579089403152466
+        "transcript": "\ub2e4\uc74c\uc5d0 \ub610 \ub9cc\ub098\uc694!",
+        "utmos": 2.88529896736145
+      },
+      {
+        "cer": 0.0,
+        "language": "en",
+        "run": 0,
+        "sentence_idx": 10,
+        "text": "Hello, how are you today?",
+        "transcript": "Hello, how are you today?",
+        "utmos": 3.64040470123291
+      },
+      {
+        "cer": 0.08108108108108109,
+        "language": "en",
+        "run": 0,
+        "sentence_idx": 11,
+        "text": "Welcome to the speech synthesis demo.",
+        "transcript": "Welcome to the Speech Synthesis Demo.",
+        "utmos": 4.334817886352539
+      },
+      {
+        "cer": 0.0,
+        "language": "en",
+        "run": 0,
+        "sentence_idx": 12,
+        "text": "Thank you for your support.",
+        "transcript": "Thank you for your support.",
+        "utmos": 3.601111888885498
+      },
+      {
+        "cer": 0.07692307692307693,
+        "language": "en",
+        "run": 0,
+        "sentence_idx": 13,
+        "text": "See you tomorrow, goodbye.",
+        "transcript": "See you tomorrow. Goodbye.",
+        "utmos": 3.2058889865875244
+      },
+      {
+        "cer": 0.0,
+        "language": "en",
+        "run": 0,
+        "sentence_idx": 14,
+        "text": "This is a voice test.",
+        "transcript": "This is a voice test.",
+        "utmos": 3.012359380722046
+      }
+    ],
+    "hybrid+tq": [
+      {
+        "cer": 0.1,
+        "language": "zh",
+        "run": 0,
+        "sentence_idx": 0,
+        "text": "\u4f60\u597d\uff0c\u4eca\u5929\u5929\u6c14\u771f\u597d\u3002",
+        "transcript": "\u4f60\u597d,\u4eca\u5929\u5929\u6c14\u771f\u597d\u3002",
+        "utmos": 3.777576208114624
+      },
+      {
+        "cer": 0.2727272727272727,
+        "language": "zh",
+        "run": 0,
+        "sentence_idx": 1,
+        "text": "\u6b22\u8fce\u4f7f\u7528\u8bed\u97f3\u5408\u6210\u7cfb\u7edf\u3002",
+        "transcript": "\u89c2\u97f3\u4f7f\u7528\u8bed\u97f3\u5408\u6210\u7cfb\u7edf",
+        "utmos": 3.2619452476501465
+      },
+      {
+        "cer": 0.1,
+        "language": "zh",
+        "run": 0,
+        "sentence_idx": 2,
+        "text": "\u8bf7\u95ee\u60a8\u9700\u8981\u4ec0\u4e48\u5e2e\u52a9\uff1f",
+        "transcript": "\u8bf7\u95ee\u60a8\u9700\u8981\u4ec0\u4e48\u5e2e\u52a9?",
+        "utmos": 3.5212831497192383
+      },
+      {
+        "cer": 0.0,
+        "language": "zh",
+        "run": 0,
+        "sentence_idx": 3,
+        "text": "\u8c22\u8c22\u4f60\u7684\u652f\u6301\u3002",
+        "transcript": "\u8c22\u8c22\u4f60\u7684\u652f\u6301\u3002",
+        "utmos": 3.757554054260254
+      },
+      {
+        "cer": 0.14285714285714285,
+        "language": "zh",
+        "run": 0,
+        "sentence_idx": 4,
+        "text": "\u660e\u5929\u89c1\uff0c\u518d\u89c1\u3002",
+        "transcript": "\u660e\u5929\u89c1,\u518d\u89c1\u3002",
+        "utmos": 3.072880506515503
+      },
+      {
+        "cer": 0.07692307692307693,
+        "language": "ko",
+        "run": 0,
+        "sentence_idx": 5,
+        "text": "\uc548\ub155\ud558\uc138\uc694, \ubc18\uac11\uc2b5\ub2c8\ub2e4.",
+        "transcript": "\uc548\ub155\ud558\uc138\uc694. \ubc18\uac11\uc2b5\ub2c8\ub2e4.",
+        "utmos": 4.325570106506348
+      },
+      {
+        "cer": 0.0,
+        "language": "ko",
+        "run": 0,
+        "sentence_idx": 6,
+        "text": "\uc624\ub298 \ub0a0\uc528\uac00 \uc815\ub9d0 \uc88b\ub124\uc694.",
+        "transcript": "\uc624\ub298 \ub0a0\uc528\uac00 \uc815\ub9d0 \uc88b\ub124\uc694.",
+        "utmos": 4.026522159576416
+      },
+      {
+        "cer": 0.058823529411764705,
+        "language": "ko",
+        "run": 0,
+        "sentence_idx": 7,
+        "text": "\uac10\uc0ac\ud569\ub2c8\ub2e4, \uc88b\uc740 \ud558\ub8e8 \ub418\uc138\uc694.",
+        "transcript": "\uac10\uc0ac\ud569\ub2c8\ub2e4. \uc88b\uc740 \ud558\ub8e8 \ub418\uc138\uc694.",
+        "utmos": 3.2214622497558594
+      },
+      {
+        "cer": 0.0,
+        "language": "ko",
+        "run": 0,
+        "sentence_idx": 8,
+        "text": "\uc74c\uc131 \ud569\uc131 \ud14c\uc2a4\ud2b8\uc785\ub2c8\ub2e4.",
+        "transcript": "\uc74c\uc131 \ud569\uc131 \ud14c\uc2a4\ud2b8\uc785\ub2c8\ub2e4.",
+        "utmos": 3.284625768661499
+      },
+      {
+        "cer": 0.0,
+        "language": "ko",
+        "run": 0,
+        "sentence_idx": 9,
+        "text": "\ub2e4\uc74c\uc5d0 \ub610 \ub9cc\ub098\uc694.",
+        "transcript": "\ub2e4\uc74c\uc5d0 \ub610 \ub9cc\ub098\uc694.",
+        "utmos": 3.392127513885498
+      },
+      {
+        "cer": 0.08,
+        "language": "en",
+        "run": 0,
+        "sentence_idx": 10,
+        "text": "Hello, how are you today?",
+        "transcript": "Hello! How are you today?",
+        "utmos": 1.980647325515747
+      },
+      {
+        "cer": 0.08108108108108109,
+        "language": "en",
+        "run": 0,
+        "sentence_idx": 11,
+        "text": "Welcome to the speech synthesis demo.",
+        "transcript": "Welcome to the Speech Synthesis Demo.",
+        "utmos": 4.508820533752441
+      },
+      {
+        "cer": 0.0,
+        "language": "en",
+        "run": 0,
+        "sentence_idx": 12,
+        "text": "Thank you for your support.",
+        "transcript": "Thank you for your support.",
+        "utmos": 4.327761173248291
+      },
+      {
+        "cer": 0.07692307692307693,
+        "language": "en",
+        "run": 0,
+        "sentence_idx": 13,
+        "text": "See you tomorrow, goodbye.",
+        "transcript": "See you to-morrow, good-bye.",
+        "utmos": 3.991823673248291
+      },
+      {
+        "cer": 0.0,
+        "language": "en",
+        "run": 0,
+        "sentence_idx": 14,
+        "text": "This is a voice test.",
+        "transcript": "This is a voice test.",
+        "utmos": 4.075566291809082
+      }
+    ],
+    "triton": [
+      {
+        "cer": 0.1,
+        "language": "zh",
+        "run": 0,
+        "sentence_idx": 0,
+        "text": "\u4f60\u597d\uff0c\u4eca\u5929\u5929\u6c14\u771f\u597d\u3002",
+        "transcript": "\u4f60\u597d,\u4eca\u5929\u5929\u6c14\u771f\u597d\u3002",
+        "utmos": 2.8765792846679688
+      },
+      {
+        "cer": 0.09090909090909091,
+        "language": "zh",
+        "run": 0,
+        "sentence_idx": 1,
+        "text": "\u6b22\u8fce\u4f7f\u7528\u8bed\u97f3\u5408\u6210\u7cfb\u7edf\u3002",
+        "transcript": "\u6b22\u8fce\u4f7f\u7528\u8bed\u97f3\u5408\u6210\u7cfb\u7edf",
+        "utmos": 3.347031593322754
+      },
+      {
+        "cer": 0.1,
+        "language": "zh",
+        "run": 0,
+        "sentence_idx": 2,
+        "text": "\u8bf7\u95ee\u60a8\u9700\u8981\u4ec0\u4e48\u5e2e\u52a9\uff1f",
+        "transcript": "\u8bf7\u95ee\u60a8\u9700\u8981\u4ec0\u4e48\u5e2e\u52a9?",
+        "utmos": 3.4100329875946045
+      },
+      {
+        "cer": 0.0,
+        "language": "zh",
+        "run": 0,
+        "sentence_idx": 3,
+        "text": "\u8c22\u8c22\u4f60\u7684\u652f\u6301\u3002",
+        "transcript": "\u8c22\u8c22\u4f60\u7684\u652f\u6301\u3002",
+        "utmos": 4.0560197830200195
+      },
+      {
+        "cer": 0.14285714285714285,
+        "language": "zh",
+        "run": 0,
+        "sentence_idx": 4,
+        "text": "\u660e\u5929\u89c1\uff0c\u518d\u89c1\u3002",
+        "transcript": "\u660e\u5929\u89c1,\u518d\u89c1\u3002",
+        "utmos": 3.229830741882324
+      },
+      {
+        "cer": 0.07692307692307693,
+        "language": "ko",
+        "run": 0,
+        "sentence_idx": 5,
+        "text": "\uc548\ub155\ud558\uc138\uc694, \ubc18\uac11\uc2b5\ub2c8\ub2e4.",
+        "transcript": "\uc548\ub155\ud558\uc138\uc694. \ubc18\uac11\uc2b5\ub2c8\ub2e4.",
+        "utmos": 3.654831886291504
+      },
+      {
+        "cer": 0.0,
+        "language": "ko",
+        "run": 0,
+        "sentence_idx": 6,
+        "text": "\uc624\ub298 \ub0a0\uc528\uac00 \uc815\ub9d0 \uc88b\ub124\uc694.",
+        "transcript": "\uc624\ub298 \ub0a0\uc528\uac00 \uc815\ub9d0 \uc88b\ub124\uc694.",
+        "utmos": 3.9644558429718018
+      },
+      {
+        "cer": 0.058823529411764705,
+        "language": "ko",
+        "run": 0,
+        "sentence_idx": 7,
+        "text": "\uac10\uc0ac\ud569\ub2c8\ub2e4, \uc88b\uc740 \ud558\ub8e8 \ub418\uc138\uc694.",
+        "transcript": "\uac10\uc0ac\ud569\ub2c8\ub2e4. \uc88b\uc740 \ud558\ub8e8 \ub418\uc138\uc694.",
+        "utmos": 3.014338493347168
+      },
+      {
+        "cer": 0.07692307692307693,
+        "language": "ko",
+        "run": 0,
+        "sentence_idx": 8,
+        "text": "\uc74c\uc131 \ud569\uc131 \ud14c\uc2a4\ud2b8\uc785\ub2c8\ub2e4.",
+        "transcript": "\uc751\uc131 \ud569\uc131 \ud14c\uc2a4\ud2b8\uc785\ub2c8\ub2e4.",
+        "utmos": 2.240798234939575
+      },
+      {
+        "cer": 0.0,
+        "language": "ko",
+        "run": 0,
+        "sentence_idx": 9,
+        "text": "\ub2e4\uc74c\uc5d0 \ub610 \ub9cc\ub098\uc694.",
+        "transcript": "\ub2e4\uc74c\uc5d0 \ub610 \ub9cc\ub098\uc694.",
+        "utmos": 3.428769826889038
+      },
+      {
+        "cer": 0.0,
+        "language": "en",
+        "run": 0,
+        "sentence_idx": 10,
+        "text": "Hello, how are you today?",
+        "transcript": "Hello, how are you today?",
+        "utmos": 3.555321216583252
+      },
+      {
+        "cer": 0.08108108108108109,
+        "language": "en",
+        "run": 0,
+        "sentence_idx": 11,
+        "text": "Welcome to the speech synthesis demo.",
+        "transcript": "Welcome to the Speech Synthesis Demo.",
+        "utmos": 4.068479537963867
+      },
+      {
+        "cer": 0.0,
+        "language": "en",
+        "run": 0,
+        "sentence_idx": 12,
+        "text": "Thank you for your support.",
+        "transcript": "Thank you for your support.",
+        "utmos": 4.305973052978516
+      },
+      {
+        "cer": 0.07692307692307693,
+        "language": "en",
+        "run": 0,
+        "sentence_idx": 13,
+        "text": "See you tomorrow, goodbye.",
+        "transcript": "See you tomorrow. Goodbye.",
+        "utmos": 2.658463716506958
+      },
+      {
+        "cer": 0.0,
+        "language": "en",
+        "run": 0,
+        "sentence_idx": 14,
+        "text": "This is a voice test.",
+        "transcript": "This is a voice test.",
+        "utmos": 4.256263256072998
+      }
+    ],
+    "triton+tq": [
+      {
+        "cer": 0.1,
+        "language": "zh",
+        "run": 0,
+        "sentence_idx": 0,
+        "text": "\u4f60\u597d\uff0c\u4eca\u5929\u5929\u6c14\u771f\u597d\u3002",
+        "transcript": "\u4f60\u597d,\u4eca\u5929\u5929\u6c14\u771f\u597d\u3002",
+        "utmos": 2.982961893081665
+      },
+      {
+        "cer": 0.18181818181818182,
+        "language": "zh",
+        "run": 0,
+        "sentence_idx": 1,
+        "text": "\u6b22\u8fce\u4f7f\u7528\u8bed\u97f3\u5408\u6210\u7cfb\u7edf\u3002",
+        "transcript": "\u89c2\u97f3\u4f7f\u7528\u8bed\u97f3\u5408\u6210\u7cfb\u7edf\u3002",
+        "utmos": 3.184799909591675
+      },
+      {
+        "cer": 0.1,
+        "language": "zh",
+        "run": 0,
+        "sentence_idx": 2,
+        "text": "\u8bf7\u95ee\u60a8\u9700\u8981\u4ec0\u4e48\u5e2e\u52a9\uff1f",
+        "transcript": "\u8bf7\u95ee\u60a8\u9700\u8981\u4ec0\u4e48\u5e2e\u52a9?",
+        "utmos": 2.8169286251068115
+      },
+      {
+        "cer": 0.0,
+        "language": "zh",
+        "run": 0,
+        "sentence_idx": 3,
+        "text": "\u8c22\u8c22\u4f60\u7684\u652f\u6301\u3002",
+        "transcript": "\u8c22\u8c22\u4f60\u7684\u652f\u6301\u3002",
+        "utmos": 4.018603324890137
+      },
+      {
+        "cer": 0.14285714285714285,
+        "language": "zh",
+        "run": 0,
+        "sentence_idx": 4,
+        "text": "\u660e\u5929\u89c1\uff0c\u518d\u89c1\u3002",
+        "transcript": "\u660e\u5929\u89c1,\u518d\u89c1\u3002",
+        "utmos": 1.77420175075531
+      },
+      {
+        "cer": 0.07692307692307693,
+        "language": "ko",
+        "run": 0,
+        "sentence_idx": 5,
+        "text": "\uc548\ub155\ud558\uc138\uc694, \ubc18\uac11\uc2b5\ub2c8\ub2e4.",
+        "transcript": "\uc548\ub155\ud558\uc138\uc694, \ubc18\uac11\uc2b5\ub2c8\ub2e4!",
+        "utmos": 2.792079448699951
+      },
+      {
+        "cer": 0.0,
+        "language": "ko",
+        "run": 0,
+        "sentence_idx": 6,
+        "text": "\uc624\ub298 \ub0a0\uc528\uac00 \uc815\ub9d0 \uc88b\ub124\uc694.",
+        "transcript": "\uc624\ub298 \ub0a0\uc528\uac00 \uc815\ub9d0 \uc88b\ub124\uc694.",
+        "utmos": 2.786184549331665
+      },
+      {
+        "cer": 5.294117647058823,
+        "language": "ko",
+        "run": 0,
+        "sentence_idx": 7,
+        "text": "\uac10\uc0ac\ud569\ub2c8\ub2e4, \uc88b\uc740 \ud558\ub8e8 \ub418\uc138\uc694.",
+        "transcript": "\uc88b\uc740 \ud558\ub8e8 \ub418\uc138\uc694. \uadfc\uce58 \uad6c\uc57c \ud569\ub2c8\ub2e4. \ud558, \uc0e8\uc9f1 \uc544\ub0d0, \ubd10\uc8fc. \uc6b0\uc11c \uc81c \uc554 \uc800\ub7ec\uace0 \ubd10. \ud558\ub098\ub2c8, \ub3c5\uc774 \uc81c\uc0ac\uc0c1 \ub354, \ud574\ucc28, \uc9c0 \uc1fc \ud63c\uc790 \ubc1b\uc544. \uc81c\uac15\uc11c\uc57c \uac00, \uc8fc\uc9c0, \uc18c\uad00\ub85c \uc218\ucc44.",
+        "utmos": 1.5839251279830933
+      },
+      {
+        "cer": 0.07692307692307693,
+        "language": "ko",
+        "run": 0,
+        "sentence_idx": 8,
+        "text": "\uc74c\uc131 \ud569\uc131 \ud14c\uc2a4\ud2b8\uc785\ub2c8\ub2e4.",
+        "transcript": "\ubab8\uc131 \ud569\uc131 \ud14c\uc2a4\ud2b8\uc785\ub2c8\ub2e4.",
+        "utmos": 3.0084173679351807
+      },
+      {
+        "cer": 0.1,
+        "language": "ko",
+        "run": 0,
+        "sentence_idx": 9,
+        "text": "\ub2e4\uc74c\uc5d0 \ub610 \ub9cc\ub098\uc694.",
+        "transcript": "\ub2e4\uc74c\uc5d0 \ub610 \ub9cc\ub098\uc694!",
+        "utmos": 2.983682870864868
+      },
+      {
+        "cer": 0.0,
+        "language": "en",
+        "run": 0,
+        "sentence_idx": 10,
+        "text": "Hello, how are you today?",
+        "transcript": "Hello, how are you today?",
+        "utmos": 3.097872495651245
+      },
+      {
+        "cer": 0.02702702702702703,
+        "language": "en",
+        "run": 0,
+        "sentence_idx": 11,
+        "text": "Welcome to the speech synthesis demo.",
+        "transcript": "Welcome to the speech synthesis demo!",
+        "utmos": 2.070964813232422
+      },
+      {
+        "cer": 0.0,
+        "language": "en",
+        "run": 0,
+        "sentence_idx": 12,
+        "text": "Thank you for your support.",
+        "transcript": "Thank you for your support.",
+        "utmos": 3.5169084072113037
+      },
+      {
+        "cer": 0.07692307692307693,
+        "language": "en",
+        "run": 0,
+        "sentence_idx": 13,
+        "text": "See you tomorrow, goodbye.",
+        "transcript": "See you tomorrow. Goodbye.",
+        "utmos": 4.265345573425293
+      },
+      {
+        "cer": 0.0,
+        "language": "en",
+        "run": 0,
+        "sentence_idx": 14,
+        "text": "This is a voice test.",
+        "transcript": "This is a voice test.",
+        "utmos": 3.792724132537842
       }
     ]
   },
@@ -326,16 +761,16 @@
       "sentence_idx": 0,
       "text": "\u4f60\u597d\uff0c\u4eca\u5929\u5929\u6c14\u771f\u597d\u3002",
       "transcript": "\u4f60\u597d,\u4eca\u5929\u5929\u6c14\u771f\u597d\u3002",
-      "utmos": 2.6441400051116943
+      "utmos": 3.0187692642211914
     },
     {
-      "cer": 0.36363636363636365,
+      "cer": 0.2727272727272727,
       "language": "zh",
       "run": 0,
       "sentence_idx": 1,
       "text": "\u6b22\u8fce\u4f7f\u7528\u8bed\u97f3\u5408\u6210\u7cfb\u7edf\u3002",
-      "transcript": "\u6b61\u8fce\u4f7f\u7528\u8a9e\u97f3\u5408\u6210\u7cfb\u7d71",
-      "utmos": 2.153428316116333
+      "transcript": "\u89c2\u97f3\u4f7f\u7528\u8bed\u97f3\u5408\u6210\u7cfb\u7edf",
+      "utmos": 2.8487040996551514
     },
     {
       "cer": 0.1,
@@ -344,25 +779,25 @@
       "sentence_idx": 2,
       "text": "\u8bf7\u95ee\u60a8\u9700\u8981\u4ec0\u4e48\u5e2e\u52a9\uff1f",
       "transcript": "\u8bf7\u95ee\u60a8\u9700\u8981\u4ec0\u4e48\u5e2e\u52a9?",
-      "utmos": 3.0675957202911377
+      "utmos": 3.5843513011932373
     },
     {
-      "cer": 0.42857142857142855,
+      "cer": 0.0,
       "language": "zh",
       "run": 0,
       "sentence_idx": 3,
       "text": "\u8c22\u8c22\u4f60\u7684\u652f\u6301\u3002",
-      "transcript": "\u8b1d\u8b1d\u4f60\u7684\u652f\u6301",
-      "utmos": 3.6312363147735596
+      "transcript": "\u8c22\u8c22\u4f60\u7684\u652f\u6301\u3002",
+      "utmos": 4.030799865722656
     },
     {
-      "cer": 0.2857142857142857,
+      "cer": 0.14285714285714285,
       "language": "zh",
       "run": 0,
       "sentence_idx": 4,
       "text": "\u660e\u5929\u89c1\uff0c\u518d\u89c1\u3002",
-      "transcript": "\u660e\u5929\u89c1\u518d\u89c1",
-      "utmos": 3.86362624168396
+      "transcript": "\u660e\u5929\u89c1\u518d\u89c1\u3002",
+      "utmos": 3.1172842979431152
     },
     {
       "cer": 0.07692307692307693,
@@ -371,16 +806,16 @@
       "sentence_idx": 5,
       "text": "\uc548\ub155\ud558\uc138\uc694, \ubc18\uac11\uc2b5\ub2c8\ub2e4.",
       "transcript": "\uc548\ub155\ud558\uc138\uc694. \ubc18\uac11\uc2b5\ub2c8\ub2e4.",
-      "utmos": 3.5935394763946533
+      "utmos": 3.8800015449523926
     },
     {
-      "cer": 0.07142857142857142,
+      "cer": 0.0,
       "language": "ko",
       "run": 0,
       "sentence_idx": 6,
       "text": "\uc624\ub298 \ub0a0\uc528\uac00 \uc815\ub9d0 \uc88b\ub124\uc694.",
-      "transcript": "\uc624\ub298 \ub0a0\uc528\uac00 \uc815\ub9d0 \uc88b\ub124\uc694",
-      "utmos": 3.6181163787841797
+      "transcript": "\uc624\ub298 \ub0a0\uc528\uac00 \uc815\ub9d0 \uc88b\ub124\uc694.",
+      "utmos": 2.326099395751953
     },
     {
       "cer": 0.058823529411764705,
@@ -389,7 +824,7 @@
       "sentence_idx": 7,
       "text": "\uac10\uc0ac\ud569\ub2c8\ub2e4, \uc88b\uc740 \ud558\ub8e8 \ub418\uc138\uc694.",
       "transcript": "\uac10\uc0ac\ud569\ub2c8\ub2e4. \uc88b\uc740 \ud558\ub8e8 \ub418\uc138\uc694.",
-      "utmos": 3.210355520248413
+      "utmos": 3.977864980697632
     },
     {
       "cer": 0.0,
@@ -398,42 +833,99 @@
       "sentence_idx": 8,
       "text": "\uc74c\uc131 \ud569\uc131 \ud14c\uc2a4\ud2b8\uc785\ub2c8\ub2e4.",
       "transcript": "\uc74c\uc131 \ud569\uc131 \ud14c\uc2a4\ud2b8\uc785\ub2c8\ub2e4.",
-      "utmos": 2.9742579460144043
+      "utmos": 3.2832562923431396
     },
     {
-      "cer": 0.1,
+      "cer": 0.0,
       "language": "ko",
       "run": 0,
       "sentence_idx": 9,
       "text": "\ub2e4\uc74c\uc5d0 \ub610 \ub9cc\ub098\uc694.",
-      "transcript": "\ub2e4\uc74c\uc5d0 \ub610 \ub9cc\ub098\uc694!",
-      "utmos": 2.479118824005127
+      "transcript": "\ub2e4\uc74c\uc5d0 \ub610 \ub9cc\ub098\uc694.",
+      "utmos": 2.1235878467559814
+    },
+    {
+      "cer": 0.0,
+      "language": "en",
+      "run": 0,
+      "sentence_idx": 10,
+      "text": "Hello, how are you today?",
+      "transcript": "Hello, how are you today?",
+      "utmos": 2.4532158374786377
+    },
+    {
+      "cer": 0.08108108108108109,
+      "language": "en",
+      "run": 0,
+      "sentence_idx": 11,
+      "text": "Welcome to the speech synthesis demo.",
+      "transcript": "Welcome to the Speech Synthesis Demo.",
+      "utmos": 4.393658638000488
+    },
+    {
+      "cer": 0.0,
+      "language": "en",
+      "run": 0,
+      "sentence_idx": 12,
+      "text": "Thank you for your support.",
+      "transcript": "Thank you for your support.",
+      "utmos": 4.1121625900268555
+    },
+    {
+      "cer": 0.11538461538461539,
+      "language": "en",
+      "run": 0,
+      "sentence_idx": 13,
+      "text": "See you tomorrow, goodbye.",
+      "transcript": "See you tomorrow. Good-bye.",
+      "utmos": 4.341607570648193
+    },
+    {
+      "cer": 0.0,
+      "language": "en",
+      "run": 0,
+      "sentence_idx": 14,
+      "text": "This is a voice test.",
+      "transcript": "This is a voice test.",
+      "utmos": 3.784773588180542
     }
   ],
   "runners": {
     "base": {
-      "cer_mean": 0.1585,
-      "cer_std": 0.1381,
-      "utmos_mean": 3.1235,
-      "utmos_std": 0.5376
+      "cer_mean": 0.0632,
+      "cer_std": 0.0749,
+      "utmos_mean": 3.4184,
+      "utmos_std": 0.7184
     },
     "faster": {
-      "cer_mean": 0.2157,
-      "cer_std": 0.255,
-      "utmos_mean": 3.2872,
-      "utmos_std": 0.5968
+      "cer_mean": 0.0532,
+      "cer_std": 0.0554,
+      "utmos_mean": 3.574,
+      "utmos_std": 0.5235
     },
     "hybrid": {
-      "cer_mean": 0.203,
-      "cer_std": 0.1442,
-      "utmos_mean": 3.3009,
-      "utmos_std": 0.8515
+      "cer_mean": 0.0552,
+      "cer_std": 0.0482,
+      "utmos_mean": 3.5766,
+      "utmos_std": 0.4466
+    },
+    "hybrid+tq": {
+      "cer_mean": 0.066,
+      "cer_std": 0.072,
+      "utmos_mean": 3.6351,
+      "utmos_std": 0.6212
     },
     "triton": {
-      "cer_mean": 0.1785,
-      "cer_std": 0.1426,
-      "utmos_mean": 3.2858,
-      "utmos_std": 0.4636
+      "cer_mean": 0.0536,
+      "cer_std": 0.0471,
+      "utmos_mean": 3.4711,
+      "utmos_std": 0.5838
+    },
+    "triton+tq": {
+      "cer_mean": 0.4118,
+      "cer_std": 1.306,
+      "utmos_mean": 2.9784,
+      "utmos_std": 0.7333
     }
   },
   "runs_per_sentence": 1,

@@ -1,0 +1,402 @@
+{
+  "meta": {
+    "gpu": "NVIDIA GeForce RTX 5090",
+    "patch_ranges": [
+      [
+        0,
+        16
+      ],
+      [
+        0,
+        20
+      ],
+      [
+        0,
+        22
+      ],
+      [
+        0,
+        24
+      ]
+    ],
+    "repeat": 5,
+    "save_audio": true,
+    "seed": 42,
+    "timestamp": "2026-03-24T01:25:31.666011+00:00",
+    "warmup": 3
+  },
+  "results": [
+    {
+      "audio_path": "benchmark/output/partial/base_ko_0.wav",
+      "baseline_vram_gb": 3.921,
+      "inference_delta_gb": 0.099,
+      "language": "ko",
+      "model_load_time_s": 35.74,
+      "peak_vram_gb": 4.02,
+      "repeat": 5,
+      "rtf": {
+        "max": 0.8279787895309066,
+        "mean": 0.7882385445807399,
+        "min": 0.757159177811559,
+        "p50": 0.7891581894586182,
+        "p95": 0.8208004049362712,
+        "p99": 0.8265431126119795,
+        "std": 0.023414539565020126
+      },
+      "runner": "Base",
+      "sample_idx": 0,
+      "text": "\uc548\ub155\ud558\uc138\uc694, \uc624\ub298 \ub0a0\uc528\uac00 \uc815\ub9d0 \uc88b\ub124\uc694.",
+      "time_ms": {
+        "max": 5494.22119140625,
+        "mean": 4803.47451171875,
+        "min": 4140.9599609375,
+        "p50": 4956.0556640625,
+        "p95": 5449.66494140625,
+        "p99": 5485.30994140625,
+        "std": 562.0040876532953
+      },
+      "warmup": 3
+    },
+    {
+      "audio_path": "benchmark/output/partial/base_en_1.wav",
+      "baseline_vram_gb": 3.921,
+      "inference_delta_gb": 0.106,
+      "language": "en",
+      "model_load_time_s": 35.74,
+      "peak_vram_gb": 4.027,
+      "repeat": 5,
+      "rtf": {
+        "max": 0.8250198414961705,
+        "mean": 0.7716906170206873,
+        "min": 0.7108959841675998,
+        "p50": 0.7717271374447247,
+        "p95": 0.8193149323110818,
+        "p99": 0.8238788596591528,
+        "std": 0.03861912758585529
+      },
+      "runner": "Base",
+      "sample_idx": 1,
+      "text": "Hello, welcome to the Qwen3 text-to-speech system.",
+      "time_ms": {
+        "max": 6076.83837890625,
+        "mean": 5162.335546875,
+        "min": 4454.37353515625,
+        "p50": 4751.40087890625,
+        "p95": 6043.235546875,
+        "p99": 6070.1178125,
+        "std": 686.6593153596741
+      },
+      "warmup": 3
+    },
+    {
+      "audio_path": "benchmark/output/partial/hybrid_ko_0.wav",
+      "baseline_vram_gb": 4.242,
+      "inference_delta_gb": 0.109,
+      "language": "ko",
+      "model_load_time_s": 7.382,
+      "peak_vram_gb": 4.351,
+      "repeat": 5,
+      "rtf": {
+        "max": 4.7206977874923,
+        "mean": 4.417381225621329,
+        "min": 4.267582643410068,
+        "p50": 4.3328446517628505,
+        "p95": 4.666283639718626,
+        "p99": 4.709814957937565,
+        "std": 0.16285501718170395
+      },
+      "runner": "Hybrid",
+      "sample_idx": 0,
+      "text": "\uc548\ub155\ud558\uc138\uc694, \uc624\ub298 \ub0a0\uc528\uac00 \uc815\ub9d0 \uc88b\ub124\uc694.",
+      "time_ms": {
+        "max": 963.5977783203125,
+        "mean": 905.93603515625,
+        "min": 845.20458984375,
+        "p50": 898.1723022460938,
+        "p95": 959.2071533203125,
+        "p99": 962.7196533203125,
+        "std": 42.3493583632176
+      },
+      "warmup": 3
+    },
+    {
+      "audio_path": "benchmark/output/partial/hybrid_en_1.wav",
+      "baseline_vram_gb": 4.242,
+      "inference_delta_gb": 0.131,
+      "language": "en",
+      "model_load_time_s": 7.382,
+      "peak_vram_gb": 4.373,
+      "repeat": 5,
+      "rtf": {
+        "max": 4.699898869599154,
+        "mean": 4.600273828120315,
+        "min": 4.518787302838062,
+        "p50": 4.580598715341119,
+        "p95": 4.691256903337316,
+        "p99": 4.698170476346786,
+        "std": 0.06803918124556138
+      },
+      "runner": "Hybrid",
+      "sample_idx": 1,
+      "text": "Hello, welcome to the Qwen3 text-to-speech system.",
+      "time_ms": {
+        "max": 1073.614013671875,
+        "mean": 1019.3993286132812,
+        "min": 970.233642578125,
+        "p50": 1013.595703125,
+        "p95": 1064.9778076171874,
+        "p99": 1071.8867724609374,
+        "std": 33.51888658427091
+      },
+      "warmup": 3
+    },
+    {
+      "audio_path": "benchmark/output/partial/hybrid_p(0,16)_ko_0.wav",
+      "baseline_vram_gb": 4.304,
+      "inference_delta_gb": 0.104,
+      "language": "ko",
+      "model_load_time_s": 6.723,
+      "peak_vram_gb": 4.408,
+      "repeat": 5,
+      "rtf": {
+        "max": 4.6731845351458015,
+        "mean": 4.429750717090111,
+        "min": 4.161090728616282,
+        "p50": 4.449421322378038,
+        "p95": 4.62976837306205,
+        "p99": 4.664501302729051,
+        "std": 0.16306572939686326
+      },
+      "runner": "Hybrid+P(0,16)",
+      "sample_idx": 0,
+      "text": "\uc548\ub155\ud558\uc138\uc694, \uc624\ub298 \ub0a0\uc528\uac00 \uc815\ub9d0 \uc88b\ub124\uc694.",
+      "time_ms": {
+        "max": 1643.4189453125,
+        "mean": 1056.9533447265626,
+        "min": 845.0537109375,
+        "p50": 961.6795043945312,
+        "p95": 1508.6265136718748,
+        "p99": 1616.460458984375,
+        "std": 297.44298544313676
+      },
+      "warmup": 3
+    },
+    {
+      "audio_path": "benchmark/output/partial/hybrid_p(0,16)_en_1.wav",
+      "baseline_vram_gb": 4.304,
+      "inference_delta_gb": 0.124,
+      "language": "en",
+      "model_load_time_s": 6.723,
+      "peak_vram_gb": 4.429,
+      "repeat": 5,
+      "rtf": {
+        "max": 4.524198067130754,
+        "mean": 4.277447400414554,
+        "min": 3.9975537430524994,
+        "p50": 4.346172816059067,
+        "p95": 4.4967851218142485,
+        "p99": 4.5187154780674526,
+        "std": 0.18819321830668367
+      },
+      "runner": "Hybrid+P(0,16)",
+      "sample_idx": 1,
+      "text": "Hello, welcome to the Qwen3 text-to-speech system.",
+      "time_ms": {
+        "max": 1000.6119384765625,
+        "mean": 943.7221557617188,
+        "min": 865.1289672851562,
+        "p50": 954.8653564453125,
+        "p95": 994.0920043945313,
+        "p99": 999.3079516601563,
+        "std": 45.422521906987505
+      },
+      "warmup": 3
+    },
+    {
+      "audio_path": "benchmark/output/partial/hybrid_p(0,20)_ko_0.wav",
+      "baseline_vram_gb": 4.367,
+      "inference_delta_gb": 0.103,
+      "language": "ko",
+      "model_load_time_s": 5.439,
+      "peak_vram_gb": 4.47,
+      "repeat": 5,
+      "rtf": {
+        "max": 4.580928260314929,
+        "mean": 4.472170689160163,
+        "min": 4.2815778138322935,
+        "p50": 4.477482665298388,
+        "p95": 4.578218559920066,
+        "p99": 4.580386320235957,
+        "std": 0.10732753074220043
+      },
+      "runner": "Hybrid+P(0,20)",
+      "sample_idx": 0,
+      "text": "\uc548\ub155\ud558\uc138\uc694, \uc624\ub298 \ub0a0\uc528\uac00 \uc815\ub9d0 \uc88b\ub124\uc694.",
+      "time_ms": {
+        "max": 945.8377075195312,
+        "mean": 886.2558349609375,
+        "min": 822.1268310546875,
+        "p50": 875.491943359375,
+        "p95": 941.7854858398438,
+        "p99": 945.0272631835937,
+        "std": 44.49939372432245
+      },
+      "warmup": 3
+    },
+    {
+      "audio_path": "benchmark/output/partial/hybrid_p(0,20)_en_1.wav",
+      "baseline_vram_gb": 4.367,
+      "inference_delta_gb": 0.113,
+      "language": "en",
+      "model_load_time_s": 5.439,
+      "peak_vram_gb": 4.48,
+      "repeat": 5,
+      "rtf": {
+        "max": 4.698726123834352,
+        "mean": 4.5298328005189115,
+        "min": 4.382711209421713,
+        "p50": 4.555988155353459,
+        "p95": 4.670813842318828,
+        "p99": 4.693143667531247,
+        "std": 0.10740869108882792
+      },
+      "runner": "Hybrid+P(0,20)",
+      "sample_idx": 1,
+      "text": "Hello, welcome to the Qwen3 text-to-speech system.",
+      "time_ms": {
+        "max": 1515.3043212890625,
+        "mean": 1093.4242065429687,
+        "min": 894.4235229492188,
+        "p50": 1071.1177978515625,
+        "p95": 1429.8271728515624,
+        "p99": 1498.2088916015625,
+        "std": 226.34631858764325
+      },
+      "warmup": 3
+    },
+    {
+      "audio_path": "benchmark/output/partial/hybrid_p(0,22)_ko_0.wav",
+      "baseline_vram_gb": 4.431,
+      "inference_delta_gb": 0.113,
+      "language": "ko",
+      "model_load_time_s": 5.817,
+      "peak_vram_gb": 4.543,
+      "repeat": 5,
+      "rtf": {
+        "max": 4.639880661954924,
+        "mean": 4.432243219835449,
+        "min": 4.177893045129335,
+        "p50": 4.429273286305947,
+        "p95": 4.613021713572739,
+        "p99": 4.634508872278487,
+        "std": 0.15083440465308584
+      },
+      "runner": "Hybrid+P(0,22)",
+      "sample_idx": 0,
+      "text": "\uc548\ub155\ud558\uc138\uc694, \uc624\ub298 \ub0a0\uc528\uac00 \uc815\ub9d0 \uc88b\ub124\uc694.",
+      "time_ms": {
+        "max": 1431.0712890625,
+        "mean": 931.0198486328125,
+        "min": 670.1942749023438,
+        "p50": 870.0311279296875,
+        "p95": 1319.062658691406,
+        "p99": 1408.6695629882813,
+        "std": 260.5310097770143
+      },
+      "warmup": 3
+    },
+    {
+      "audio_path": "benchmark/output/partial/hybrid_p(0,22)_en_1.wav",
+      "baseline_vram_gb": 4.431,
+      "inference_delta_gb": 0.113,
+      "language": "en",
+      "model_load_time_s": 5.817,
+      "peak_vram_gb": 4.543,
+      "repeat": 5,
+      "rtf": {
+        "max": 4.580064667620031,
+        "mean": 4.510671739403493,
+        "min": 4.417451503815907,
+        "p50": 4.542123559927698,
+        "p95": 4.574533058859597,
+        "p99": 4.578958345867944,
+        "std": 0.06111097860297647
+      },
+      "runner": "Hybrid+P(0,22)",
+      "sample_idx": 1,
+      "text": "Hello, welcome to the Qwen3 text-to-speech system.",
+      "time_ms": {
+        "max": 1074.3873291015625,
+        "mean": 903.9592163085938,
+        "min": 814.9495239257812,
+        "p50": 878.6652221679688,
+        "p95": 1041.1666870117188,
+        "p99": 1067.7432006835938,
+        "std": 90.86372127303746
+      },
+      "warmup": 3
+    },
+    {
+      "audio_path": "benchmark/output/partial/hybrid_p(0,24)_ko_0.wav",
+      "baseline_vram_gb": 4.495,
+      "inference_delta_gb": 0.118,
+      "language": "ko",
+      "model_load_time_s": 5.682,
+      "peak_vram_gb": 4.612,
+      "repeat": 5,
+      "rtf": {
+        "max": 4.6510447537604325,
+        "mean": 4.5251916164169845,
+        "min": 4.459423712633117,
+        "p50": 4.482073007399527,
+        "p95": 4.632596186351133,
+        "p99": 4.647355040278573,
+        "std": 0.07170958290652833
+      },
+      "runner": "Hybrid+P(0,24)",
+      "sample_idx": 0,
+      "text": "\uc548\ub155\ud558\uc138\uc694, \uc624\ub298 \ub0a0\uc528\uac00 \uc815\ub9d0 \uc88b\ub124\uc694.",
+      "time_ms": {
+        "max": 1427.63623046875,
+        "mean": 940.3615112304688,
+        "min": 786.659912109375,
+        "p50": 803.1997680664062,
+        "p95": 1321.103381347656,
+        "p99": 1406.3296606445313,
+        "std": 246.87729171682452
+      },
+      "warmup": 3
+    },
+    {
+      "audio_path": "benchmark/output/partial/hybrid_p(0,24)_en_1.wav",
+      "baseline_vram_gb": 4.495,
+      "inference_delta_gb": 0.077,
+      "language": "en",
+      "model_load_time_s": 5.682,
+      "peak_vram_gb": 4.572,
+      "repeat": 5,
+      "rtf": {
+        "max": 4.674498724990815,
+        "mean": 4.51530285120301,
+        "min": 4.215394256159666,
+        "p50": 4.560685017065071,
+        "p95": 4.659294960399955,
+        "p99": 4.671457972072643,
+        "std": 0.15774293140975662
+      },
+      "runner": "Hybrid+P(0,24)",
+      "sample_idx": 1,
+      "text": "Hello, welcome to the Qwen3 text-to-speech system.",
+      "time_ms": {
+        "max": 1711.4134521484375,
+        "mean": 1010.9112915039062,
+        "min": 626.2759399414062,
+        "p50": 912.1436767578125,
+        "p95": 1563.9777587890624,
+        "p99": 1681.9263134765624,
+        "std": 369.4049925150951
+      },
+      "warmup": 3
+    }
+  ]
+}

@@ -1,12 +1,122 @@
 {
   "tier1": {
-    "duration_s": 2.89,
+    "duration_s": 25.84,
     "failed": 0,
-    "passed": 90,
+    "passed": 197,
     "returncode": 0,
     "skipped": 0,
     "status": "PASS",
     "tests": [
+      {
+        "fullname": "tests/kernels/test_fused_dequant.py::TestFusedDequant4bit::test_matches_reference",
+        "name": "test_matches_reference",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_fused_dequant.py::TestFusedDequant4bit::test_cosine_similarity",
+        "name": "test_cosine_similarity",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_fused_dequant.py::TestFusedDequant4bit::test_output_shape",
+        "name": "test_output_shape",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_fused_dequant.py::TestFusedDequant4bit::test_output_dtype_bfloat16",
+        "name": "test_output_dtype_bfloat16",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_fused_dequant.py::TestFusedDequant4bit::test_output_dtype_float16",
+        "name": "test_output_dtype_float16",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_fused_dequant.py::TestFusedDequant4bit::test_single_token",
+        "name": "test_single_token",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_fused_dequant.py::TestFusedDequant4bit::test_determinism",
+        "name": "test_determinism",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_fused_dequant.py::TestFusedDequant3bit::test_matches_reference",
+        "name": "test_matches_reference",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_fused_dequant.py::TestFusedDequant3bit::test_cosine_similarity",
+        "name": "test_cosine_similarity",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_fused_dequant.py::TestFusedDequant3bit::test_single_token",
+        "name": "test_single_token",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_fused_dequant.py::TestFusedDequant3bit::test_determinism",
+        "name": "test_determinism",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_fused_dequant.py::test_fused_dequant_various_seq_lengths[3-1]",
+        "name": "test_fused_dequant_various_seq_lengths[3-1]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_fused_dequant.py::test_fused_dequant_various_seq_lengths[3-16]",
+        "name": "test_fused_dequant_various_seq_lengths[3-16]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_fused_dequant.py::test_fused_dequant_various_seq_lengths[3-64]",
+        "name": "test_fused_dequant_various_seq_lengths[3-64]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_fused_dequant.py::test_fused_dequant_various_seq_lengths[3-256]",
+        "name": "test_fused_dequant_various_seq_lengths[3-256]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_fused_dequant.py::test_fused_dequant_various_seq_lengths[3-512]",
+        "name": "test_fused_dequant_various_seq_lengths[3-512]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_fused_dequant.py::test_fused_dequant_various_seq_lengths[4-1]",
+        "name": "test_fused_dequant_various_seq_lengths[4-1]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_fused_dequant.py::test_fused_dequant_various_seq_lengths[4-16]",
+        "name": "test_fused_dequant_various_seq_lengths[4-16]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_fused_dequant.py::test_fused_dequant_various_seq_lengths[4-64]",
+        "name": "test_fused_dequant_various_seq_lengths[4-64]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_fused_dequant.py::test_fused_dequant_various_seq_lengths[4-256]",
+        "name": "test_fused_dequant_various_seq_lengths[4-256]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_fused_dequant.py::test_fused_dequant_various_seq_lengths[4-512]",
+        "name": "test_fused_dequant_various_seq_lengths[4-512]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_fused_dequant.py::test_kv_cache_gpu_uses_fused_kernel",
+        "name": "test_kv_cache_gpu_uses_fused_kernel",
+        "status": "PASSED"
+      },
       {
         "fullname": "tests/kernels/test_fused_norm.py::test_fused_add_rms_norm[shape0-dtype0]",
         "name": "test_fused_add_rms_norm[shape0-dtype0]",
@@ -398,6 +508,286 @@
         "status": "PASSED"
       },
       {
+        "fullname": "tests/kernels/test_turboquant.py::test_lloyd_max_codebook_length[2]",
+        "name": "test_lloyd_max_codebook_length[2]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_turboquant.py::test_lloyd_max_codebook_length[3]",
+        "name": "test_lloyd_max_codebook_length[3]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_turboquant.py::test_lloyd_max_codebook_length[4]",
+        "name": "test_lloyd_max_codebook_length[4]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_turboquant.py::test_lloyd_max_codebook_sorted[2]",
+        "name": "test_lloyd_max_codebook_sorted[2]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_turboquant.py::test_lloyd_max_codebook_sorted[3]",
+        "name": "test_lloyd_max_codebook_sorted[3]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_turboquant.py::test_lloyd_max_codebook_sorted[4]",
+        "name": "test_lloyd_max_codebook_sorted[4]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_turboquant.py::test_lloyd_max_codebook_symmetric[2]",
+        "name": "test_lloyd_max_codebook_symmetric[2]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_turboquant.py::test_lloyd_max_codebook_symmetric[3]",
+        "name": "test_lloyd_max_codebook_symmetric[3]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_turboquant.py::test_lloyd_max_codebook_symmetric[4]",
+        "name": "test_lloyd_max_codebook_symmetric[4]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_turboquant.py::test_lloyd_max_codebook_deterministic[2]",
+        "name": "test_lloyd_max_codebook_deterministic[2]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_turboquant.py::test_lloyd_max_codebook_deterministic[3]",
+        "name": "test_lloyd_max_codebook_deterministic[3]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_turboquant.py::test_lloyd_max_codebook_deterministic[4]",
+        "name": "test_lloyd_max_codebook_deterministic[4]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_turboquant.py::test_lloyd_max_boundaries_count[2]",
+        "name": "test_lloyd_max_boundaries_count[2]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_turboquant.py::test_lloyd_max_boundaries_count[3]",
+        "name": "test_lloyd_max_boundaries_count[3]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_turboquant.py::test_lloyd_max_boundaries_count[4]",
+        "name": "test_lloyd_max_boundaries_count[4]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_turboquant.py::test_rotation_matrix_orthogonality[64]",
+        "name": "test_rotation_matrix_orthogonality[64]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_turboquant.py::test_rotation_matrix_orthogonality[128]",
+        "name": "test_rotation_matrix_orthogonality[128]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_turboquant.py::test_rotation_matrix_determinism",
+        "name": "test_rotation_matrix_determinism",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_turboquant.py::test_rotation_matrix_uniqueness",
+        "name": "test_rotation_matrix_uniqueness",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_turboquant.py::test_quantize_dequantize_roundtrip[dtype0-3]",
+        "name": "test_quantize_dequantize_roundtrip[dtype0-3]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_turboquant.py::test_quantize_dequantize_roundtrip[dtype0-4]",
+        "name": "test_quantize_dequantize_roundtrip[dtype0-4]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_turboquant.py::test_quantize_dequantize_roundtrip[dtype1-3]",
+        "name": "test_quantize_dequantize_roundtrip[dtype1-3]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_turboquant.py::test_quantize_dequantize_roundtrip[dtype1-4]",
+        "name": "test_quantize_dequantize_roundtrip[dtype1-4]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_turboquant.py::test_quantize_indices_range[3]",
+        "name": "test_quantize_indices_range[3]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_turboquant.py::test_quantize_indices_range[4]",
+        "name": "test_quantize_indices_range[4]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_turboquant.py::test_quantize_preserves_inner_product[3]",
+        "name": "test_quantize_preserves_inner_product[3]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_turboquant.py::test_quantize_preserves_inner_product[4]",
+        "name": "test_quantize_preserves_inner_product[4]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_turboquant.py::test_quantize_preserves_norm_direction",
+        "name": "test_quantize_preserves_norm_direction",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_turboquant.py::test_kv_cache_basic",
+        "name": "test_kv_cache_basic",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_turboquant.py::test_kv_cache_incremental",
+        "name": "test_kv_cache_incremental",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_turboquant.py::test_kv_cache_cosine_fidelity",
+        "name": "test_kv_cache_cosine_fidelity",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_turboquant.py::test_kv_cache_memory_savings",
+        "name": "test_kv_cache_memory_savings",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_turboquant.py::test_kv_cache_gqa",
+        "name": "test_kv_cache_gqa",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_turboquant.py::test_kv_cache_reset",
+        "name": "test_kv_cache_reset",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_turboquant.py::test_kv_cache_bits_config[3]",
+        "name": "test_kv_cache_bits_config[3]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_turboquant.py::test_kv_cache_bits_config[4]",
+        "name": "test_kv_cache_bits_config[4]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_turboquant.py::test_kv_cache_various_seq_lengths[1]",
+        "name": "test_kv_cache_various_seq_lengths[1]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_turboquant.py::test_kv_cache_various_seq_lengths[16]",
+        "name": "test_kv_cache_various_seq_lengths[16]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_turboquant.py::test_kv_cache_various_seq_lengths[64]",
+        "name": "test_kv_cache_various_seq_lengths[64]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_turboquant.py::test_kv_cache_various_seq_lengths[256]",
+        "name": "test_kv_cache_various_seq_lengths[256]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_turboquant.py::test_pack_unpack_4bit_roundtrip[64]",
+        "name": "test_pack_unpack_4bit_roundtrip[64]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_turboquant.py::test_pack_unpack_4bit_roundtrip[128]",
+        "name": "test_pack_unpack_4bit_roundtrip[128]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_turboquant.py::test_pack_unpack_4bit_roundtrip[256]",
+        "name": "test_pack_unpack_4bit_roundtrip[256]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_turboquant.py::test_pack_unpack_3bit_roundtrip[64]",
+        "name": "test_pack_unpack_3bit_roundtrip[64]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_turboquant.py::test_pack_unpack_3bit_roundtrip[128]",
+        "name": "test_pack_unpack_3bit_roundtrip[128]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_turboquant.py::test_pack_unpack_3bit_roundtrip[256]",
+        "name": "test_pack_unpack_3bit_roundtrip[256]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_turboquant.py::test_pack_4bit_size_reduction",
+        "name": "test_pack_4bit_size_reduction",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_turboquant.py::test_pack_3bit_size_reduction",
+        "name": "test_pack_3bit_size_reduction",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_turboquant.py::test_pack_4bit_batch_shapes",
+        "name": "test_pack_4bit_batch_shapes",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_turboquant.py::test_pack_3bit_batch_shapes",
+        "name": "test_pack_3bit_batch_shapes",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_turboquant.py::test_kv_cache_packed_storage[3]",
+        "name": "test_kv_cache_packed_storage[3]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_turboquant.py::test_kv_cache_packed_storage[4]",
+        "name": "test_kv_cache_packed_storage[4]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_turboquant.py::test_kv_cache_compression_ratio_with_packing[3]",
+        "name": "test_kv_cache_compression_ratio_with_packing[3]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_turboquant.py::test_kv_cache_compression_ratio_with_packing[4]",
+        "name": "test_kv_cache_compression_ratio_with_packing[4]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_turboquant.py::test_kv_cache_packed_fidelity[3]",
+        "name": "test_kv_cache_packed_fidelity[3]",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/kernels/test_turboquant.py::test_kv_cache_packed_fidelity[4]",
+        "name": "test_kv_cache_packed_fidelity[4]",
+        "status": "PASSED"
+      },
+      {
         "fullname": "tests/kernels/test_utils.py::test_calculate_settings[1-1-4]",
         "name": "test_calculate_settings[1-1-4]",
         "status": "PASSED"
@@ -456,12 +846,157 @@
         "fullname": "tests/kernels/test_utils.py::test_calculate_settings_block_is_power_of_two",
         "name": "test_calculate_settings_block_is_power_of_two",
         "status": "PASSED"
+      },
+      {
+        "fullname": "tests/test_eval_quality_defaults.py::test_run_tier3_defaults_include_base_tq_and_all_release_runners",
+        "name": "test_run_tier3_defaults_include_base_tq_and_all_release_runners",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/test_generate_bench_tables.py::test_render_e2e_table_includes_all_seven_modes_in_release_order",
+        "name": "test_render_e2e_table_includes_all_seven_modes_in_release_order",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/test_generate_bench_tables.py::test_load_tier3_result_prefers_full_multi_runner_artifact",
+        "name": "test_load_tier3_result_prefers_full_multi_runner_artifact",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/test_generate_bench_tables.py::test_render_quality_table_supports_full_multi_runner_release_format",
+        "name": "test_render_quality_table_supports_full_multi_runner_release_format",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/test_generate_bench_tables.py::test_render_quality_table_uses_actual_mode_in_release_caveat_title",
+        "name": "test_render_quality_table_uses_actual_mode_in_release_caveat_title",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/test_makefile_targets.py::test_verify_all_runs_full_tier3_before_report_generation",
+        "name": "test_verify_all_runs_full_tier3_before_report_generation",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/test_makefile_targets.py::test_verify_remains_report_generation_entrypoint",
+        "name": "test_verify_remains_report_generation_entrypoint",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/test_makefile_targets.py::test_makefile_version_tracks_v020_release_branch",
+        "name": "test_makefile_version_tracks_v020_release_branch",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/test_partial_patching.py::TestGetLayerIndex::test_layer_norm",
+        "name": "test_layer_norm",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/test_partial_patching.py::TestGetLayerIndex::test_nested_mlp",
+        "name": "test_nested_mlp",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/test_partial_patching.py::TestGetLayerIndex::test_final_norm_returns_none",
+        "name": "test_final_norm_returns_none",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/test_partial_patching.py::TestGetLayerIndex::test_model_prefix",
+        "name": "test_model_prefix",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/test_partial_patching.py::TestGetLayerIndex::test_no_layers_keyword",
+        "name": "test_no_layers_keyword",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/test_partial_patching.py::TestShouldPatch::test_none_range_always_true",
+        "name": "test_none_range_always_true",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/test_partial_patching.py::TestShouldPatch::test_in_range",
+        "name": "test_in_range",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/test_partial_patching.py::TestShouldPatch::test_out_of_range",
+        "name": "test_out_of_range",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/test_partial_patching.py::TestShouldPatch::test_final_norm_excluded_with_range",
+        "name": "test_final_norm_excluded_with_range",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/test_partial_patching.py::TestShouldPatch::test_boundary_start_inclusive",
+        "name": "test_boundary_start_inclusive",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/test_partial_patching.py::TestShouldPatch::test_boundary_end_exclusive",
+        "name": "test_boundary_end_exclusive",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/test_partial_patching.py::test_patch_range_none_patches_all",
+        "name": "test_patch_range_none_patches_all",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/test_partial_patching.py::test_partial_patch_only_patches_specified_layers",
+        "name": "test_partial_patch_only_patches_specified_layers",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/test_partial_patching.py::test_patch_range_final_norm_not_patched",
+        "name": "test_patch_range_final_norm_not_patched",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/test_partial_patching.py::test_patch_range_fused_norm_respects_range",
+        "name": "test_patch_range_fused_norm_respects_range",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/test_partial_patching.py::test_patch_range_validation_start_ge_end",
+        "name": "test_patch_range_validation_start_ge_end",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/test_partial_patching.py::test_patch_range_validation_negative",
+        "name": "test_patch_range_validation_negative",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/test_partial_patching.py::test_patch_range_validation_reversed",
+        "name": "test_patch_range_validation_reversed",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/test_release_artifacts.py::test_verification_artifact_uses_current_tier1_total",
+        "name": "test_verification_artifact_uses_current_tier1_total",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/test_release_artifacts.py::test_release_docs_match_current_tier1_total_and_test_layout",
+        "name": "test_release_docs_match_current_tier1_total_and_test_layout",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/test_release_artifacts.py::test_readmes_use_mode_specific_turboquant_release_language",
+        "name": "test_readmes_use_mode_specific_turboquant_release_language",
+        "status": "PASSED"
       }
     ],
-    "total": 90
+    "total": 197
   },
   "tier2": {
-    "duration_s": 19.3,
+    "duration_s": 20.63,
     "failed": 0,
     "pairs": {
       "base_vs_triton": {
@@ -577,9 +1112,39 @@
         "status": "PASS"
       }
     },
-    "passed": 0,
+    "passed": 13,
     "status": "PASS",
     "tests": [
+      {
+        "fullname": "tests/test_model_parity.py::test_hidden_state_cosine_similarity",
+        "name": "test_hidden_state_cosine_similarity",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/test_model_parity.py::test_hidden_state_relative_l2",
+        "name": "test_hidden_state_relative_l2",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/test_model_parity.py::test_hidden_state_snr",
+        "name": "test_hidden_state_snr",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/test_model_parity.py::test_hidden_state_max_abs_diff",
+        "name": "test_hidden_state_max_abs_diff",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/test_model_parity.py::test_hidden_state_diagnostics",
+        "name": "test_hidden_state_diagnostics",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/test_model_parity.py::test_logits_output_cosine",
+        "name": "test_logits_output_cosine",
+        "status": "PASSED"
+      },
       {
         "fullname": "tests/test_model_parity.py::test_logits_top_k_overlap",
         "name": "test_logits_top_k_overlap",
@@ -594,72 +1159,157 @@
         "fullname": "tests/test_model_parity.py::test_greedy_token_divergence",
         "name": "test_greedy_token_divergence",
         "status": "SKIPPED"
+      },
+      {
+        "fullname": "tests/test_model_parity.py::test_faster_hidden_state_cosine_similarity",
+        "name": "test_faster_hidden_state_cosine_similarity",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/test_model_parity.py::test_faster_hidden_state_relative_l2",
+        "name": "test_faster_hidden_state_relative_l2",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/test_model_parity.py::test_faster_hidden_state_snr",
+        "name": "test_faster_hidden_state_snr",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/test_model_parity.py::test_faster_hidden_state_max_abs_diff",
+        "name": "test_faster_hidden_state_max_abs_diff",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/test_model_parity.py::test_faster_hidden_state_diagnostics",
+        "name": "test_faster_hidden_state_diagnostics",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/test_model_parity.py::test_faster_logits_output_cosine",
+        "name": "test_faster_logits_output_cosine",
+        "status": "PASSED"
+      },
+      {
+        "fullname": "tests/test_model_parity.py::test_tier2_write_report",
+        "name": "test_tier2_write_report",
+        "status": "PASSED"
       }
     ],
-    "total": 3
+    "total": 16
   },
   "tier3": {
     "comparisons": [
       {
-        "cer_delta": 0.02,
+        "cer_delta": 0.3801,
+        "failures": [
+          "CER delta 0.3801 > 0.05",
+          "Mann-Whitney p=0.0340 < 0.05"
+        ],
+        "opt": "base+tq",
+        "ref": "base",
+        "speaker_sim_mean": 0.822,
+        "status": "FAIL",
+        "utmos_delta": 0.2271
+      },
+      {
+        "cer_delta": 0.0005,
         "failures": [],
         "opt": "triton",
         "ref": "base",
-        "speaker_sim_mean": 0.7645,
+        "speaker_sim_mean": 0.8491,
         "status": "PASS",
-        "utmos_delta": 0.1623
+        "utmos_delta": 0.0002
       },
       {
-        "cer_delta": 0.0571,
+        "cer_delta": 0.3865,
         "failures": [
-          "CER delta 0.0571 > 0.05"
+          "UTMOS delta 0.3565 > 0.3",
+          "CER delta 0.3865 > 0.05",
+          "Mann-Whitney p=0.0015 < 0.05"
         ],
+        "opt": "triton+tq",
+        "ref": "base",
+        "speaker_sim_mean": 0.8336,
+        "status": "FAIL",
+        "utmos_delta": 0.3565
+      },
+      {
+        "cer_delta": 0.0015,
+        "failures": [],
         "opt": "faster",
         "ref": "base",
-        "speaker_sim_mean": 0.7506,
-        "status": "FAIL",
-        "utmos_delta": 0.1636
+        "speaker_sim_mean": 0.8324,
+        "status": "PASS",
+        "utmos_delta": 0.0176
       },
       {
-        "cer_delta": 0.0445,
+        "cer_delta": 0.002,
         "failures": [],
         "opt": "hybrid",
         "ref": "base",
-        "speaker_sim_mean": 0.7684,
+        "speaker_sim_mean": 0.8337,
         "status": "PASS",
-        "utmos_delta": 0.1774
+        "utmos_delta": 0.0194
+      },
+      {
+        "cer_delta": 0.0073,
+        "failures": [],
+        "opt": "hybrid+tq",
+        "ref": "base",
+        "speaker_sim_mean": 0.8274,
+        "status": "PASS",
+        "utmos_delta": 0.0822
       }
     ],
-    "mode": "fast",
-    "num_sentences": 10,
+    "mode": "full",
+    "num_sentences": 36,
     "runners": {
       "base": {
-        "cer_mean": 0.1585,
-        "cer_std": 0.1381,
-        "utmos_mean": 3.1235,
-        "utmos_std": 0.5376
+        "cer_mean": 0.0403,
+        "cer_std": 0.0571,
+        "utmos_mean": 3.4007,
+        "utmos_std": 0.7823
+      },
+      "base+tq": {
+        "cer_mean": 0.4204,
+        "cer_std": 2.0175,
+        "utmos_mean": 3.1737,
+        "utmos_std": 0.8112
       },
       "faster": {
-        "cer_mean": 0.2157,
-        "cer_std": 0.255,
-        "utmos_mean": 3.2872,
-        "utmos_std": 0.5968
+        "cer_mean": 0.0388,
+        "cer_std": 0.0435,
+        "utmos_mean": 3.4183,
+        "utmos_std": 0.7473
       },
       "hybrid": {
-        "cer_mean": 0.203,
-        "cer_std": 0.1442,
-        "utmos_mean": 3.3009,
-        "utmos_std": 0.8515
+        "cer_mean": 0.0423,
+        "cer_std": 0.057,
+        "utmos_mean": 3.3813,
+        "utmos_std": 0.7781
+      },
+      "hybrid+tq": {
+        "cer_mean": 0.0476,
+        "cer_std": 0.0749,
+        "utmos_mean": 3.3185,
+        "utmos_std": 0.7805
       },
       "triton": {
-        "cer_mean": 0.1785,
-        "cer_std": 0.1426,
-        "utmos_mean": 3.2858,
-        "utmos_std": 0.4636
+        "cer_mean": 0.0408,
+        "cer_std": 0.0679,
+        "utmos_mean": 3.4005,
+        "utmos_std": 0.7597
+      },
+      "triton+tq": {
+        "cer_mean": 0.4268,
+        "cer_std": 1.4932,
+        "utmos_mean": 3.0443,
+        "utmos_std": 0.8345
       }
     },
-    "source": "tier3_fast_multi.json",
+    "source": "tier3_full_multi.json",
     "status": "FAIL"
   },
-  "timestamp": "2026-03-22T12:07:25.873272+00:00"
+  "timestamp": "2026-04-16T12:32:08.203262+00:00"
 }

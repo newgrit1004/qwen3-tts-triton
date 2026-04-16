@@ -1,8 +1,8 @@
 """End-to-end benchmarks for Qwen3-TTS inference modes.
 
-Compares all 4 runners (Base, Triton, Faster, Hybrid) on RTF, total time,
-and peak VRAM with proper CUDA event timing, warmup, and statistical
-reporting (mean, std, p50, p95, p99).
+Compares all 7 runners (Base, Base+TQ, Triton, Triton+TQ, Faster, Hybrid,
+Hybrid+TQ) on RTF, total time, and peak VRAM with proper CUDA event timing,
+warmup, and statistical reporting (mean, std, p50, p95, p99).
 
 Usage:
     python -m benchmark.bench_e2e --warmup 3 --repeat 20 --output results.json
@@ -79,13 +79,18 @@ def _check_cuda_graph_status(runner: Any, runner_name: str) -> None:
 
 
 def _get_runners() -> dict[str, Any]:
-    """Import available runners with graceful fallback."""
+    """Import available runners with graceful fallback.
+
+    Returns base runners and their TurboQuant variants (7 total).
+    TQ variants are factory lambdas that set enable_turboquant=True.
+    """
     runners: dict[str, Any] = {}
 
     try:
         from qwen3_tts_triton.models.base_runner import BaseRunner
 
         runners["Base"] = BaseRunner
+        runners["Base+TQ"] = lambda **kw: BaseRunner(enable_turboquant=True, **kw)
     except ImportError:
         logger.warning("BaseRunner not available")
 
@@ -93,6 +98,7 @@ def _get_runners() -> dict[str, Any]:
         from qwen3_tts_triton.models.triton_runner import TritonRunner
 
         runners["Triton"] = TritonRunner
+        runners["Triton+TQ"] = lambda **kw: TritonRunner(enable_turboquant=True, **kw)
     except ImportError:
         logger.warning("TritonRunner not available")
 
@@ -107,6 +113,9 @@ def _get_runners() -> dict[str, Any]:
         from qwen3_tts_triton.models.triton_faster_runner import TritonFasterRunner
 
         runners["Hybrid"] = TritonFasterRunner
+        runners["Hybrid+TQ"] = lambda **kw: TritonFasterRunner(
+            enable_turboquant=True, **kw
+        )
     except ImportError:
         logger.warning("TritonFasterRunner not available")
 

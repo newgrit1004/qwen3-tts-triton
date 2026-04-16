@@ -5,7 +5,7 @@
 [![Python](https://img.shields.io/pypi/pyversions/qwen3-tts-triton)](https://pypi.org/project/qwen3-tts-triton/)
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
-**Up to 5x faster Qwen3-TTS inference through Triton kernel fusion.**
+**Up to 5x faster Qwen3-TTS inference through Triton kernel fusion and TurboQuant KV cache.**
 
 [Korean (한국어)](README_ko.md) | [Benchmark Results](docs/benchmark_results_en.md)
 
@@ -17,17 +17,22 @@
 
 Qwen3-TTS-Triton replaces performance-critical operators in [Qwen3-TTS 1.7B](https://huggingface.co/Qwen/Qwen3-TTS-12Hz-1.7B-CustomVoice) with hand-written [Triton](https://github.com/triton-lang/triton) kernels. Inspired by [Liger Kernel](https://github.com/linkedin/Liger-Kernel) (LinkedIn), each kernel fuses multiple HBM round-trips into a single pass, reducing memory traffic without any additional VRAM usage.
 
-It can also be combined with [faster-qwen3-tts](https://github.com/andimarafioti/faster-qwen3-tts) (CUDA Graph + static KV-cache) as a **Hybrid** mode for maximum throughput.
+It can also be combined with [faster-qwen3-tts](https://github.com/andimarafioti/faster-qwen3-tts) (CUDA Graph + static KV-cache) as a **Hybrid** mode for maximum throughput. Hybrid+TQ is the current release-grade TurboQuant path. Base+TQ and Triton+TQ remain experimental until they pass the full Tier 3 gate.
 
 ### 💡 Why Triton?
 
 - 🪶 **Lightweight & Portable** — No serving infrastructure needed. Just `pip install qwen3-tts-triton` and call `apply_triton_kernels()`. Works in standalone scripts, [ComfyUI nodes](https://github.com/newgrit1004/ComfyUI-Qwen3-TTS-Triton), Gradio apps, or any Python environment.
 - 🎲 **Faster Iteration on Stochastic TTS** — Qwen3-TTS generates different output each run. For best results, generate multiple candidates and pick the best one. With Hybrid mode's **~5x speedup**, you can produce 5 candidates in the time it used to take for 1 — more takes, better results.
 
+### 🌱 Why Optimize Qwen3-TTS?
+
+Qwen3-TTS is rapidly becoming the backbone for next-generation TTS models. [Darwin-TTS](https://huggingface.co/blog/FINAL-Bench/darwin-tts) blends just 3% of general LLM weights back into the Qwen3-TTS-1.7B talker — a 10-second, training-free operation — to produce emotionally expressive speech. Projects like [OmniVoice](https://github.com/k2-fsa/OmniVoice) further demonstrate the Qwen3 architecture's versatility for multilingual, zero-shot TTS. As more derivative models build on Qwen3-TTS, **kernel-level speedups here propagate to the entire ecosystem** — every model that shares the same 28-layer transformer talker benefits from these Triton kernels with zero code changes.
+
 ### ✨ Highlights
 
 - ⚡ **4 Fused Triton Kernels** — RMSNorm, SwiGLU, M-RoPE, Norm+Residual
-- 🎯 **4 Inference Modes** — Base, Triton, Faster, Hybrid
+- 🎯 **7 Inference Modes** — Base, Base+TQ, Triton, Triton+TQ, Faster, Hybrid, Hybrid+TQ
+- 🗜️ **TurboQuant KV Cache** — INT4/INT3 calibration-free KV cache quantization for VRAM savings
 - 🔬 **3-Tier Verification** — Kernel correctness → Model parity → E2E quality distribution
 - 💾 **Zero Extra VRAM** — Pure kernel fusion, no model changes
 - 🔌 **Drop-in Patching** — Single `apply_triton_kernels()` call, weight sharing via monkey-patch
@@ -67,7 +72,7 @@ make setup  # uv sync --all-extras --dev + pre-commit install + git config
 
 ```bash
 uv sync                 # Core (triton, transformers, faster-qwen3-tts, streamlit, plotly)
-uv sync --extra eval    # + Quality evaluation (whisper, jiwer, resemblyzer)
+uv sync --extra eval    # + Quality evaluation (cohere-transcribe, jiwer, resemblyzer)
 uv sync --extra dev     # + Dev tools (ruff, pytest, pre-commit)
 uv sync --extra all     # Everything
 ```
@@ -119,6 +124,28 @@ sf.write("output.wav", result["audio"], result["sample_rate"])
 runner.unload_model()
 ```
 
+### Hybrid+TQ Mode (Triton + CUDA Graph + TurboQuant KV Cache)
+
+```python
+from qwen3_tts_triton import TritonFasterRunner
+import soundfile as sf
+
+runner = TritonFasterRunner(enable_turboquant=True, tq_bits=4)
+runner.load_model()  # Triton patches + TurboQuant KV cache injected before CUDA Graph capture
+
+result = runner.generate(
+    text="Hybrid+TQ mode: CUDA Graph + Triton fusion + INT4 KV cache.",
+    language="English",
+    speaker="vivian",
+)
+
+sf.write("output.wav", result["audio"], result["sample_rate"])
+print(f"RTF: {result['rtf']:.2f}x, VRAM: {result['peak_vram_gb']:.2f}GB")
+runner.unload_model()
+```
+
+> **Note**: TurboQuant quantizes the KV cache to INT4 (or INT3) at each decode step and is compatible with all runner modes via the `enable_turboquant=True` flag. In the current full Tier 3 release gate, Hybrid+TQ passes while Base+TQ and Triton+TQ remain caveated.
+
 ### 📊 Streamlit Dashboard
 
 ```bash
@@ -138,9 +165,12 @@ Pre-generated samples comparing inference modes (custom voice + voice cloning).
 | Mode | Directory |
 |------|-----------|
 | Base (PyTorch) | [`assets/audio_samples/base/`](assets/audio_samples/base/) |
+| Base+TQ | [`assets/audio_samples/base+tq/`](assets/audio_samples/base+tq/) |
 | Triton | [`assets/audio_samples/triton/`](assets/audio_samples/triton/) |
+| Triton+TQ | [`assets/audio_samples/triton+tq/`](assets/audio_samples/triton+tq/) |
 | Faster (CUDA Graph) | [`assets/audio_samples/faster/`](assets/audio_samples/faster/) |
 | Hybrid (Faster+Triton) | [`assets/audio_samples/hybrid/`](assets/audio_samples/hybrid/) |
+| Hybrid+TQ | [`assets/audio_samples/hybrid+tq/`](assets/audio_samples/hybrid+tq/) |
 
 Each directory contains custom voice samples (5 Korean + 5 English) and voice cloning samples using [LJSpeech reference audio](assets/reference_audio/) (Public Domain).
 
@@ -157,6 +187,8 @@ All kernels target the **Qwen3-TTS Talker** (28-layer Transformer, hidden_size=2
 | **SwiGLU** | `silu(gate) * up` — eliminates intermediate tensor | 3→1 round-trips | `kernels/swiglu.py` |
 | **M-RoPE** | 3D positional encoding (sections=[24,20,20]) | In-place compute | `kernels/rope.py` |
 | **Fused Norm+Residual** | `residual + x` then RMSNorm in one kernel | 2 kernels → 1 | `kernels/fused_norm_residual.py` |
+
+Additionally, **TurboQuant** (`kernels/turboquant.py`) provides INT4/INT3 KV cache quantization with calibration-free Lloyd-Max codebooks and Hadamard rotation for outlier suppression.
 
 ### 🔌 How Patching Works
 
@@ -222,9 +254,9 @@ Inspired by [Liger Kernel](https://github.com/linkedin/Liger-Kernel) and industr
 
 | Tier | What | Threshold | Time | Command |
 |------|------|-----------|------|---------|
-| **1. Kernel** | Per-kernel numerical correctness (atol/rtol) | bf16: 0.05, fp16: 1e-3 | ~5s | `make test` (90 tests) |
-| **2. Model** | Layer-by-layer cosine similarity | > 0.95 at layers 0,7,14,21,27 | ~15s | `make test-parity` |
-| **3. E2E** | Output quality distribution (UTMOS, CER, Speaker Sim) | See below | 5-30min | `make eval-fast` |
+| **1. Kernel** | Kernel correctness + CPU-only regression guards | bf16: 0.05, fp16: 1e-3 | ~48s (RTX 5090 WSL2) | `make test` (197 tests) |
+| **2. Model** | Layer-by-layer cosine similarity (2 pairs) | > 0.95 at layers 0,7,14,21,27 | ~46s (RTX 5090 WSL2) | `make test-parity` |
+| **3. E2E** | Output quality distribution (UTMOS, CER, Speaker Sim) | See below | 15-80min | `make eval-fast` |
 
 ### Tier 3 Thresholds
 
@@ -241,19 +273,21 @@ Each model generates independently, then task-level metrics are compared via dis
 ### Running Verification
 
 ```bash
-make test          # Tier 1: 90 tests
+make test          # Tier 1: Kernel tests
 make test-parity   # Tier 2: Model parity (GPU required)
-make verify        # Tier 1 + 2
-make eval-fast     # Tier 3: Fast (~5min, whisper-small, 1 run/utterance)
-make eval-full     # Tier 3: Full (~30min, whisper-large-v3, 3 runs, Mann-Whitney)
-make verify-all    # All 3 tiers
+make verify        # Tier 1 + 2 + existing Tier 3 artifact report
+make eval-fast     # Tier 3: Fast (~15min, Cohere Transcribe, 1 run/utterance)
+make eval-full     # Tier 3: Full (~80min, Cohere Transcribe, 3 runs, Mann-Whitney)
+make verify-all    # Run eval-full, then build the 3-Tier report
 ```
 
 ### 📋 Latest Results
 
-✅ **Tier 1**: 90/90 PASS
+✅ **Tier 1**: All kernel tests PASS
 
-✅ **Tier 2**: All layers > 0.95 cosine similarity
+✅ **Tier 2**: 2 pairs tested, all PASS
+
+**Pair A — Base ↔ Triton** (cosine > 0.997):
 
 | Layer | Cosine Sim |
 |-------|-----------|
@@ -264,12 +298,14 @@ make verify-all    # All 3 tiers
 | L27 | 0.997900 |
 | Output | 0.997156 |
 
+**Pair B — Faster ↔ Hybrid** (cosine > 0.997): PASS
+
 > FP accumulation naturally decreases similarity across 28 layers — this is expected behavior for fused kernels that change operation order.
 
 ## 📊 Benchmarks
 
 <!-- BENCH:SUMMARY:START -->
-> __Hybrid (Faster+Triton)__ achieves __4.7x__ faster inference than PyTorch baseline at equivalent VRAM on RTX 5090.
+> __Hybrid (Faster+Triton)__ achieves __5.0x__ faster inference than PyTorch baseline at equivalent VRAM on RTX 5090.
 <!-- BENCH:SUMMARY:END -->
 
 ### 🏗️ Optimization Modes
@@ -277,16 +313,21 @@ make verify-all    # All 3 tiers
 ```mermaid
 graph TD
     A["Base (PyTorch eager)"] -->|"+Triton kernel fusion"| B["Triton (~1.1x)"]
-    A -->|"+CUDA Graph + Static Cache"| C["Faster (~3.6x)"]
-    C -->|"+Triton kernel fusion"| D["Hybrid (~4.7x)"]
+    A -->|"+CUDA Graph + Static Cache"| C["Faster (~4.0x)"]
+    C -->|"+Triton kernel fusion"| D["Hybrid (~5.0x)"]
+    A -->|"+TurboQuant KV"| A2["Base+TQ"]
+    B -->|"+TurboQuant KV"| B2["Triton+TQ"]
+    D -->|"+TurboQuant KV"| D2["Hybrid+TQ"]
 
     style D fill:#f96,stroke:#333,stroke-width:2px,color:#000
 ```
 
+> TurboQuant (+TQ) variants share the same INT4 KV-cache path, but the current full Tier 3 release gate passes only for Hybrid+TQ.
+
 ```bash
 make bench-kernels  # Per-kernel micro-benchmarks (PyTorch vs Triton)
 make bench-e2e      # End-to-end inference (all runners)
-make bench          # Both
+make bench          # Default suite (kernels + speed + fast quality + report)
 make profile        # torch.profiler trace
 ```
 
@@ -318,10 +359,10 @@ RTF (Real-Time Factor) = audio_duration / generation_time. RTF > 1 means faster-
 
 | Kernel | PyTorch (us) | Triton (us) | Speedup | Compile (s) | HBM Savings |
 |--------|:------------:|:-----------:|:-------:|:-----------:|:-----------:|
-| RMSNorm | 39.4 | **6.7** | **5.87x** | 0.61 | 4→1 trips |
-| SwiGLU | 19.6 | **15.0** | **1.31x** | 0.00 | 3→1 trips |
-| M-RoPE | 348.8 | **38.8** | **9.00x** | 0.00 | In-place |
-| Fused Norm+Residual | 41.2 | **8.3** | **4.97x** | 0.00 | 2→1 kernels |
+| RMSNorm | 40.9 | **7.4** | **5.51x** | 0.34 | 4→1 trips |
+| SwiGLU | 19.4 | **16.0** | **1.21x** | 0.00 | 3→1 trips |
+| M-RoPE | 367.9 | **37.3** | **9.87x** | 0.02 | In-place |
+| Fused Norm+Residual | 40.6 | **9.0** | **4.49x** | 0.00 | 2→1 kernels |
 <!-- BENCH:KERNEL:END -->
 
 ### 🏎️ E2E Inference
@@ -329,29 +370,39 @@ RTF (Real-Time Factor) = audio_duration / generation_time. RTF > 1 means faster-
 <!-- BENCH:E2E:START -->
 > RTX 5090, bf16, 2 texts (ko + en), 3 warmup + 20 runs each. Run `make bench-e2e` to reproduce.
 
-| Mode | Load Time | Latency (ko) | Latency (en) | RTF (ko) | RTF (en) | Speedup | Peak VRAM |
-|------|----------|:------------:|:------------:|:--------:|:--------:|:-------:|:---------:|
-| Base (PyTorch) | 9.9s | 3,902 ms | 5,511 ms | 1.00x | 0.82x | 1.0x | 4.01 GB |
-| Triton | 6.7s | 3,767 ms | 3,747 ms | 1.22x | 1.27x | 1.1x | 4.04 GB |
-| Faster | 5.1s | 1,199 ms | 1,247 ms | 3.60x | 3.50x | 3.6x | 4.32 GB |
-| __Hybrid (Faster+Triton)__ | 7.1s | **919 ms** | **1,047 ms** | **4.39x** | **4.26x** | **4.7x** | 4.30 GB |
+| Mode | Load Time | Latency (ko) | Latency (en) | RTF (ko) | RTF (en) | vs Base | Peak VRAM |
+|------|:---------:|:------------:|:------------:|:--------:|:--------:|:-------:|:---------:|
+| Base (PyTorch) | 17.5s | 4,615 ms | 5,081 ms | 0.88x | 0.90x | 1.0x | 4.03 GB |
+| Base+TQ | 8.3s | 9,030 ms | 5,745 ms | 0.82x | 0.79x | 0.7x | 4.07 GB |
+| Triton | 7.9s | 4,130 ms | 4,462 ms | 1.00x | 1.00x | 1.1x | 4.03 GB |
+| Triton+TQ | 7.4s | 8,045 ms | 5,877 ms | 0.93x | 0.88x | 0.7x | 4.09 GB |
+| Faster | 9.2s | 1,136 ms | 1,265 ms | 3.49x | 3.52x | 4.0x | 4.28 GB |
+| __Hybrid (Faster+Triton)__ | 6.0s | **886 ms** | 1,042 ms | 4.20x | **4.26x** | **5.0x** | 4.32 GB |
+| Hybrid+TQ | 6.5s | 944 ms | **1,032 ms** | **4.27x** | 4.25x | 4.9x | 4.33 GB |
+
+> Triton/Triton+TQ/Hybrid/Hybrid+TQ use the default partial patch range `[0, 24)`; the final 4 decoder layers stay in PyTorch for pronunciation stability.
 <!-- BENCH:E2E:END -->
 
 ### 🎵 Audio Quality (Tier 3)
 
 <!-- BENCH:QUALITY:START -->
-Each runner generates speech independently, then quality distributions are compared against Base.
+Official release quality numbers use full mode as the canonical Tier 3 result.
 
 | Runner | UTMOS | CER | Speaker Sim | Status |
 |--------|:-----:|:---:|:-----------:|:------:|
-| **Base** (ref) | 3.12 ± 0.54 | 0.16 ± 0.14 | - | - |
-| **Triton** | 3.29 ± 0.46 | 0.18 ± 0.14 | 0.76 | PASS |
-| **Faster** | 3.29 ± 0.60 | 0.22 ± 0.26 | 0.75 | FAIL |
-| **Hybrid** | 3.30 ± 0.85 | 0.20 ± 0.14 | 0.77 | PASS |
+| Base (ref) | 3.40 ± 0.78 | 0.04 ± 0.06 | - | ref |
+| Base+TQ (`base+tq`) | 3.17 ± 0.81 | 0.42 ± 2.02 | 0.82 | FAIL |
+| Triton (`triton`) | 3.40 ± 0.76 | 0.04 ± 0.07 | 0.85 | PASS |
+| Triton+TQ (`triton+tq`) | 3.04 ± 0.83 | 0.43 ± 1.49 | 0.83 | FAIL |
+| Faster (`faster`) | 3.42 ± 0.75 | 0.04 ± 0.04 | 0.83 | PASS |
+| Hybrid (`hybrid`) | 3.38 ± 0.78 | 0.04 ± 0.06 | 0.83 | PASS |
+| Hybrid+TQ (`hybrid+tq`) | 3.32 ± 0.78 | 0.05 ± 0.07 | 0.83 | PASS |
 
-> Faster FAIL reason: CER delta 0.057 > threshold 0.05. This is due to variance in fast mode (1 run/sentence, whisper-small). Expected to PASS in full mode (3 runs/sentence, whisper-large-v3, Mann-Whitney U test).
+Release caveats (full mode):
+- `base+tq`: FAIL - CER delta 0.3801 > 0.05; Mann-Whitney p=0.0340 < 0.05
+- `triton+tq`: FAIL - UTMOS delta 0.3565 > 0.3; CER delta 0.3865 > 0.05; Mann-Whitney p=0.0015 < 0.05
 
-Run `make eval-fast` to reproduce.
+Run `make eval-full` to reproduce. Treat fast mode as a smoke check, not the release authority.
 <!-- BENCH:QUALITY:END -->
 
 > **Disclaimer**: Benchmarks measured on a single RTX 5090. Results vary with GPU model, driver version, system load, and input text length. Run `make bench` on your hardware for accurate numbers.
@@ -368,17 +419,19 @@ qwen3-tts-triton/
 │       │   ├── rms_norm.py          # Fused RMSNorm
 │       │   ├── swiglu.py            # Fused SwiGLU
 │       │   ├── rope.py              # Fused M-RoPE
-│       │   └── fused_norm_residual.py # Fused Norm+Residual
+│       │   ├── fused_norm_residual.py # Fused Norm+Residual
+│       │   └── turboquant.py        # TurboQuant INT4/INT3 KV cache
 │       └── models/                  # Model runners & patching
-│           ├── patching.py          # Monkey-patch logic
-│           ├── base_runner.py       # Standard PyTorch
+│           ├── patching.py          # Monkey-patch logic (partial patching support)
+│           ├── base_runner.py       # Standard PyTorch (+ TurboQuant option)
 │           ├── triton_runner.py     # Triton-optimized
 │           ├── faster_runner.py     # faster-qwen3-tts wrapper
-│           └── triton_faster_runner.py # Hybrid (faster + Triton)
+│           └── triton_faster_runner.py # Hybrid (faster + Triton + TQ option)
 ├── tests/                           # Verification tests
 │   ├── kernels/                     # Tier 1: Kernel correctness
-│   └── test_model_parity.py         # Tier 2: Model parity
+│   └── test_model_parity.py         # Tier 2: Model parity (2 pairs)
 ├── benchmark/                       # Benchmarking suite
+│   └── results/                     # Saved benchmark JSON outputs
 ├── ui/                              # Streamlit dashboard
 ├── docs/                            # Documentation
 ├── pyproject.toml                   # Project config (UV + hatchling)
@@ -417,14 +470,15 @@ make clean       # Clear caches
 
 ### 🎤 Voice Modes by Runner
 
-| Feature | Base | Triton | Faster | Hybrid |
-|---------|:----:|:------:|:------:|:------:|
-| Custom Voice | Yes | Yes | Yes | Yes |
-| Voice Cloning | Yes | Yes | Yes | Yes |
-| Voice Design | -- | -- | Yes | Yes |
-| Streaming | -- | -- | Yes | Yes |
-| Dynamic Shape | Yes | Yes | Yes | Yes |
-| bfloat16 / float16 | Yes | Yes | Yes | Yes |
+| Feature | Base | Base+TQ | Triton | Triton+TQ | Faster | Hybrid | Hybrid+TQ |
+|---------|:----:|:-------:|:------:|:---------:|:------:|:------:|:---------:|
+| Custom Voice | Yes | Yes | Yes | Yes | Yes | Yes | Yes |
+| Voice Cloning | Yes | Yes | Yes | Yes | Yes | Yes | Yes |
+| Voice Design | -- | -- | -- | -- | Yes | Yes | Yes |
+| Streaming | -- | -- | -- | -- | Yes | Yes | Yes |
+| Dynamic Shape | Yes | Yes | Yes | Yes | Yes | Yes | Yes |
+| bfloat16 / float16 | Yes | Yes | Yes | Yes | Yes | Yes | Yes |
+| TurboQuant KV | -- | Yes | -- | Yes | -- | -- | Yes |
 
 ### 💻 Platform Support
 
@@ -436,7 +490,9 @@ make clean       # Clear caches
 ## 🗺️ TODO
 
 - [ ] Docker deployment
-- [ ] [SageAttention](https://github.com/thu-ml/SageAttention) integration — low-bit attention for further speedup
+- [x] TurboQuant INT4/INT3 KV cache quantization (Base+TQ, Triton+TQ, Hybrid+TQ modes)
+- [x] Partial Patching — selective layer patching for pronunciation accuracy
+- [ ] [SageAttention](https://github.com/thu-ml/SageAttention) integration — INT8 quantized attention
 - [ ] [ComfyUI-Qwen3-TTS-Triton](https://github.com/newgrit1004/ComfyUI-Qwen3-TTS-Triton) — ComfyUI custom node
 - [ ] Multi-GPU architecture testing (A100, H100, RTX 4090, etc.)
 

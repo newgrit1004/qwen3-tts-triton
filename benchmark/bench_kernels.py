@@ -293,6 +293,117 @@ def bench_fused_norm_residual() -> dict[str, Any]:
     }
 
 
+def bench_turboquant() -> dict[str, Any]:
+    """Benchmark TurboQuant: quantize + dequantize latency."""
+    from qwen3_tts_triton.kernels.turboquant import (
+        dequantize_vectors,
+        generate_rotation_matrix,
+        lloyd_max_boundaries,
+        lloyd_max_codebook,
+        quantize_vectors,
+    )
+
+    bits = 4
+    dim = HEAD_DIM  # 128
+    n_vectors = BATCH_SIZE * (N_HEADS // 2) * SEQ_LEN  # 8 heads * 512 seq
+
+    x = torch.randn(n_vectors, dim, device=DEVICE, dtype=DTYPE)
+    rot = generate_rotation_matrix(dim, 0, 0, device=DEVICE)
+    cb = lloyd_max_codebook(bits, device=DEVICE)
+    bd = lloyd_max_boundaries(cb).to(DEVICE)
+
+    # Quantize benchmark
+    _reset_memory()
+    q_us = triton.testing.do_bench(lambda: quantize_vectors(x, rot, cb, bd)) * 1000
+    q_mem = _peak_memory_mb()
+
+    # Dequantize benchmark (need indices/scales first)
+    indices, scales = quantize_vectors(x, rot, cb, bd)
+    _reset_memory()
+    dq_us = (
+        triton.testing.do_bench(lambda: dequantize_vectors(indices, scales, rot, cb))
+        * 1000
+    )
+    dq_mem = _peak_memory_mb()
+
+    return {
+        "kernel": "TurboQuant (4-bit)",
+        "head_dim": dim,
+        "n_vectors": n_vectors,
+        "quantize_us": round(q_us, 2),
+        "dequantize_us": round(dq_us, 2),
+        "total_us": round(q_us + dq_us, 2),
+        "pytorch_us": round(q_us + dq_us, 2),  # no baseline — report total
+        "triton_us": round(q_us + dq_us, 2),
+        "speedup": 1.0,  # self-comparison (pure PyTorch impl)
+        "pytorch_mem_mb": round(q_mem, 2),
+        "triton_mem_mb": round(dq_mem, 2),
+    }
+
+
+def bench_fused_dequant() -> dict[str, Any]:
+    """Benchmark fused dequant: Python-loop vs Triton kernel."""
+    from qwen3_tts_triton.kernels.fused_dequant import triton_fused_dequant
+    from qwen3_tts_triton.kernels.turboquant import (
+        TurboQuantKVCache,
+    )
+
+    bits = 4
+    n_kv_heads = N_HEADS // 2  # 8 KV heads (GQA)
+    seq_len = SEQ_LEN  # 512
+
+    # Create cache and populate with quantized data
+    cache = TurboQuantKVCache(
+        bits=bits,
+        num_layers=1,
+        num_kv_heads=n_kv_heads,
+        head_dim=HEAD_DIM,
+        device=DEVICE,
+        dtype=DTYPE,
+    )
+    torch.manual_seed(42)
+    k = torch.randn(
+        BATCH_SIZE, n_kv_heads, seq_len, HEAD_DIM, device=DEVICE, dtype=DTYPE
+    )
+    v = torch.randn_like(k)
+    cache.update(k, v, layer_idx=0)
+
+    packed = cache._key_indices[0]
+    scales = cache._key_scales[0]
+
+    # Python-loop baseline (CPU-style dequant on GPU)
+    def python_dequant():
+        return cache._dequantize_heads_cpu(packed, scales, 0)
+
+    _reset_memory()
+    py_us = triton.testing.do_bench(python_dequant) * 1000
+    py_mem = _peak_memory_mb()
+
+    # Triton fused kernel
+    rot_stacked = cache._rotations_stacked[0]
+    cb = cache.codebook
+
+    def triton_dequant():
+        return triton_fused_dequant(packed, scales, rot_stacked, cb, HEAD_DIM, bits)
+
+    _reset_memory()
+    tr_us = triton.testing.do_bench(triton_dequant) * 1000
+    tr_mem = _peak_memory_mb()
+
+    speedup = py_us / tr_us if tr_us > 0 else 0
+
+    return {
+        "kernel": "FusedDequant (4-bit)",
+        "seq_len": seq_len,
+        "n_kv_heads": n_kv_heads,
+        "pytorch_us": round(py_us, 2),
+        "triton_us": round(tr_us, 2),
+        "speedup": round(speedup, 2),
+        "pytorch_mem_mb": round(py_mem, 2),
+        "triton_mem_mb": round(tr_mem, 2),
+    }
+
+
 def _format_table(results: list[dict[str, Any]]) -> str:
     """Format kernel benchmark results as an ASCII table string.
 
@@ -330,6 +441,8 @@ def run_all_benchmarks() -> list[dict[str, Any]]:
         bench_swiglu,
         bench_mrope,
         bench_fused_norm_residual,
+        bench_turboquant,
+        bench_fused_dequant,
     ]
 
     results = []

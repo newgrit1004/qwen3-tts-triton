@@ -1,137 +1,187 @@
 DIR?=.
 SERVICE_NAME=qwen3-tts-triton
-VERSION=0.1
+VERSION=0.2.0
 
-# 프로젝트 초기 설정
+# Project initial setup
 .PHONY: setup
 setup:
 	git config commit.template .gitmessage.txt
 	uv sync --all-extras --dev
 	uv run pre-commit install
 
-# 코드 포맷팅
+# Code formatting
 .PHONY: format
 format:
 	uv run ruff format ${DIR}
 
-# 코드 린팅 체크
+# Code linting check
 .PHONY: lint
 lint:
 	uv run ruff check ${DIR}
 
-# 코드 린팅 + 자동 수정
+# Code linting + auto-fix
 .PHONY: lint-fix
 lint-fix:
 	uv run ruff check --fix ${DIR}
 
-# 타입 체크
+# Type checking
 .PHONY: typecheck
 typecheck:
 	uv run ty check
 
-# 테스트 실행
+# Run tests
 .PHONY: test
 test:
 	uv run pytest
 
-# 테스트 + 커버리지 리포트
+# Tests + coverage report
 .PHONY: test-cov
 test-cov:
 	uv run pytest --cov
 
-# 캐시 및 임시 파일 정리
+# Clean cache and temporary files
 .PHONY: clean
 clean:
 	rm -rf .ruff_cache .pytest_cache .mypy_cache htmlcov .coverage
 	find . -type d -name __pycache__ -exec rm -rf {} +
 	find . -type f -name "*.pyc" -delete
 
-# 의존성만 설치
+# Install dependencies only
 .PHONY: install
 install:
 	uv sync
 
-# 의존성 업데이트
+# Update dependencies
 .PHONY: update
 update:
 	uv lock --upgrade
 
-# pre-commit 전체 실행
+# Run all pre-commit hooks
 .PHONY: pre-commit
 pre-commit:
 	uv run pre-commit run --all-files
 
-# === Triton 커널 벤치마크 ===
+# === Triton Kernel Benchmarks ===
 
-# 개별 커널 마이크로벤치마크
+# Individual kernel microbenchmarks
 .PHONY: bench-kernels
 bench-kernels:
 	uv run python benchmark/bench_kernels.py
 
-# E2E 속도 벤치마크 (4 runners × 2 texts, CUDA event timing)
+# E2E speed benchmark (7 runners x 2 texts, CUDA event timing)
 .PHONY: bench-speed
 bench-speed:
 	uv run python benchmark/bench_e2e.py
 
-# 전체 벤치마크 (속도 + 품질 + 검증 리포트)
+# KV cache memory measurement (CPU: theoretical, --device cuda: actual VRAM)
+.PHONY: bench-kv-memory
+bench-kv-memory:
+	uv run python -m benchmark.bench_kv_memory
+
+# KV cache memory measurement (GPU VRAM actual)
+.PHONY: bench-kv-memory-gpu
+bench-kv-memory-gpu:
+	uv run python -m benchmark.bench_kv_memory --device cuda
+
+# Phase 5: VRAM savings utilization experiment (context length scaling)
+.PHONY: bench-throughput
+bench-throughput:
+	uv run python -m benchmark.bench_throughput_scaling
+
+# E2E long sequence benchmark (TQ effect measurement, 4 texts x 5 runners)
+.PHONY: bench-speed-long
+bench-speed-long:
+	uv run python -m benchmark.bench_e2e_long
+
+# E2E fixed-token benchmark (per-token speed comparison, confound-free)
+.PHONY: bench-speed-fixed
+bench-speed-fixed:
+	uv run python -m benchmark.bench_e2e_fixed
+
+# Full benchmark (speed + quality + verification report)
 .PHONY: bench
 bench: bench-kernels bench-speed eval-fast verify
 
-# torch.profiler 프로파일링
+# torch.profiler profiling
 .PHONY: profile
 profile:
 	uv run python benchmark/profiler.py
 
 # === Streamlit UI ===
 
-# 음성 샘플 사전 생성 (4 modes x 10 custom + clone, GPU 필요)
+# Pre-generate audio samples (4 modes x 10 custom + clone, GPU required)
 .PHONY: generate-samples
 generate-samples:
 	uv run python scripts/generate_samples.py
 
-# 비교 대시보드 실행
+# Run comparison dashboard
 .PHONY: ui
 ui:
 	uv run streamlit run ui/app.py
 
-# === 품질 평가 ===
+# === Quality Evaluation ===
 
-# Tier 3 빠른 평가 (~5분, whisper-small, 1회/문장, 분포 비교)
+# Tier 3 fast evaluation (~15min, Cohere Transcribe, 1 run/sentence, distribution comparison)
 .PHONY: eval-fast
 eval-fast:
 	uv run python -m benchmark.eval_quality --mode fast
 
-# Tier 3 전체 평가 (~30분, whisper-large-v3, 3회/문장, Mann-Whitney)
+# Tier 3 full evaluation (~80min, Cohere Transcribe, 3 runs/sentence, Mann-Whitney)
 .PHONY: eval-full
 eval-full:
 	uv run python -m benchmark.eval_quality --mode full
 
-# bench-e2e는 bench-speed의 별칭 (하위호환)
+# === Tongue twister pronunciation stress test ===
+
+# Tongue twister fast evaluation (~5min, 15 sentences, Cohere Transcribe)
+.PHONY: eval-twister-fast
+eval-twister-fast:
+	uv run python -m benchmark.eval_tongue_twister --patch-range 0,24 --mode fast
+
+# Tongue twister full evaluation (~50min, 45 sentences x 3 runs, Cohere Transcribe)
+.PHONY: eval-twister-full
+eval-twister-full:
+	uv run python -m benchmark.eval_tongue_twister --patch-range 0,24 --mode full
+
+# Tongue twister PER analysis (reuse existing WAVs)
+.PHONY: analyze-per-twister
+analyze-per-twister:
+	uv run python -m benchmark.analyze_per \
+		--eval-dir benchmark/output/eval_tongue_twister/twister_full \
+		--sentence-set tongue_twister
+
+# TQ quality evaluation PER analysis
+.PHONY: analyze-per-tq
+analyze-per-tq:
+	uv run python -m benchmark.analyze_per \
+		--eval-dir benchmark/output/eval/multi_full \
+		--sentence-set standard
+
+# bench-e2e is an alias for bench-speed (backward compat)
 .PHONY: bench-e2e
 bench-e2e: bench-speed
 
-# Tier 2: 모델 레벨 패리티 테스트 (GPU 필요, ~2분)
+# Tier 2: model-level parity tests (GPU required, ~2min)
 .PHONY: test-parity
 test-parity:
 	uv run pytest tests/test_model_parity.py -v --no-header
 
-# === 3-Tier 검증 ===
+# === 3-Tier Verification ===
 
-# 3-Tier 전체 검증 실행 (Tier 1 + 2, Tier 3은 기존 결과 로드)
+# Full 3-Tier verification (run Tier 3 full, then generate combined report)
 .PHONY: verify-all
-verify-all:
-	uv run python -m benchmark.run_verification
+verify-all: eval-full verify
 
-# Tier 1+2 실행 + Tier 3 기존 결과 로드
+# Run Tier 1+2 + load existing Tier 3 results
 .PHONY: verify
 verify:
 	uv run python -m benchmark.run_verification
 
-# 전체 체크 (lint + test)
+# Full check (lint + test)
 .PHONY: check
 check: lint test
 
-# README 벤치마크 표 자동 업데이트
+# Auto-update README benchmark tables
 .PHONY: update-readme
 update-readme:
 	uv run python scripts/generate_bench_tables.py
