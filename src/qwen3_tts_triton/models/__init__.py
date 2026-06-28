@@ -17,6 +17,10 @@ __all__ = [
     "ALL_RUNNER_NAMES",
 ]
 
+# Batched serving is a capability, not a runner identity: every runner exposes
+# ``generate_batch(texts, ..., batch_size=B)`` (base/triton via the HF native
+# list path, faster/hybrid via a captured B-batched CUDA graph). The registry
+# therefore stays the v0.1.0/v0.2.0 four-runner axis — no ``batched-*`` names.
 _RUNNER_MAP: dict[str, type] = {
     "base": BaseRunner,
     "faster": FasterRunner,

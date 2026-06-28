@@ -37,8 +37,8 @@ def test_verify_remains_report_generation_entrypoint():
     assert "benchmark.run_verification" in body
 
 
-def test_makefile_version_tracks_v020_release_branch():
-    """Release metadata in Makefile should match the v0.2.0 branch."""
+def test_makefile_version_tracks_v030_release_branch():
+    """Release metadata in Makefile should match the v0.3.0 branch."""
     text = MAKEFILE.read_text()
 
-    assert re.search(r"^VERSION=0\.2\.0$", text, re.MULTILINE)
+    assert re.search(r"^VERSION=0\.3\.0$", text, re.MULTILINE)

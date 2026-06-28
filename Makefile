@@ -1,6 +1,6 @@
 DIR?=.
 SERVICE_NAME=qwen3-tts-triton
-VERSION=0.2.0
+VERSION=0.3.0
 
 # Project initial setup
 .PHONY: setup
@@ -106,6 +106,18 @@ bench: bench-kernels bench-speed eval-fast verify
 .PHONY: profile
 profile:
 	uv run python benchmark/profiler.py
+
+# === Batched serving (v0.3.0) ===
+
+# Batched runner micro-benchmark: length bucketing + per-row sampling (GPU)
+.PHONY: bench-batched
+bench-batched:
+	uv run python benchmark/bench_batched_runner.py
+
+# 4-way batched comparison: base/triton/faster/hybrid all under batched serving (GPU)
+.PHONY: bench-batched-matrix
+bench-batched-matrix:
+	uv run python benchmark/bench_batched_matrix.py
 
 # === Streamlit UI ===
 

@@ -1,0 +1,70 @@
+{
+  "config": {
+    "batch_size": 16,
+    "decode": "greedy",
+    "language": "en",
+    "max_new_tokens": 256,
+    "measure_min_of": 2,
+    "note": "HF-eager (base/triton) vs CUDA-graph (faster/hybrid) are different decode engines; cross-family = serving leaderboard, same-family delta = Triton kernels.",
+    "num_texts": 16,
+    "speaker": "vivian"
+  },
+  "rows": [
+    {
+      "codec_steps_max": 160,
+      "codec_steps_min": 7,
+      "engine": "HF-eager",
+      "ms_per_step": 119.6,
+      "num_buckets": 1,
+      "num_samples": 16,
+      "peak_vram_gb": 10.05,
+      "per_sample_s": 1.1963,
+      "rtf": 3.39,
+      "runner": "base",
+      "total_audio_s": 64.8,
+      "wall_s": 19.14
+    },
+    {
+      "codec_steps_max": 172,
+      "codec_steps_min": 6,
+      "engine": "HF-eager",
+      "ms_per_step": 126.5,
+      "num_buckets": 1,
+      "num_samples": 16,
+      "peak_vram_gb": 10.49,
+      "per_sample_s": 1.3601,
+      "rtf": 3.07,
+      "runner": "triton",
+      "total_audio_s": 66.7,
+      "wall_s": 21.762
+    },
+    {
+      "codec_steps_max": 256,
+      "codec_steps_min": 7,
+      "engine": "CUDA-graph",
+      "ms_per_step": 40.1,
+      "num_buckets": 1,
+      "num_samples": 16,
+      "peak_vram_gb": 8.08,
+      "per_sample_s": 0.6416,
+      "rtf": 9.45,
+      "runner": "faster",
+      "total_audio_s": 97.0,
+      "wall_s": 10.266
+    },
+    {
+      "codec_steps_max": 165,
+      "codec_steps_min": 7,
+      "engine": "CUDA-graph",
+      "ms_per_step": 35.2,
+      "num_buckets": 1,
+      "num_samples": 16,
+      "peak_vram_gb": 7.89,
+      "per_sample_s": 0.3627,
+      "rtf": 12.28,
+      "runner": "hybrid",
+      "total_audio_s": 71.2,
+      "wall_s": 5.803
+    }
+  ]
+}

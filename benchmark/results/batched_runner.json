@@ -1,0 +1,54 @@
+{
+  "bucketing": {
+    "rtf_bucket": 10.210493926565112,
+    "rtf_gain": 1.087,
+    "rtf_nobucket": 9.394764529020081,
+    "same_total_audio": true,
+    "wall_bucket_s": 14.854,
+    "wall_nobucket_s": 16.144
+  },
+  "config": {
+    "batched": true,
+    "runner": "hybrid"
+  },
+  "per_row_sampling": {
+    "distinct_lengths": 8,
+    "identical_prompt_codec_steps": [
+      65,
+      58,
+      68,
+      96,
+      60,
+      73,
+      57,
+      86
+    ],
+    "row0_equals_row1": false
+  },
+  "rows": [
+    {
+      "codec_steps_max": 187,
+      "codec_steps_min": 10,
+      "num_buckets": 4,
+      "num_samples": 32,
+      "peak_vram_gb": 6.14,
+      "per_sample_s": 0.4642,
+      "rtf": 10.21,
+      "tag": "greedy/B8/bucket",
+      "total_audio_s": 151.7,
+      "wall_s": 14.854
+    },
+    {
+      "codec_steps_max": 187,
+      "codec_steps_min": 10,
+      "num_buckets": 4,
+      "num_samples": 32,
+      "peak_vram_gb": 6.14,
+      "per_sample_s": 0.5045,
+      "rtf": 9.39,
+      "tag": "greedy/B8/nobucket",
+      "total_audio_s": 151.7,
+      "wall_s": 16.144
+    }
+  ]
+}
