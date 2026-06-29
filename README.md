@@ -406,6 +406,27 @@ RTF (Real-Time Factor) = audio_duration / generation_time. RTF > 1 means faster-
 > Triton/Triton+TQ/Hybrid/Hybrid+TQ use the default partial patch range `[0, 24)`; the final 4 decoder layers stay in PyTorch for pronunciation stability.
 <!-- BENCH:E2E:END -->
 
+### 🌍 Community Results — RTX 4090
+
+> Contributed by [@tantara](https://github.com/tantara) in [#6](https://github.com/newgrit1004/qwen3-tts-triton/issues/6). RTX 4090 · PyTorch 2.10.0+cu128 · Triton 3.6.0 · CUDA 12.8 · driver 550.144.03. bf16, batch=1, 2 texts (ko + en) — same basis as the RTX 5090 tables above.
+
+**E2E Inference**
+
+| Mode | Latency (ko) | Latency (en) | RTF (ko) | RTF (en) | Peak VRAM |
+|------|--------------|--------------|----------|----------|-----------|
+| Base (PyTorch) | 2,546 ms | 2,878 ms | 1.59x | 1.60x | 4.01 GB |
+| Triton | 2,079 ms | 2,460 ms | 1.87x | 1.88x | 3.98 GB |
+| __Hybrid (Faster+Triton)__ | **770 ms** | **881 ms** | **5.16x** | **5.19x** | 4.27 GB |
+
+**Kernel Micro-Benchmarks** (bf16, seq_len=512, hidden=2048)
+
+| Kernel | PyTorch (us) | Triton (us) | Speedup |
+|--------|--------------|-------------|---------|
+| RMSNorm | 38.6 | **8.3** | **4.66x** |
+| SwiGLU | 32.1 | **26.6** | 1.21x |
+| M-RoPE | 123.7 | **42.8** | 2.89x |
+| Fused Norm+Residual | 42.1 | **12.1** | 3.49x |
+
 ### 🎵 Audio Quality (Tier 3)
 
 <!-- BENCH:QUALITY:START -->
@@ -530,3 +551,4 @@ Apache-2.0
 - [Liger Kernel](https://github.com/linkedin/Liger-Kernel) — Triton kernel design patterns and verification methodology
 - [faster-qwen3-tts](https://github.com/andimarafioti/faster-qwen3-tts) — CUDA Graph optimization for Hybrid mode
 - [Triton](https://github.com/triton-lang/triton) — GPU kernel compiler
+- [@tantara](https://github.com/tantara) — RTX 4090 benchmark results ([#6](https://github.com/newgrit1004/qwen3-tts-triton/issues/6))
