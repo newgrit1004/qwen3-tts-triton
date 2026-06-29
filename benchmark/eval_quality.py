@@ -19,6 +19,7 @@ Usage:
 """
 
 import argparse
+import gc
 import json
 import logging
 import time
@@ -35,6 +36,14 @@ logger = logging.getLogger(__name__)
 
 RESULTS_DIR = Path(__file__).parent / "results"
 OUTPUTS_DIR = Path(__file__).parent / "output" / "eval"
+DEFAULT_TIER3_OPT_RUNNERS = [
+    "base+tq",
+    "triton",
+    "triton+tq",
+    "faster",
+    "hybrid",
+    "hybrid+tq",
+]
 
 # Cache for expensive model loads
 _cohere_asr_cache: dict[str, tuple[Any, Any]] = {}  # {model_id: (processor, model)}
@@ -146,6 +155,103 @@ def compute_speaker_similarity(wav_a: str | Path, wav_b: str | Path) -> float:
 # ────────────────────────────────────────────────────────────
 
 
+def generate_sample(
+    runner: Any,
+    sentence: dict[str, str],
+    output_dir: Path,
+    runner_name: str,
+    idx: int,
+    run: int,
+) -> dict[str, Any]:
+    """Generate audio with one model and record latency/VRAM metadata.
+
+    Args:
+        runner: Loaded TTS runner instance.
+        sentence: Dict with 'text' and 'language' keys.
+        output_dir: Directory to save WAV files.
+        runner_name: Name for file naming (e.g., 'base', 'triton').
+        idx: Sentence index.
+        run: Run number (for multi-run modes).
+
+    Returns:
+        Dict with wav_path and generation metadata.
+    """
+    baseline_vram_gb = (
+        torch.cuda.memory_allocated() / 1024**3 if torch.cuda.is_available() else 0.0
+    )
+    wall_start = time.perf_counter()
+    output = runner.generate(text=sentence["text"], language=sentence["language"])
+    if torch.cuda.is_available():
+        torch.cuda.synchronize()
+    wall_time_s = time.perf_counter() - wall_start
+    audio = output.get("audio")
+    sr = int(output.get("sample_rate", 24000) or 24000)
+    audio_samples = len(audio) if audio is not None else 0
+    audio_duration_s = audio_samples / sr if sr > 0 else 0.0
+    runner_time_s = float(output.get("time_s", wall_time_s))
+    peak_vram_gb = float(
+        output.get(
+            "peak_vram_gb",
+            torch.cuda.max_memory_allocated() / 1024**3
+            if torch.cuda.is_available()
+            else 0.0,
+        )
+    )
+    rtf = audio_duration_s / runner_time_s if runner_time_s > 0 else 0.0
+
+    wav_path = output_dir / f"{runner_name}_{idx:03d}_r{run}.wav"
+    sf.write(str(wav_path), audio, sr)
+
+    return {
+        "wav_path": str(wav_path),
+        "sentence_idx": idx,
+        "run": run,
+        "text": sentence["text"],
+        "language": sentence["language"],
+        "runner_time_s": round(runner_time_s, 4),
+        "wall_time_s": round(wall_time_s, 4),
+        "peak_vram_gb": round(peak_vram_gb, 4),
+        "baseline_vram_gb": round(baseline_vram_gb, 4),
+        "inference_delta_gb": round(peak_vram_gb - baseline_vram_gb, 4),
+        "audio_duration_s": round(audio_duration_s, 4),
+        "audio_samples": int(audio_samples),
+        "rtf": round(rtf, 4),
+    }
+
+
+def _reset_cuda_memory_measurement() -> None:
+    """Reset Python and CUDA allocator state between quality runner loads."""
+    gc.collect()
+    if torch.cuda.is_available():
+        torch.cuda.empty_cache()
+        torch.cuda.reset_peak_memory_stats()
+
+
+def score_generated_sample(
+    result: dict[str, Any],
+    asr_model: str,
+) -> dict[str, Any]:
+    """Attach CER transcript and UTMOS metrics to an existing WAV result."""
+    cer_result = compute_cer(
+        result["wav_path"],
+        result["text"],
+        asr_model,
+        result["language"],
+    )
+    result["cer"] = cer_result["cer"]
+    result["transcript"] = cer_result["transcript"]
+    result["utmos"] = compute_utmos(result["wav_path"])
+    return result
+
+
+def _score_generated_results(
+    results: list[dict[str, Any]],
+    asr_model: str,
+) -> list[dict[str, Any]]:
+    """Score generated WAVs after all TTS runner VRAM measurements are done."""
+    return [score_generated_sample(result, asr_model) for result in results]
+
+
 def generate_and_evaluate(
     runner: Any,
     sentence: dict[str, str],
@@ -155,42 +261,9 @@ def generate_and_evaluate(
     run: int,
     asr_model: str = "small",
 ) -> dict[str, Any]:
-    """Generate audio with one model and evaluate independently.
-
-    Args:
-        runner: Loaded TTS runner instance.
-        sentence: Dict with 'text' and 'language' keys.
-        output_dir: Directory to save WAV files.
-        runner_name: Name for file naming (e.g., 'base', 'triton').
-        idx: Sentence index.
-        run: Run number (for multi-run modes).
-        asr_model: ASR model ID for CER computation.
-
-    Returns:
-        Dict with wav_path, cer, utmos, and metadata.
-    """
-    output = runner.generate(text=sentence["text"], language=sentence["language"])
-    audio = output.get("audio")
-    sr = output.get("sample_rate", 24000)
-
-    wav_path = output_dir / f"{runner_name}_{idx:03d}_r{run}.wav"
-    sf.write(str(wav_path), audio, sr)
-
-    cer_result = compute_cer(
-        wav_path, sentence["text"], asr_model, sentence["language"]
-    )
-    utmos_score = compute_utmos(wav_path)
-
-    return {
-        "wav_path": str(wav_path),
-        "sentence_idx": idx,
-        "run": run,
-        "text": sentence["text"][:60],
-        "language": sentence["language"],
-        "cer": cer_result["cer"],
-        "transcript": cer_result["transcript"],
-        "utmos": utmos_score,
-    }
+    """Generate audio with one model and evaluate independently."""
+    result = generate_sample(runner, sentence, output_dir, runner_name, idx, run)
+    return score_generated_sample(result, asr_model)
 
 
 def _run_model_evaluation(
@@ -201,6 +274,7 @@ def _run_model_evaluation(
     output_dir: Path,
     asr_model: str,
     warmup_runs: int,
+    score_samples: bool = True,
 ) -> list[dict[str, Any]]:
     """Generate and evaluate all sentences with one model.
 
@@ -217,6 +291,7 @@ def _run_model_evaluation(
     Returns:
         List of per-sample result dicts.
     """
+    _reset_cuda_memory_measurement()
     runner = runner_factory()
     results: list[dict[str, Any]] = []
 
@@ -244,20 +319,173 @@ def _run_model_evaluation(
                     idx,
                     run,
                 )
-                result = generate_and_evaluate(
+                result = generate_sample(
                     runner,
                     sent,
                     output_dir,
                     runner_name,
                     idx,
                     run,
-                    asr_model,
                 )
                 results.append(result)
     finally:
         runner.unload_model()
+        _reset_cuda_memory_measurement()
 
+    if score_samples:
+        return _score_generated_results(results, asr_model)
     return results
+
+
+# ────────────────────────────────────────────────────────────
+# Batched generation (generate_batch) adapter
+# ────────────────────────────────────────────────────────────
+
+
+def _group_indices_by_language(
+    sentences: list[dict[str, str]],
+) -> dict[str, list[int]]:
+    """Group sentence indices by language (``generate_batch`` takes one language)."""
+    groups: dict[str, list[int]] = {}
+    for i, sent in enumerate(sentences):
+        groups.setdefault(sent["language"], []).append(i)
+    return groups
+
+
+def _batched_sample_result(
+    sent: dict[str, str],
+    audio: np.ndarray,
+    sr: int,
+    idx: int,
+    run: int,
+    wav_path: Path,
+    per_sample_time_s: float,
+    peak_vram_gb: float,
+) -> dict[str, Any]:
+    """Build a per-sample result dict matching ``generate_sample``'s schema.
+
+    Timing is amortised across the batch (per-sample = batch wall / batch size);
+    only UTMOS/CER/speaker-sim gate the verdict, so amortised timing is for
+    reporting only.
+    """
+    samples = int(len(audio))
+    dur = samples / sr if sr > 0 else 0.0
+    return {
+        "wav_path": str(wav_path),
+        "sentence_idx": idx,
+        "run": run,
+        "text": sent["text"],
+        "language": sent["language"],
+        "runner_time_s": round(per_sample_time_s, 4),
+        "wall_time_s": round(per_sample_time_s, 4),
+        "peak_vram_gb": round(peak_vram_gb, 4),
+        "baseline_vram_gb": 0.0,
+        "inference_delta_gb": 0.0,
+        "audio_duration_s": round(dur, 4),
+        "audio_samples": samples,
+        "rtf": round(dur / per_sample_time_s, 4) if per_sample_time_s > 0 else 0.0,
+    }
+
+
+def _run_batched_model_evaluation(
+    runner_factory: type,
+    runner_name: str,
+    sentences: list[dict[str, str]],
+    runs_per_sentence: int,
+    output_dir: Path,
+    asr_model: str,
+    warmup_runs: int,
+    score_samples: bool = True,
+    batch_size: int = 32,
+) -> list[dict[str, Any]]:
+    """Generate every sentence via ``generate_batch`` (one batch per language).
+
+    Unlike ``_run_model_evaluation`` (per-sentence ``generate``), this exercises
+    the real batched path: all sentences of a language are synthesised in a
+    single batch, so left-padding, the shared CUDA graph, and per-row sampling
+    are all in effect — exactly the behaviour whose quality we want to validate.
+    Any runner works: ``base``/``triton`` batch via the HF list path,
+    ``faster``/``hybrid`` via a captured ``B``-batched CUDA graph.
+    """
+    _reset_cuda_memory_measurement()
+    runner = runner_factory()
+    groups = _group_indices_by_language(sentences)
+    results: list[dict[str, Any]] = []
+    try:
+        runner.load_model()
+        first_lang, first_idx = next(iter(groups.items()))
+        warm_texts = [sentences[i]["text"] for i in first_idx]
+        for w in range(warmup_runs):
+            logger.info("[%s] Warmup batch %d/%d", runner_name, w + 1, warmup_runs)
+            runner.generate_batch(
+                warm_texts, language=first_lang, batch_size=batch_size
+            )
+        for run in range(runs_per_sentence):
+            for lang, idx_group in groups.items():
+                texts = [sentences[i]["text"] for i in idx_group]
+                logger.info(
+                    "[%s] Batch %s x%d (run %d)", runner_name, lang, len(texts), run
+                )
+                out = runner.generate_batch(texts, language=lang, batch_size=batch_size)
+                per_sample = out["wall_s"] / max(len(idx_group), 1)
+                vram = float(out.get("peak_vram_gb", 0.0))
+                for local, i in enumerate(idx_group):
+                    res = out["results"][local]
+                    audio = np.asarray(res["audio"])
+                    sr = int(res.get("sample_rate", 24000) or 24000)
+                    wav_path = output_dir / f"{runner_name}_{i:03d}_r{run}.wav"
+                    sf.write(str(wav_path), audio, sr)
+                    results.append(
+                        _batched_sample_result(
+                            sentences[i], audio, sr, i, run, wav_path, per_sample, vram
+                        )
+                    )
+    finally:
+        runner.unload_model()
+        _reset_cuda_memory_measurement()
+
+    if score_samples:
+        return _score_generated_results(results, asr_model)
+    return results
+
+
+def _evaluate_runner(
+    runner_name: str,
+    sentences: list[dict[str, str]],
+    runs_per_sentence: int,
+    output_dir: Path,
+    asr_model: str,
+    warmup_runs: int,
+    batch_size: int = 1,
+) -> list[dict[str, Any]]:
+    """Route to the batched or per-sentence evaluation path.
+
+    ``batch_size > 1`` selects the batched ``generate_batch`` adapter for any
+    runner; otherwise each sentence is generated individually via ``generate``.
+    """
+    factory = _make_runner_factory(runner_name)
+    if batch_size > 1:
+        return _run_batched_model_evaluation(
+            factory,
+            runner_name,
+            sentences,
+            runs_per_sentence,
+            output_dir,
+            asr_model,
+            warmup_runs,
+            score_samples=False,
+            batch_size=batch_size,
+        )
+    return _run_model_evaluation(
+        factory,
+        runner_name,
+        sentences,
+        runs_per_sentence,
+        output_dir,
+        asr_model,
+        warmup_runs,
+        score_samples=False,
+    )
 
 
 # ────────────────────────────────────────────────────────────
@@ -276,6 +504,70 @@ def _compute_distribution_stats(
         "min": float(np.min(arr)),
         "max": float(np.max(arr)),
     }
+
+
+def _values(results: list[dict[str, Any]], key: str) -> list[float]:
+    """Extract numeric values for a key from per-sample results."""
+    return [float(r[key]) for r in results if r.get(key) is not None]
+
+
+def _compute_runner_stats(results: list[dict[str, Any]]) -> dict[str, float]:
+    """Compute quality, latency, and VRAM summary for one runner."""
+    utmos_vals = _values(results, "utmos")
+    cer_vals = _values(results, "cer")
+    runner_time_vals = _values(results, "runner_time_s")
+    wall_time_vals = _values(results, "wall_time_s")
+    peak_vram_vals = _values(results, "peak_vram_gb")
+    rtf_vals = _values(results, "rtf")
+
+    stats: dict[str, float] = {}
+    if utmos_vals:
+        stats["utmos_mean"] = round(float(np.mean(utmos_vals)), 4)
+        stats["utmos_std"] = round(float(np.std(utmos_vals)), 4)
+    if cer_vals:
+        stats["cer_mean"] = round(float(np.mean(cer_vals)), 4)
+        stats["cer_std"] = round(float(np.std(cer_vals)), 4)
+    if runner_time_vals:
+        stats["runner_time_s_mean"] = round(float(np.mean(runner_time_vals)), 4)
+        stats["runner_time_s_p50"] = round(
+            float(np.percentile(runner_time_vals, 50)),
+            4,
+        )
+    if wall_time_vals:
+        stats["wall_time_s_mean"] = round(float(np.mean(wall_time_vals)), 4)
+        stats["wall_time_s_p50"] = round(float(np.percentile(wall_time_vals, 50)), 4)
+    if peak_vram_vals:
+        stats["peak_vram_gb_mean"] = round(float(np.mean(peak_vram_vals)), 4)
+        stats["peak_vram_gb_max"] = round(float(np.max(peak_vram_vals)), 4)
+    if rtf_vals:
+        stats["rtf_mean"] = round(float(np.mean(rtf_vals)), 4)
+    return stats
+
+
+def _compute_perf_comparison(
+    ref_results: list[dict[str, Any]],
+    opt_results: list[dict[str, Any]],
+) -> dict[str, float]:
+    """Compute speedup and VRAM delta between reference and opt samples."""
+    ref_time = _values(ref_results, "runner_time_s")
+    opt_time = _values(opt_results, "runner_time_s")
+    ref_vram = _values(ref_results, "peak_vram_gb")
+    opt_vram = _values(opt_results, "peak_vram_gb")
+
+    comparison: dict[str, float] = {}
+    if ref_time and opt_time:
+        ref_mean = float(np.mean(ref_time))
+        opt_mean = float(np.mean(opt_time))
+        comparison["runner_time_s_delta"] = round(opt_mean - ref_mean, 4)
+        comparison["latency_speedup"] = (
+            round(ref_mean / opt_mean, 4) if opt_mean else 0.0
+        )
+    if ref_vram and opt_vram:
+        comparison["peak_vram_gb_delta"] = round(
+            float(np.max(opt_vram) - np.max(ref_vram)),
+            4,
+        )
+    return comparison
 
 
 def _compute_verdict(
@@ -466,6 +758,10 @@ def run_tier3(
     mode: str = "fast",
     ref_runner: str = "base",
     opt_runners: list[str] | None = None,
+    languages: list[str] | None = None,
+    sentences_per_language: int | None = None,
+    warmup_runs: int | None = None,
+    batch_size: int = 1,
 ) -> dict[str, Any]:
     """Run Tier 3 quality evaluation: independent distribution comparison.
 
@@ -477,17 +773,20 @@ def run_tier3(
         ref_runner: Reference runner name (default: 'base').
         opt_runners: Optimized runner names (default: all release runners
             except the reference runner).
+        languages: Optional language filter. Defaults to configured languages.
+        sentences_per_language: Optional per-language sentence cap.
+        warmup_runs: Optional warmup override for smoke tests.
 
     Returns:
         Complete evaluation result dict with per-runner comparisons.
     """
     if opt_runners is None:
-        from qwen3_tts_triton.models import ALL_RUNNER_NAMES
-
-        opt_runners = [name for name in ALL_RUNNER_NAMES if name != ref_runner]
+        opt_runners = [name for name in DEFAULT_TIER3_OPT_RUNNERS if name != ref_runner]
 
     tier3_cfg = EVAL_CONFIG["tier3"]
-    warmup = int(EVAL_CONFIG["warmup_runs"])
+    warmup = (
+        int(EVAL_CONFIG["warmup_runs"]) if warmup_runs is None else int(warmup_runs)
+    )
 
     runs_per_sentence = (
         tier3_cfg["runs_per_sentence_fast"]
@@ -496,8 +795,13 @@ def run_tier3(
     )
     asr_model = tier3_cfg["asr_model"]
 
-    sentences = _select_sentences(mode)
-    output_dir = OUTPUTS_DIR / f"multi_{mode}"
+    sentences = _select_sentences(
+        mode,
+        languages=languages,
+        sentences_per_language=sentences_per_language,
+    )
+    wav_subdir = f"multi_{mode}" if batch_size <= 1 else f"multi_{mode}_b{batch_size}"
+    output_dir = OUTPUTS_DIR / wav_subdir
     output_dir.mkdir(parents=True, exist_ok=True)
 
     logger.info(
@@ -514,43 +818,43 @@ def run_tier3(
 
     # Phase 1: Generate reference samples once
     logger.info("Phase 1: Generating with %s (reference)...", ref_runner)
-    ref_results = _run_model_evaluation(
-        _make_runner_factory(ref_runner),
+    ref_results = _evaluate_runner(
         ref_runner,
         sentences,
         runs_per_sentence,
         output_dir,
         str(asr_model),
         warmup,
+        batch_size=batch_size,
     )
 
-    # Phase 1b: Generate opt runner samples
+    # Phase 1b: Generate opt runner samples before loading quality models.
     opt_samples: dict[str, list[dict[str, Any]]] = {}
     for opt_name in opt_runners:
         logger.info("Phase 1: Generating with %s...", opt_name)
-        opt_samples[opt_name] = _run_model_evaluation(
-            _make_runner_factory(opt_name),
+        opt_samples[opt_name] = _evaluate_runner(
             opt_name,
             sentences,
             runs_per_sentence,
             output_dir,
             str(asr_model),
             warmup,
+            batch_size=batch_size,
         )
 
-    # Phase 2: Distribution comparison + verdict per opt runner
-    logger.info("Phase 2: Comparing distributions...")
+    # Phase 2: Score generated WAVs.  Keep this after all runner generation so
+    # ASR/UTMOS GPU caches do not contaminate TTS VRAM measurements.
+    logger.info("Phase 2: Scoring generated WAVs...")
+    ref_results = _score_generated_results(ref_results, str(asr_model))
+    for opt_name, opt_results in opt_samples.items():
+        opt_samples[opt_name] = _score_generated_results(opt_results, str(asr_model))
+
+    # Phase 3: Distribution comparison + verdict per opt runner
+    logger.info("Phase 3: Comparing distributions...")
     comparisons: list[dict[str, Any]] = []
     runners_stats: dict[str, dict[str, float]] = {}
 
-    ref_utmos = [r["utmos"] for r in ref_results]
-    ref_cers = [r["cer"] for r in ref_results]
-    runners_stats[ref_runner] = {
-        "utmos_mean": round(float(np.mean(ref_utmos)), 4),
-        "utmos_std": round(float(np.std(ref_utmos)), 4),
-        "cer_mean": round(float(np.mean(ref_cers)), 4),
-        "cer_std": round(float(np.std(ref_cers)), 4),
-    }
+    runners_stats[ref_runner] = _compute_runner_stats(ref_results)
 
     for opt_name, opt_results in opt_samples.items():
         verdict = _compute_verdict(ref_results, opt_results, ref_runner, opt_name, mode)
@@ -563,16 +867,10 @@ def run_tier3(
                 "cer_delta": verdict["cer_delta"],
                 "speaker_sim_mean": verdict["speaker_sim_mean"],
                 "failures": verdict["failures"],
+                **_compute_perf_comparison(ref_results, opt_results),
             }
         )
-        opt_utmos = [r["utmos"] for r in opt_results]
-        opt_cers = [r["cer"] for r in opt_results]
-        runners_stats[opt_name] = {
-            "utmos_mean": round(float(np.mean(opt_utmos)), 4),
-            "utmos_std": round(float(np.std(opt_utmos)), 4),
-            "cer_mean": round(float(np.mean(opt_cers)), 4),
-            "cer_std": round(float(np.std(opt_cers)), 4),
-        }
+        runners_stats[opt_name] = _compute_runner_stats(opt_results)
 
     eval_time = round(time.perf_counter() - t_start, 2)
     overall_status = (
@@ -584,6 +882,11 @@ def run_tier3(
         "mode": mode,
         "ref_runner": ref_runner,
         "opt_runners": opt_runners,
+        "batch_size": batch_size,
+        "wav_dir": str(output_dir),
+        "languages": sorted({sentence["language"] for sentence in sentences}),
+        "sentences_per_language": sentences_per_language,
+        "warmup_runs": warmup,
         "num_sentences": len(sentences),
         "runs_per_sentence": runs_per_sentence,
         "asr_model": str(asr_model),
@@ -598,7 +901,11 @@ def run_tier3(
     return result
 
 
-def _select_sentences(mode: str) -> list[dict[str, str]]:
+def _select_sentences(
+    mode: str,
+    languages: list[str] | None = None,
+    sentences_per_language: int | None = None,
+) -> list[dict[str, str]]:
     """Select evaluation sentences based on mode.
 
     In fast mode, takes the first 5 sentences per language.
@@ -606,17 +913,22 @@ def _select_sentences(mode: str) -> list[dict[str, str]]:
 
     Args:
         mode: Either 'fast' (CI subset) or 'full' (complete set).
+        languages: Optional language filter.
+        sentences_per_language: Optional cap applied after mode defaults.
 
     Returns:
         List of sentence dicts with 'text' and 'language' keys.
     """
     sentences: list[dict[str, str]] = []
-    for lang in EVAL_CONFIG["languages"]:
+    selected_languages = languages or list(EVAL_CONFIG["languages"])
+    default_limit = 5 if mode == "fast" else None
+    limit = (
+        sentences_per_language if sentences_per_language is not None else default_limit
+    )
+
+    for lang in selected_languages:
         lang_sents = EVAL_SENTENCES.get(lang, [])
-        if mode == "fast":
-            sentences.extend(lang_sents[:5])
-        else:
-            sentences.extend(lang_sents)
+        sentences.extend(lang_sents[:limit] if limit is not None else lang_sents)
     return sentences
 
 
@@ -634,7 +946,7 @@ def _print_summary(result: dict[str, Any]) -> None:
     runners_stats = result.get("runners", {})
     comparisons = result.get("comparisons", [])
 
-    sep = "\u2550" * 62
+    sep = "\u2550" * 104
     logger.info("")
     logger.info("TIER 3 EVALUATION (%s mode)", mode)
     logger.info(sep)
@@ -648,9 +960,12 @@ def _print_summary(result: dict[str, Any]) -> None:
     logger.info(sep)
 
     # Table header
-    header = f"{'Runner':<12}{'UTMOS':<16}{'CER':<16}{'Speaker Sim':<14}{'Status'}"
+    header = (
+        f"{'Runner':<22}{'UTMOS':<14}{'CER':<14}{'Latency':<12}"
+        f"{'Speedup':<10}{'VRAM':<10}{'Speaker':<10}{'Status'}"
+    )
     logger.info(header)
-    logger.info("-" * 62)
+    logger.info("-" * 104)
 
     # Reference row
     ref_stats = runners_stats.get(ref_runner, {})
@@ -660,7 +975,12 @@ def _print_summary(result: dict[str, Any]) -> None:
     ref_cer = (
         f"{ref_stats.get('cer_mean', 0):.2f}\u00b1{ref_stats.get('cer_std', 0):.2f}"
     )
-    logger.info(f"{ref_runner:<12}{ref_utmos:<16}{ref_cer:<16}{'-':<14}(ref)")
+    ref_latency = f"{ref_stats.get('runner_time_s_mean', 0):.2f}s"
+    ref_vram = f"{ref_stats.get('peak_vram_gb_max', 0):.2f}GB"
+    logger.info(
+        f"{ref_runner:<22}{ref_utmos:<14}{ref_cer:<14}{ref_latency:<12}"
+        f"{'-':<10}{ref_vram:<10}{'-':<10}(ref)"
+    )
 
     # Comparison map for quick lookup
     cmp_by_opt = {c["opt"]: c for c in comparisons}
@@ -673,10 +993,14 @@ def _print_summary(result: dict[str, Any]) -> None:
         )
         cer_str = f"{stats.get('cer_mean', 0):.2f}\u00b1{stats.get('cer_std', 0):.2f}"
         cmp = cmp_by_opt.get(opt_name, {})
+        latency_str = f"{stats.get('runner_time_s_mean', 0):.2f}s"
+        speedup_str = f"{cmp.get('latency_speedup', 0):.2f}x"
+        vram_str = f"{stats.get('peak_vram_gb_max', 0):.2f}GB"
         sim_str = f"{cmp.get('speaker_sim_mean', 0):.2f}"
         status_str = cmp.get("status", "N/A")
         logger.info(
-            f"{opt_name:<12}{utmos_str:<16}{cer_str:<16}{sim_str:<14}{status_str}"
+            f"{opt_name:<22}{utmos_str:<14}{cer_str:<14}{latency_str:<12}"
+            f"{speedup_str:<10}{vram_str:<10}{sim_str:<10}{status_str}"
         )
 
     logger.info(sep)
@@ -695,6 +1019,16 @@ def _print_summary(result: dict[str, Any]) -> None:
 # ────────────────────────────────────────────────────────────
 # CLI
 # ────────────────────────────────────────────────────────────
+
+
+def _parse_cli_list(values: list[str] | None) -> list[str] | None:
+    """Parse nargs values that may also contain comma-separated entries."""
+    if not values:
+        return None
+    parsed: list[str] = []
+    for value in values:
+        parsed.extend(part.strip() for part in value.split(",") if part.strip())
+    return parsed
 
 
 def main() -> None:
@@ -731,9 +1065,43 @@ def main() -> None:
         default=None,
         help="Output JSON path (default: results/tier3_<mode>_multi.json)",
     )
+    parser.add_argument(
+        "--languages",
+        nargs="*",
+        default=None,
+        help="Optional language filter, e.g. --languages ko en",
+    )
+    parser.add_argument(
+        "--sentences-per-language",
+        type=int,
+        default=None,
+        help="Optional per-language sentence cap for smoke runs",
+    )
+    parser.add_argument(
+        "--warmup-runs",
+        type=int,
+        default=None,
+        help="Override warmup generation count",
+    )
+    parser.add_argument(
+        "--batch-size",
+        type=int,
+        default=1,
+        help="Batch many sentences per generate_batch call (>1 = batched serving "
+        "path; works for any runner). Default 1 = per-sentence generate().",
+    )
     args = parser.parse_args()
 
-    result = run_tier3(args.mode, ref_runner=args.ref, opt_runners=args.runners)
+    languages = _parse_cli_list(args.languages)
+    result = run_tier3(
+        args.mode,
+        ref_runner=args.ref,
+        opt_runners=args.runners,
+        languages=languages,
+        sentences_per_language=args.sentences_per_language,
+        warmup_runs=args.warmup_runs,
+        batch_size=args.batch_size,
+    )
 
     # Save results
     RESULTS_DIR.mkdir(parents=True, exist_ok=True)

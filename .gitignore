@@ -2,10 +2,14 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=python
 
 ### Custom ###
+.codegraph
+.omx
 .codex
 .claude/
 CLAUDE.md
 .omc/
+_workspace
+*.pt
 
 ### Python ###
 # Byte-compiled / optimized / DLL files
@@ -173,10 +177,12 @@ cython_debug/
 # Poetry local configuration file - https://python-poetry.org/docs/configuration/#local-configuration
 poetry.toml
 
-# Docs (only benchmark results tracked)
+# Docs (only curated release docs tracked)
 docs/*.md
 !docs/benchmark_results_en.md
 !docs/benchmark_results_ko.md
+!docs/batch-serving.md
+!docs/batch-serving_ko.md
 
 # Inference outputs (ephemeral)
 outputs/

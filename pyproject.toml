@@ -1,6 +1,6 @@
 [project]
 name = "qwen3-tts-triton"
-version = "0.2.0"
+version = "0.3.0"
 description = "Up to 5x faster Qwen3-TTS inference through Triton kernel fusion"
 readme = "README.md"
 license = "Apache-2.0"

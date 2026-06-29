@@ -11,12 +11,15 @@ import torch
 
 from qwen3_tts_triton.models.base_runner import (
     CLONE_MODEL_ID,
+    DEFAULT_BATCH_SIZE,
     DEFAULT_MAX_NEW_TOKENS,
+    DEFAULT_MIN_NEW_TOKENS,
     DEFAULT_MODEL_ID,
     DEFAULT_REPETITION_PENALTY,
     DEFAULT_SAMPLE_RATE,
     DEFAULT_TEMPERATURE,
     DEFAULT_TOP_K,
+    DEFAULT_TOP_P,
     _resolve_dtype,
     _to_numpy,
 )
@@ -95,6 +98,8 @@ class FasterRunner:
         self.model: Any = None
         self._clone_model: Any = None
         self._available = True
+        # Batched CUDA-graph engines, keyed by (batch_size, sampling, max_seq_len).
+        self._batched: dict[tuple, Any] = {}
 
         try:
             import faster_qwen3_tts  # noqa: F401
@@ -233,6 +238,79 @@ class FasterRunner:
         wavs, sr = self.model.generate_custom_voice(**kwargs)
         elapsed = time.perf_counter() - start
         return self._result(wavs, sr, elapsed)
+
+    def generate_batch(
+        self,
+        texts: list[str],
+        language: str = "en",
+        speaker: str = "vivian",
+        *,
+        batch_size: int = DEFAULT_BATCH_SIZE,
+        max_new_tokens: int = DEFAULT_MAX_NEW_TOKENS,
+        min_new_tokens: int = DEFAULT_MIN_NEW_TOKENS,
+        repetition_penalty: float = DEFAULT_REPETITION_PENALTY,
+        temperature: float = DEFAULT_TEMPERATURE,
+        top_k: int = DEFAULT_TOP_K,
+        top_p: float = DEFAULT_TOP_P,
+        greedy: bool = False,
+        max_seq_len: int = 2048,
+        bucket: bool = True,
+    ) -> dict:
+        """Synthesise many clips at once on the batched CUDA-graph path.
+
+        ``faster``/``hybrid`` bake the batch dimension ``B`` into a captured CUDA
+        graph (unlike ``base``/``triton``, which batch through the HF list API).
+        ``TritonFasterRunner`` (hybrid) inherits this unchanged: its Triton
+        kernels are patched into ``self.model`` before capture, so the batched
+        graph contains them.  Sampling is baked per ``(batch_size, sampling,
+        max_seq_len)`` engine; repeated calls with the same config reuse the
+        captured graphs.
+
+        Args:
+            texts: Input strings (any mix of lengths).
+            language: Language code/name (one value for the whole call).
+            speaker: Custom-voice speaker id (one value for the whole call).
+            batch_size: Static micro-batch size ``B`` baked into the CUDA graph.
+            max_new_tokens: Hard per-clip decode-step cap.
+            min_new_tokens: Steps before EOS is permitted.
+            repetition_penalty: Per-sequence penalty (> 1.0 discourages repeats).
+            temperature: Sampling temperature (baked into the graph).
+            top_k: Top-k cutoff (baked).
+            top_p: Nucleus cutoff (baked).
+            greedy: Deterministic decoding (``do_sample=False``) when True.
+            max_seq_len: Static-cache length bound for the graphs.
+            bucket: Length-bucket the inputs (recommended for varied lengths).
+
+        Returns:
+            Dict with ``results`` (per-input ``{audio, sample_rate, codec_steps,
+            text}`` in original order) plus aggregate ``wall_s``/``rtf``/
+            ``total_audio_s``/``peak_vram_gb``/``num_buckets``/``batch_size``.
+        """
+        self._check_loaded()
+        from qwen3_tts_triton.models.batched import BatchedEngine
+
+        key = (batch_size, not greedy, top_k, top_p, temperature, max_seq_len)
+        engine = self._batched.get(key)
+        if engine is None:
+            engine = BatchedEngine(
+                self,
+                batch_size=batch_size,
+                temperature=temperature,
+                top_k=top_k,
+                top_p=top_p,
+                greedy=greedy,
+                max_seq_len=max_seq_len,
+            )
+            self._batched[key] = engine
+        return engine.generate_batch(
+            texts,
+            language,
+            speaker,
+            max_new_tokens=max_new_tokens,
+            min_new_tokens=min_new_tokens,
+            repetition_penalty=repetition_penalty,
+            bucket=bucket,
+        )
 
     def generate_streaming(
         self,
@@ -530,6 +608,7 @@ class FasterRunner:
 
     def unload_model(self) -> None:
         """Free model from GPU memory."""
+        self._batched.clear()  # drop captured batched CUDA graphs
         del self.model
         self.model = None
         if self._clone_model is not None:
