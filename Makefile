@@ -119,6 +119,11 @@ bench-batched:
 bench-batched-matrix:
 	uv run python benchmark/bench_batched_matrix.py
 
+# Headline speedup: base single-clip (B=1) vs hybrid batched (B=16) -> ~14x (GPU)
+.PHONY: bench-speedup
+bench-speedup:
+	uv run python benchmark/bench_speedup.py
+
 # === Streamlit UI ===
 
 # Pre-generate audio samples (4 modes x 10 custom + clone, GPU required)
