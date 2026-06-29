@@ -21,6 +21,7 @@ from ui.tab_inference import render_inference_tab
 from ui.tab_overview import render_overview_tab
 from ui.tab_partial import render_partial_tab
 from ui.tab_samples import render_samples_tab
+from ui.tab_tier3_audio import render_tier3_audio_tab
 from ui.tab_verification import render_verification_tab
 
 
@@ -43,6 +44,7 @@ def main() -> None:
         tab_bench,
         tab_partial,
         tab_verify,
+        tab_tier3_audio,
     ) = st.tabs(
         [
             t("app.tab_overview"),
@@ -51,6 +53,7 @@ def main() -> None:
             t("app.tab_benchmarks"),
             "Partial Patching",
             t("app.tab_verification"),
+            t("app.tab_tier3_audio"),
         ]
     )
 
@@ -71,6 +74,9 @@ def main() -> None:
 
     with tab_verify:
         render_verification_tab()
+
+    with tab_tier3_audio:
+        render_tier3_audio_tab()
 
 
 if __name__ == "__main__":

@@ -800,7 +800,8 @@ def run_tier3(
         languages=languages,
         sentences_per_language=sentences_per_language,
     )
-    output_dir = OUTPUTS_DIR / f"multi_{mode}"
+    wav_subdir = f"multi_{mode}" if batch_size <= 1 else f"multi_{mode}_b{batch_size}"
+    output_dir = OUTPUTS_DIR / wav_subdir
     output_dir.mkdir(parents=True, exist_ok=True)
 
     logger.info(
@@ -882,6 +883,7 @@ def run_tier3(
         "ref_runner": ref_runner,
         "opt_runners": opt_runners,
         "batch_size": batch_size,
+        "wav_dir": str(output_dir),
         "languages": sorted({sentence["language"] for sentence in sentences}),
         "sentences_per_language": sentences_per_language,
         "warmup_runs": warmup,
