@@ -79,6 +79,25 @@ different sequence lengths across engines. Triton kernels pay off only once
 elementwise saving, so the two are effectively break-even (HF-eager greedy is
 noisy and the elementwise share is negligible at B=16).
 
+## VRAM & per-sample efficiency
+
+`generate_batch` trades **total** peak VRAM for **per-sample** efficiency.
+Single-clip generation peaks at ~4 GB per clip (`e2e_benchmarks.json`); a `B=16`
+batch holds 16 sequences, so the **total** peak rises — but the **per-sample**
+VRAM and wall time both fall sharply. That is the serving win: VRAM *per
+concurrent request*, not per process.
+
+| runner | ms/step | per-sample wall | total VRAM (B=16) | **per-sample VRAM** |
+|---|---|---|---|---|
+| base | 119.6 | 1.20 s | 10.05 GB | **0.63 GB** |
+| triton | 126.5 | 1.36 s | 10.49 GB | **0.66 GB** |
+| faster | 40.1 | 0.64 s | 8.08 GB | **0.51 GB** |
+| hybrid | 35.2 | 0.36 s | 7.89 GB | **0.49 GB** |
+
+Versus ~4 GB/clip single-clip, per-sample VRAM drops **~6–10×** (hybrid 0.49 GB)
+while per-sample wall stays sub-second on the CUDA-graph path. Reproduced by
+`make bench-batched-matrix` (`batched_matrix.json`).
+
 ## Running it
 
 ```bash
@@ -103,4 +122,13 @@ uv run python benchmark/eval_quality.py --mode full --runners hybrid --batch-siz
 
 Full-mode evaluation (3 runs + Mann-Whitney) confirms UTMOS / CER / speaker-sim
 distribution equivalence between single-clip and batched generation for all four
-canonical runners.
+canonical runners. A committed run —
+`benchmark/results/tier3_batched_full_multi.json` (base reference vs
+`triton` / `faster` / `hybrid`, 36 sentences × 3 runs, **PASS**) — lands CER /
+UTMOS within stochastic noise of the single-clip full matrix (hybrid CER 0.042
+vs 0.042; faster 0.037 vs 0.039).
+
+> **Known limitation** — `+tq` (TurboQuant) under the HF-eager batched path
+> (`base+tq` / `triton+tq`) is currently unsupported (KV-cache mask off-by-one),
+> so batched evidence covers the four base engine families. Single-clip `+tq` is
+> unaffected; the fix is deferred.
