@@ -98,6 +98,11 @@ Versus ~4 GB/clip single-clip, per-sample VRAM drops **~6–10×** (hybrid 0.49 
 while per-sample wall stays sub-second on the CUDA-graph path. Reproduced by
 `make bench-batched-matrix` (`batched_matrix.json`).
 
+Against single-clip base latency (~5.0 s/clip, from the E2E table in the README),
+hybrid's 0.36 s per-sample wall is **~14× per-sample throughput** at B=16 — the
+compounding of ~5× single-clip (Hybrid vs Base) and ~3× batch amortisation. This
+is a throughput figure (concurrent requests), not single-clip latency.
+
 ## Running it
 
 ```bash

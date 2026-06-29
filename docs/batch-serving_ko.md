@@ -91,6 +91,11 @@ elementwise 비중이 무시할 수준).
 CUDA-graph 경로에서는 per-sample wall이 1초 미만으로 유지됩니다.
 `make bench-batched-matrix`(`batched_matrix.json`)로 재현됩니다.
 
+단일 클립 base latency(~5.0초/클립, README의 E2E 표 기준) 대비 hybrid의 0.36초
+per-sample wall은 B=16에서 **per-sample throughput ~14×** 입니다 — ~5× 단일
+클립(Hybrid vs Base)과 ~3× 배치 분산의 누적. 이는 단일 클립 latency가 아니라
+throughput(동시 요청) 수치입니다.
+
 ## 실행
 
 ```bash

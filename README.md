@@ -6,8 +6,9 @@
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 **Up to 5x faster Qwen3-TTS inference through Triton kernel fusion and TurboQuant KV cache.**
+**v0.3.0 batched serving compounds that to ~14x per-sample throughput at batch=16 — vs single-clip PyTorch eager.**
 
-[Korean (한국어)](README_ko.md) | [Benchmark Results](docs/benchmark_results_en.md)
+[Korean (한국어)](README_ko.md) | [Benchmark Results](docs/benchmark_results_en.md) | [Batched Serving](docs/batch-serving.md)
 
 > [!NOTE]
 > This project has only been tested on **RTX 5090 (Blackwell, sm_120)** with **WSL2** (CUDA 12.8, PyTorch nightly cu128).
@@ -37,6 +38,7 @@ Qwen3-TTS is rapidly becoming the backbone for next-generation TTS models. [Darw
 - 💾 **Zero Extra VRAM** — Pure kernel fusion, no model changes
 - 🔌 **Drop-in Patching** — Single `apply_triton_kernels()` call, weight sharing via monkey-patch
 - 📊 **Streamlit Dashboard** — Side-by-side comparison UI with live metrics
+- 🚦 **Batched Serving (v0.3.0)** — `generate_batch()` on every runner; **~14x per-sample throughput** at batch=16, ~6–10× lower per-sample VRAM, quality-neutral ([docs](docs/batch-serving.md))
 
 ## 📦 Install
 
@@ -145,6 +147,27 @@ runner.unload_model()
 ```
 
 > **Note**: TurboQuant quantizes the KV cache to INT4 (or INT3) at each decode step and is compatible with all runner modes via the `enable_turboquant=True` flag. In the current full Tier 3 release gate, Hybrid+TQ passes while Base+TQ and Triton+TQ remain caveated.
+
+### 🚦 Batched Serving (v0.3.0)
+
+New in **v0.3.0**: every runner gains a `generate_batch()` method that synthesises many clips per step, amortising the cost of reading the 1.7B weights across the batch. It is the **throughput** lever for concurrent requests — the single-clip latency path is unchanged, and the public interface stays the same seven-mode axis (no new runner names; `generate_batch` is the only addition over v0.2.0).
+
+```python
+from qwen3_tts_triton import create_runner
+
+runner = create_runner("hybrid")          # same construction as v0.2.0
+runner.load_model()
+out = runner.generate_batch(
+    ["Hello.", "How are you today?", "Thanks!"],
+    language="en", speaker="vivian", batch_size=32,
+)
+for clip in out["results"]:               # original submission order preserved
+    ...                                   # clip = {audio, sample_rate, codec_steps, text}
+```
+
+This **compounds** with the single-clip speedup: ~5x single-clip (Hybrid vs Base) × ~3x batch amortisation ≈ **~14x per-sample throughput** at batch=16 (base single-clip ~5.0s/clip → hybrid batched ~0.36s/sample on RTX 5090). Per-sample VRAM also drops ~6–10× (hybrid 0.49 GB), and Tier 3 confirms batched output is quality-equivalent to single-clip.
+
+📖 Per-sample VRAM, ms-per-step, engine families, and Tier 3 batched parity → **[docs/batch-serving.md](docs/batch-serving.md)**
 
 ### 📊 Streamlit Dashboard
 
@@ -407,6 +430,8 @@ Run `make eval-full` to reproduce. Treat fast mode as a smoke check, not the rel
 
 > **Disclaimer**: Benchmarks measured on a single RTX 5090. Results vary with GPU model, driver version, system load, and input text length. Run `make bench` on your hardware for accurate numbers.
 
+> 🚦 **Batched serving (v0.3.0)**: ~14x per-sample throughput at batch=16, per-sample VRAM (~6–10× lower), ms-per-step, and Tier 3 batched parity are reported in **[docs/batch-serving.md](docs/batch-serving.md)**.
+
 ## 📁 Project Structure
 
 ```
@@ -492,8 +517,7 @@ make clean       # Clear caches
 - [ ] Docker deployment
 - [x] TurboQuant INT4/INT3 KV cache quantization (Base+TQ, Triton+TQ, Hybrid+TQ modes)
 - [x] Partial Patching — selective layer patching for pronunciation accuracy
-- [ ] [SageAttention](https://github.com/thu-ml/SageAttention) integration — INT8 quantized attention
-- [ ] [ComfyUI-Qwen3-TTS-Triton](https://github.com/newgrit1004/ComfyUI-Qwen3-TTS-Triton) — ComfyUI custom node
+- [x] [ComfyUI-Qwen3-TTS-Triton](https://github.com/newgrit1004/ComfyUI-Qwen3-TTS-Triton) — ComfyUI custom node
 - [ ] Multi-GPU architecture testing (A100, H100, RTX 4090, etc.)
 
 ## 📄 License
